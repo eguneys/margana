@@ -3,15 +3,23 @@ package oyun.net.anagram.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
+
+import android.support.design.widget.FloatingActionButton;
+
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import oyun.net.anagram.R;
+import oyun.net.anagram.activity.CategorySelectionActivity;
 
 public class MainFragment extends Fragment
 {
+    private FloatingActionButton mDoneFab;
+
     public static MainFragment newInstance(boolean thing) {
         MainFragment fragment = new MainFragment();
         return fragment;
@@ -44,5 +52,43 @@ public class MainFragment extends Fragment
         //         }
         //     });
         return contentView;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        initContentViews(view);
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    private void initContentViews(View view) {
+        mDoneFab = (FloatingActionButton) view.findViewById(R.id.done);
+        mDoneFab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    removeDoneFab(new Runnable() {
+                            @Override public void run() {
+                                performSignInWithTransition();
+                            }
+                        });
+                }
+            });
+    }
+
+    private void removeDoneFab(Runnable endAction) {
+        ViewCompat.animate(mDoneFab)
+            .scaleX(0)
+            .scaleY(0)
+            .setInterpolator(new FastOutSlowInInterpolator())
+            .withEndAction(endAction)
+            .start();
+    }
+
+    private void performSignInWithTransition() {
+        final Activity activity = getActivity();
+
+        // Don't run a transition if v is null
+        CategorySelectionActivity.start(activity);
+        activity.finish();
+        return;
     }
 }

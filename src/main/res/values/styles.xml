@@ -8,4 +8,5 @@
   </style>
 
   <style name="Anagram.MainActivity"/>
+  <style name="Anagram.CategorySelectionActivity"/>
 </resources>

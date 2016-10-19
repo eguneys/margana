@@ -1,0 +1,1 @@
+./gradlew compileDebugSources --console rich
