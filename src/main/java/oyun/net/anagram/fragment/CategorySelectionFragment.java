@@ -47,13 +47,15 @@ public class CategorySelectionFragment extends Fragment
     }
 
     private void setupCategories(final View view) {
-        View mPlayB = (View) view.findViewById(R.id.play);
+        View mPlayB = (View) view.findViewById(R.id.play_category_title);
 
         mPlayB.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Activity activity = getActivity();
-                    startPlayActivityWithTransition(activity, "play");
+                    startPlayActivityWithTransition(activity,
+                                                    v,
+                                                    "play");
                 }
             });
 
@@ -61,12 +63,14 @@ public class CategorySelectionFragment extends Fragment
             .addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                     @Override
                     public boolean onPreDraw() {
+                        view.getViewTreeObserver().removeOnPreDrawListener(this);
+                        getActivity().supportStartPostponedEnterTransition();
                         return true;
                     }
                 });
     }
 
-    private void startPlayActivityWithTransition(Activity activity, String category) {
+    private void startPlayActivityWithTransition(Activity activity, View toolbar, String category) {
 
         // String transitionToolbarString = activity.getString(R.string.transition_toolbar);
 
