@@ -9,6 +9,7 @@
 
   <style name="Anagram.MainActivity"/>
   <style name="Anagram.CategorySelectionActivity"/>
+  <style name="Anagram.QuizActivity"/>
 
   <style name="Anagram.TextAppearance"/>
 

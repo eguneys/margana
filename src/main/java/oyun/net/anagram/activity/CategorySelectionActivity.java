@@ -44,6 +44,7 @@ public class CategorySelectionActivity extends AppCompatActivity
             attachCategoryGridFragment();
         }
         setProgressBarVisibility(View.GONE);
+        supportPostponeEnterTransition();
     }
 
     private void setUpToolbar() {
