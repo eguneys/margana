@@ -3,12 +3,20 @@ package oyun.net.anagram.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
+import android.view.View;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import oyun.net.anagram.R;
-import oyun.net.anagram.fragment.MainFragment;
+import oyun.net.anagram.fragment.CategorySelectionFragment;
+import oyun.net.anagram.databinding.ActivityCategorySelectionBinding;
 
 public class CategorySelectionActivity extends AppCompatActivity
 {
@@ -28,12 +36,35 @@ public class CategorySelectionActivity extends AppCompatActivity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        ActivityCategorySelectionBinding binding = DataBindingUtil
+            .setContentView(this, R.layout.activity_category_selection);
+        setUpToolbar();
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_container, MainFragment.newInstance(false))
-                .commit();
+            attachCategoryGridFragment();
         }
+        setProgressBarVisibility(View.GONE);
+    }
+
+    private void setUpToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_player);
+        System.out.println(toolbar);
+        setSupportActionBar(toolbar);
+        // getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    private void attachCategoryGridFragment() {
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        Fragment fragment = supportFragmentManager.findFragmentById(R.id.category_container);
+        if (!(fragment instanceof CategorySelectionFragment)) {
+            fragment = CategorySelectionFragment.newInstance();
+        }
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.category_container, fragment)
+            .commit();
+    }
+
+    private void setProgressBarVisibility(int visibility) {
+        findViewById(R.id.progress).setVisibility(visibility);
     }
 }

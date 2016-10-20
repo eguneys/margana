@@ -9,4 +9,22 @@
 
   <style name="Anagram.MainActivity"/>
   <style name="Anagram.CategorySelectionActivity"/>
+
+  <style name="Anagram.TextAppearance"/>
+
+  <style name="Anagram.TextAppearance.CategoryItem" parent="TextAppearance.AppCompat.Small">
+    <item name="android:textSize">@dimen/category_item_text_size</item>
+  </style>
+
+  <style name="Anagram.TextAppearance.Title" parent="TextAppearance.AppCompat.Title">
+    <item name="android:textColor">@color/anagram_primary</item>
+  </style>
+
+  <style name="Anagram.TextAppearance.Title.Inverse" parent="Anagram.TextAppearance.Title">
+    <item name="android:textColor">@android:color/white</item>
+  </style>
+
+  <style name="Anagram.TextAppearance.ListItem" parent="TextAppearance.AppCompat.Subhead"/>
+
+
 </resources>

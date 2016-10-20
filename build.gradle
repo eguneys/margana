@@ -9,8 +9,16 @@ buildscript {
 apply plugin: 'android'
 
 android {
+    repositories {
+        jcenter()
+    }
+
     compileSdkVersion 'android-24'
     buildToolsVersion '24.0.3'
+
+    dataBinding {
+      enabled = true
+    }
 
     defaultConfig {
       minSdkVersion 10

@@ -1,4 +1,5 @@
 <resources>
+  <color name="touch_effect">#9ccc</color>
 
   <color name="anagram_primary">#00bad2</color>
   <color name="anagram_primary_dark">#00a3b8</color>
