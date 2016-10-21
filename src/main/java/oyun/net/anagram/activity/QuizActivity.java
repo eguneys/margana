@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import oyun.net.anagram.R;
 import oyun.net.anagram.fragment.QuizFragment;
+import oyun.net.anagram.helper.ApiLevelHelper;
 
 public class QuizActivity extends AppCompatActivity
 {
@@ -117,8 +118,26 @@ public class QuizActivity extends AppCompatActivity
             .replace(R.id.quiz_fragment_container, mQuizFragment, FRAGMENT_TAG)
             .commit();
         final FrameLayout container = (FrameLayout) findViewById(R.id.quiz_fragment_container);
-        // setToolbarElevation(false);
+        revealFragmentContainer(clickedView, container);
+        setToolbarElevation(false);
     }
+
+    private void revealFragmentContainer(final View clickedView,
+                                         final FrameLayout fragmentContainer) {
+        if (ApiLevelHelper.isAtLeastLollipop()) {
+            revealFragmentContainerLollipop(clickedView, fragmentContainer);
+        } else {
+            fragmentContainer.setVisibility(View.VISIBLE);
+            clickedView.setVisibility(View.GONE);
+            mIcon.setVisibility(View.GONE);
+        }
+    }
+
+    private void revealFragmentContainerLollipop(final View clickedView,
+                                                 final FrameLayout fragmentContainer) {
+        
+    }
+
 
     private void initQuizFragment() {
         if (mQuizFragment != null) {
