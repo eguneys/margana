@@ -126,6 +126,8 @@ public class QuizActivity extends AppCompatActivity
             .replace(R.id.quiz_fragment_container, mQuizFragment, FRAGMENT_TAG)
             .commit();
         final FrameLayout container = (FrameLayout) findViewById(R.id.quiz_fragment_container);
+        container.setBackgroundColor(ContextCompat.
+                                     getColor(this, mCategory.getTheme().getWindowBackgroundColor()));
         revealFragmentContainer(clickedView, container);
         setToolbarElevation(false);
     }
@@ -166,8 +168,9 @@ public class QuizActivity extends AppCompatActivity
             finish();
         }
         mCategory = AnagramDatabaseHelper.getCategoryWith(this, categoryId);
+        setTheme(mCategory.getTheme().getStyle());
         initLayout();
-        initToolbar();
+        initToolbar(mCategory);
     }
 
     private void initLayout() {
@@ -191,13 +194,12 @@ public class QuizActivity extends AppCompatActivity
         mQuizFab.setOnClickListener(mOnClickListener);
     }
 
-    private void initToolbar() {
-        String categoryName = "Play";
+    private void initToolbar(Category category) {
         mToolbarBack = findViewById(R.id.back);
         mToolbarBack.setOnClickListener(mOnClickListener);
         TextView titleView = (TextView) findViewById(R.id.category_title);
-        titleView.setText(categoryName);
-        // titleView.setTextColor(ContextCompat
-        // .getColor(this, this.getTheme().getTextPrimaryColor()));
+        titleView.setText(category.getName());
+        titleView.setTextColor(ContextCompat
+        .getColor(this, category.getTheme().getTextPrimaryColor()));
     }
 }

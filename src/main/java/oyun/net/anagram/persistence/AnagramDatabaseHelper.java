@@ -14,7 +14,7 @@ public class AnagramDatabaseHelper {
     }
 
     public static Category getCategoryWith(Context context, String categoryId) {
-        return Category.DEFAULT;
+        return Category.RED;
     }
 
 }

@@ -51,7 +51,8 @@ public class QuizFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        // Create a themed Context and custom LayoutInflater
+        // to get nicely themed views in this fragment
         final View contentView = inflater.inflate(R.layout.fragment_quiz, container, false);
         return contentView;
     }
