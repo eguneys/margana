@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
+
 import android.view.View;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
@@ -20,7 +22,10 @@ import android.support.v7.app.AppCompatActivity;
 
 import oyun.net.anagram.R;
 import oyun.net.anagram.fragment.QuizFragment;
+
+import oyun.net.anagram.model.Category;
 import oyun.net.anagram.helper.ApiLevelHelper;
+import oyun.net.anagram.persistence.AnagramDatabaseHelper;
 
 public class QuizActivity extends AppCompatActivity
 {
@@ -28,6 +33,8 @@ public class QuizActivity extends AppCompatActivity
     private static final String TAG = "QuizActivity";
     private static final String IMAGE_CATEGORY = "image_category_";
     private static final String FRAGMENT_TAG = "Quiz";
+
+    private Category mCategory;
 
     private Interpolator mInterpolator;
     private QuizFragment mQuizFragment;
@@ -53,9 +60,9 @@ public class QuizActivity extends AppCompatActivity
         };
 
 
-    public static Intent getStartIntent(Context context, String category) {
+    public static Intent getStartIntent(Context context, Category category) {
         Intent starter = new Intent(context, QuizActivity.class);
-        starter.putExtra("Category", category);
+        starter.putExtra(Category.TAG, category.getId());
         return starter;
     }
 
@@ -64,10 +71,11 @@ public class QuizActivity extends AppCompatActivity
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
+        String categoryId = getIntent().getStringExtra(Category.TAG);
         mInterpolator = new FastOutSlowInInterpolator();
 
         super.onCreate(savedInstanceState);
-        populate();
+        populate(categoryId);
     }
 
     @Override
@@ -144,7 +152,7 @@ public class QuizActivity extends AppCompatActivity
             return;
         }
 
-        mQuizFragment = QuizFragment.newInstance();
+        mQuizFragment = QuizFragment.newInstance(mCategory.getId());
         setToolbarElevation(false);
     }
 
@@ -152,7 +160,12 @@ public class QuizActivity extends AppCompatActivity
         
     }
 
-    private void populate() {
+    private void populate(String categoryId) {
+        if (categoryId == null) {
+            Log.w(TAG, "Didn't find a category. Finishing");
+            finish();
+        }
+        mCategory = AnagramDatabaseHelper.getCategoryWith(this, categoryId);
         initLayout();
         initToolbar();
     }

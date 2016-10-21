@@ -15,7 +15,7 @@
         style="@style/Anagram.TextAppearance.ListItem"
         android:elevation="@dimen/elevation_header"
         android:gravity="center"
-        android:text="Play"
+        android:text="@string/play"
         android:layout_margin="@dimen/spacing_normal"
         android:paddingLeft="@dimen/spacing_double"
         android:paddingRight="@dimen/spacing_double"

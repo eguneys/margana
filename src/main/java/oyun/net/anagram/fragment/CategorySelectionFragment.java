@@ -23,6 +23,8 @@ import oyun.net.anagram.R;
 import oyun.net.anagram.activity.CategorySelectionActivity;
 import oyun.net.anagram.activity.QuizActivity;
 
+import oyun.net.anagram.model.Category;
+
 public class CategorySelectionFragment extends Fragment
 {
     private static final int REQUEST_CATEGORY = 0x2300;
@@ -55,7 +57,7 @@ public class CategorySelectionFragment extends Fragment
                     Activity activity = getActivity();
                     startPlayActivityWithTransition(activity,
                                                     v,
-                                                    "play");
+                                                    Category.DEFAULT);
                 }
             });
 
@@ -70,7 +72,7 @@ public class CategorySelectionFragment extends Fragment
                 });
     }
 
-    private void startPlayActivityWithTransition(Activity activity, View toolbar, String category) {
+    private void startPlayActivityWithTransition(Activity activity, View toolbar, Category category) {
 
         // String transitionToolbarString = activity.getString(R.string.transition_toolbar);
 

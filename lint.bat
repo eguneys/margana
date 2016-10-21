@@ -1,0 +1,1 @@
+./gradlew lint --console rich
