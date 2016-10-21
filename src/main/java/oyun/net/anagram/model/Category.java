@@ -61,4 +61,17 @@ public class Category {
     public List<Quiz> getQuizzes() {
         return mQuizzes;
     }
+
+    public int getFirstUnsolvedQuizPosition() {
+        if (mQuizzes == null) {
+            return -1;
+        }
+
+        for (int i = 0; i < mQuizzes.size(); i++) {
+            if (!mQuizzes.get(i).isSolved()) {
+                return i;
+            }
+        }
+        return mQuizzes.size();
+    }
 }

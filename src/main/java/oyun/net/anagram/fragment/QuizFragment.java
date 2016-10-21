@@ -1,5 +1,7 @@
 package oyun.net.anagram.fragment;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,19 +15,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterViewAnimator;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import oyun.net.anagram.R;
 import oyun.net.anagram.model.Category;
+import oyun.net.anagram.model.quiz.Quiz;
+
 import oyun.net.anagram.adapter.QuizAdapter;
 import oyun.net.anagram.helper.ApiLevelHelper;
 import oyun.net.anagram.persistence.AnagramDatabaseHelper;
 
 public class QuizFragment extends Fragment
 {
+    
+    private int mQuizSize;
+
     private Category mCategory;
     private AdapterViewAnimator mQuizView;
     private QuizAdapter mQuizAdapter;
+
+    private TextView mProgressText;
+    private ProgressBar mProgressBar;
 
     public static QuizFragment newInstance(String categoryId) {
         if (categoryId == null) {
@@ -62,6 +73,7 @@ public class QuizFragment extends Fragment
         mQuizView = (AdapterViewAnimator) view.findViewById(R.id.quiz_view);
         decideOnViewToDisplay();
         setQuizViewAnimations();
+        initProgressToolbar(view);
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -69,6 +81,25 @@ public class QuizFragment extends Fragment
         if (ApiLevelHelper.isLowerThanLollipop()) {
             return;
         }
+    }
+
+    private void initProgressToolbar(View view) {
+        final int firstUnsolvedQuizPosition = mCategory.getFirstUnsolvedQuizPosition();
+        final List<Quiz> quizzes = mCategory.getQuizzes();
+        mQuizSize = quizzes.size();
+        mProgressText = (TextView) view.findViewById(R.id.progress_text);
+        mProgressBar = ((ProgressBar) view.findViewById(R.id.progress));
+        mProgressBar.setMax(mQuizSize);
+        setProgress(firstUnsolvedQuizPosition);
+    }
+
+    private void setProgress(int currentQuizPosition) {
+        // if (!isAdded()) {
+        //     return;
+        // }
+        mProgressText
+            .setText(getString(R.string.quiz_of_quizzes, currentQuizPosition, mQuizSize));
+        mProgressBar.setProgress(currentQuizPosition);
     }
 
     private void decideOnViewToDisplay() {

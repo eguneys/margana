@@ -4,4 +4,5 @@
     <string name="back">Back</string>
     <string name="play">Play</string>
     <string name="profile">Profile</string>
+    <string name="quiz_of_quizzes">%1$s / %2$s</string>
 </resources>
