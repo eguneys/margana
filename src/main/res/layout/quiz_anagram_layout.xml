@@ -5,11 +5,22 @@
               android:background="@color/anagram_blank"
               android:orientation="vertical"
               >
-
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="100dp"
+      android:background="@color/theme_red_accent"
+      android:text="anagrams"
+      />
+  <oyun.net.anagram.widget.LetterView
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:background="@color/anagram_accent"
+      />
   <TextView
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:text="anagram"
+      android:background="@color/theme_red_accent"
+      android:text="anagram2"
       />
 
 </LinearLayout>
