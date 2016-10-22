@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/anagram_blank"
-              android:orientation="vertical"
-              >
-  <TextView
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnCount="3"
+            android:rowCount="3"
+            >
+  <oyun.net.anagram.widget.LetterView
       android:layout_width="match_parent"
-      android:layout_height="100dp"
-      android:background="@color/theme_red_accent"
-      android:text="anagrams"
+      android:layout_height="0dp"
       />
   <oyun.net.anagram.widget.LetterView
       android:layout_width="match_parent"
-      android:layout_height="50dp"
-      android:background="@color/anagram_accent"
+      android:layout_height="0dp"
       />
-  <TextView
+  <oyun.net.anagram.widget.LetterView
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:background="@color/theme_red_accent"
-      android:text="anagram2"
+      android:layout_height="0dp"
       />
-
-</LinearLayout>
+  <oyun.net.anagram.widget.LetterView
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      />
+</GridLayout>
