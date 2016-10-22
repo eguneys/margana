@@ -4,25 +4,34 @@
               android:id="@+id/categories"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:gravity="center"
+              android:gravity="bottom|center_horizontal"
               android:orientation="vertical"
               android:padding="@dimen/spacing_nano"
               >
-  <TextView
+  <Button
         android:id="@+id/play_category_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/Anagram.TextAppearance.ListItem"
+        android:layout_margin="@dimen/spacing_micro"
+        android:theme="@style/Anagram.ButtonTheme.PrimaryAction"
+        style="@style/Anagram.ButtonTheme.PrimaryAction"
         android:elevation="@dimen/elevation_header"
         android:gravity="center"
         android:text="@string/play"
-        android:layout_margin="@dimen/spacing_normal"
-        android:paddingLeft="@dimen/spacing_double"
-        android:paddingRight="@dimen/spacing_double"
         android:clipToPadding="false"
-        android:background="@color/android:white"
         />
-
+  <Button
+        android:id="@+id/profile_category_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_micro"
+        android:theme="@style/Anagram.ButtonTheme.PrimaryAction"
+        style="@style/Anagram.ButtonTheme.PrimaryAction"
+        android:elevation="@dimen/elevation_header"
+        android:gravity="center"
+        android:text="@string/profile"
+        android:clipToPadding="false"
+        />
   <!-- <include -->
   <!--     android:id="@+id/play" -->
   <!--     android:layout_width="match_parent" -->

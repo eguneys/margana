@@ -20,6 +20,17 @@
     <item name="colorAccent">@color/theme_red_accent</item>
   </style>
 
+  <style name="Anagram.ButtonTheme"/>
+
+  <style name="Anagram.ButtonTheme.Primary" parent="Theme.AppCompat.Light">
+    <item name="android:colorControlHighlight">@color/anagram_primary_dark</item>
+    <item name="android:colorButtonNormal">@color/anagram_primary</item>
+  </style>
+  <style name="Anagram.ButtonTheme.PrimaryAction" parent="Theme.AppCompat.Light">
+    <item name="android:textSize">@dimen/title_text_size</item>
+    <item name="android:padding">@dimen/spacing_double</item>
+  </style>
+
   <style name="Anagram.TextAppearance"/>
 
   <style name="Anagram.TextAppearance.CategoryItem" parent="TextAppearance.AppCompat.Small">
