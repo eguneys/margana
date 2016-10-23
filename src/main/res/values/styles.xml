@@ -47,5 +47,12 @@
 
   <style name="Anagram.TextAppearance.ListItem" parent="TextAppearance.AppCompat.Subhead"/>
 
+  <style name="Anagram.Square"/>
+
+  <style name="Anagram.Square.Item80">
+    <item name="android:layout_width">@dimen/square_normal</item>
+    <item name="android:layout_height">@dimen/square_normal</item>
+    <item name="android:layout_margin">@dimen/spacing_micro</item>
+  </style>
 
 </resources>

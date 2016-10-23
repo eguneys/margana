@@ -25,12 +25,12 @@ public class LetterView extends View {
     }
 
     public LetterView(Context context, AttributeSet attrs) {
-        super(context);
+        super(context, attrs);
         init();
     }
 
     public LetterView(Context context, AttributeSet attrs, int defStyleAttrs) {
-        super(context);
+        super(context, attrs, defStyleAttrs);
         init();
     }
 

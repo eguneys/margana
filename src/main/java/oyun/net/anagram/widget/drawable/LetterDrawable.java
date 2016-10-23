@@ -69,8 +69,13 @@ public class LetterDrawable extends Drawable
         mBounds.top = bounds.top;
         mBounds.bottom = bounds.bottom;
 
-        mTempBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        mTempCanvas = new Canvas(mTempBitmap);
+        // can't create canvas with 0 size
+        if (width > 0 && height > 0) {
+            mTempBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            mTempCanvas = new Canvas(mTempBitmap);
+        } else {
+            mTempCanvas = new Canvas();
+        }
     }
 
     private void setupMode() {

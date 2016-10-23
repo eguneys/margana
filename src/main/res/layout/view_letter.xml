@@ -1,12 +1,6 @@
-<merge
+<?xml version="1.0" encoding="utf-8"?>
+<oyun.net.anagram.widget.LetterView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
-<ImageView
-    android:id="@+id/image_letter"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center">
-</ImageView>
-  
-</merge>
+    android:layout_width="@dimen/square_normal"
+    android:layout_height="@dimen/square_normal"
+    />

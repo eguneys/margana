@@ -77,12 +77,6 @@ public class QuizFragment extends Fragment
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private void setQuizViewAnimations() {
-        if (ApiLevelHelper.isLowerThanLollipop()) {
-            return;
-        }
-    }
-
     private void initProgressToolbar(View view) {
         final int firstUnsolvedQuizPosition = mCategory.getFirstUnsolvedQuizPosition();
         final List<Quiz> quizzes = mCategory.getQuizzes();
@@ -93,6 +87,21 @@ public class QuizFragment extends Fragment
         setProgress(firstUnsolvedQuizPosition);
     }
 
+    private void decideOnViewToDisplay() {
+        final boolean isSolved = false;
+        if (isSolved) {
+        } else {
+            mQuizView.setAdapter(getQuizAdapter());
+        }
+    }
+
+
+    private void setQuizViewAnimations() {
+        if (ApiLevelHelper.isLowerThanLollipop()) {
+            return;
+        }
+    }
+
     private void setProgress(int currentQuizPosition) {
         // if (!isAdded()) {
         //     return;
@@ -100,14 +109,6 @@ public class QuizFragment extends Fragment
         mProgressText
             .setText(getString(R.string.quiz_of_quizzes, currentQuizPosition, mQuizSize));
         mProgressBar.setProgress(currentQuizPosition);
-    }
-
-    private void decideOnViewToDisplay() {
-        final boolean isSolved = false;
-        if (isSolved) {
-        } else {
-            mQuizView.setAdapter(getQuizAdapter());
-        }
     }
 
     private QuizAdapter getQuizAdapter() {
