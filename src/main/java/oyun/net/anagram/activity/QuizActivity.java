@@ -6,7 +6,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import android.graphics.Color;
+
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -18,6 +27,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorListenerAdapter;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 
 import oyun.net.anagram.R;
@@ -25,6 +35,7 @@ import oyun.net.anagram.fragment.QuizFragment;
 
 import oyun.net.anagram.model.Category;
 import oyun.net.anagram.helper.ApiLevelHelper;
+import oyun.net.anagram.helper.ViewUtils;
 import oyun.net.anagram.persistence.AnagramDatabaseHelper;
 
 public class QuizActivity extends AppCompatActivity
@@ -38,6 +49,9 @@ public class QuizActivity extends AppCompatActivity
 
     private Interpolator mInterpolator;
     private QuizFragment mQuizFragment;
+
+    private Animator mCircularReveal;
+    private ObjectAnimator mColorChange;
 
     private FloatingActionButton mQuizFab;
     private View mToolbarBack;
@@ -145,7 +159,55 @@ public class QuizActivity extends AppCompatActivity
 
     private void revealFragmentContainerLollipop(final View clickedView,
                                                  final FrameLayout fragmentContainer) {
-        
+        prepareCircularReveal(clickedView, fragmentContainer);
+
+        ViewCompat.animate(clickedView)
+            .scaleX(0)
+            .scaleY(0)
+            .alpha(0)
+            .setInterpolator(mInterpolator)
+            .setListener(new ViewPropertyAnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(View view) {
+                        fragmentContainer.setVisibility(View.VISIBLE);
+                        clickedView.setVisibility(View.GONE);
+                    }
+                })
+            .start();
+
+        fragmentContainer.setVisibility(View.VISIBLE);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(mCircularReveal).with(mColorChange);
+        animatorSet.start();
+    }
+
+    private void prepareCircularReveal(View startView, FrameLayout targetView) {
+        int centerX = (startView.getLeft() + startView.getRight()) / 2;
+        // Subtract the start view's height to adjust for relative coordinateson screen.
+        int centerY = (startView.getTop() + startView.getBottom()) / 2 - startView.getHeight();
+        float endRadius = (float) Math.hypot(centerX, centerY);
+        mCircularReveal = ViewAnimationUtils.createCircularReveal(targetView,
+                                                                  centerX,
+                                                                  centerY,
+                                                                  startView.getWidth(),
+                                                                  endRadius);
+        mCircularReveal.setInterpolator(new FastOutLinearInInterpolator());
+        mCircularReveal.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mIcon.setVisibility(View.GONE);
+                    mCircularReveal.removeListener(this);
+                }
+            });
+        // Adding a color animation from the FAB's color to transparent creates a dissolve like
+        // effect to the circular reveal.
+        int accentColor = ContextCompat.getColor(this, mCategory.getTheme().getAccentColor());
+        mColorChange = ObjectAnimator.ofInt(targetView,
+                                            ViewUtils.FOREGROUND_COLOR,
+                                            accentColor,
+                                            Color.TRANSPARENT);
+        mColorChange.setEvaluator(new ArgbEvaluator());
+        mColorChange.setInterpolator(mInterpolator);
     }
 
 
