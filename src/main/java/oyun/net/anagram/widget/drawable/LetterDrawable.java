@@ -10,6 +10,7 @@ import android.animation.AnimatorSet;
 import android.view.animation.Interpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
+import android.view.animation.CycleInterpolator;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -26,17 +27,22 @@ import android.animation.ArgbEvaluator;
 
 public class LetterDrawable extends Drawable
 {
+    private static final int MAX_SHAKE_ROTATE = 8;
     private static final int SHADOW_DELTA = 4 * 2;
     private static final int TEXT_SIZE = 50 * 2;
     private static final Interpolator MarkInterpolator = new DecelerateInterpolator();
+    private static final Interpolator ShakeInterpolator = new CycleInterpolator(3);
 
     private long mMarkAnimationDuration;
     private AnimatorSet mMarkAnimatorSet;
     private AnimatorSet mUnmarkAnimatorSet;
 
+    private ObjectAnimator mShakeAnimator;
+
     private final ArgbEvaluator argbEvaluator = new ArgbEvaluator();
 
     private float mBackgroundColorProgress = 0f;
+    private float mRotateProgress = 0f;
 
     private int mColor;
     private int mShadowColor;
@@ -67,19 +73,17 @@ public class LetterDrawable extends Drawable
     }
 
     private void initPaints() {
-        mAlphaPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        // |
-        //                         Paint.FILTER_BITMAP_FLAG |
-        //                         Paint.DITHER_FLAG);
+        mAlphaPaint = new Paint(Paint.ANTI_ALIAS_FLAG |
+                                Paint.FILTER_BITMAP_FLAG |
+                                Paint.DITHER_FLAG);
         
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setStyle(Paint.Style.FILL);
 
         mShadowPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mShadowPaint.setStyle(Paint.Style.FILL);
-
-        mShadowPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.OVERLAY));
-
+        mShadowPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
+        
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setTextSize(TEXT_SIZE);
         mTextPaint.setTextAlign(Paint.Align.CENTER);
@@ -98,6 +102,10 @@ public class LetterDrawable extends Drawable
         mUnmarkAnimatorSet.playTogether(ObjectAnimator.ofFloat(this, BACKGROUND_COLOR_PROGRESS, 0f));
         mUnmarkAnimatorSet.setDuration(mMarkAnimationDuration);
         mUnmarkAnimatorSet.setInterpolator(MarkInterpolator);
+
+        mShakeAnimator = ObjectAnimator.ofFloat(this, ROTATE_PROGRESS, 0f, MAX_SHAKE_ROTATE);
+        mShakeAnimator.setDuration(300);
+        mShakeAnimator.setInterpolator(ShakeInterpolator);
     }
 
     private void updateBackgroundColor() {
@@ -133,12 +141,12 @@ public class LetterDrawable extends Drawable
 
 
         // can't create canvas with 0 size
-        // if (width > 0 && height > 0) {
-        //     mTempBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        //     mTempCanvas = new Canvas(mTempBitmap);
-        // } else {
-        //     mTempCanvas = new Canvas();
-        // }
+        if (width > 0 && height > 0) {
+            mTempBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            mTempCanvas = new Canvas(mTempBitmap);
+        } else {
+            mTempCanvas = new Canvas();
+        }
     }
 
     private void setupMode() {
@@ -147,15 +155,17 @@ public class LetterDrawable extends Drawable
     @Override
     public void draw(Canvas canvas) {
 
-        canvas.drawOval(mShadowBounds, mShadowPaint);
-        canvas.drawOval(mBounds, mPaint);
+        mTempCanvas.drawOval(mShadowBounds, mShadowPaint);
+        mTempCanvas.drawOval(mBounds, mPaint);
 
-        canvas.drawText(mLetter,
+        mTempCanvas.drawText(mLetter,
                              mBounds.width() / 2f,
                              mBounds.height() / 2f - ((mTextPaint.descent() + mTextPaint.ascent()) / 2f),
                              mTextPaint);
 
-        // canvas.drawBitmap(mTempBitmap, 0, 0, mAlphaPaint);
+        canvas.rotate(mRotateProgress, mBounds.width() / 2f, mBounds.height() / 2f);
+
+        canvas.drawBitmap(mTempBitmap, 0, 0, mAlphaPaint);
     }
 
     public void setLetter(String letter) {
@@ -173,7 +183,6 @@ public class LetterDrawable extends Drawable
     }
 
     public void setBackgroundColorProgress(float backgroundColorProgress) {
-        Log.e("YYY ", backgroundColorProgress + "");
         this.mBackgroundColorProgress = backgroundColorProgress;
         updateBackgroundColor();
         invalidateSelf();
@@ -183,12 +192,25 @@ public class LetterDrawable extends Drawable
         return mBackgroundColorProgress;
     }
 
+    public void setRotateProgress(float rotateProgress) {
+        this.mRotateProgress = rotateProgress;
+        invalidateSelf();
+    }
+
+    public float getRotateProgress() {
+        return mRotateProgress;
+    }
+
     public void animateMark() {
         mMarkAnimatorSet.start();
     }
 
     public void animateUnmark() {
         mUnmarkAnimatorSet.start();
+    }
+
+    public void animateShake() {
+        mShakeAnimator.start();
     }
 
     public static final Property<LetterDrawable, Float> BACKGROUND_COLOR_PROGRESS =
@@ -203,4 +225,19 @@ public class LetterDrawable extends Drawable
                 object.setBackgroundColorProgress(value);
             }
         };
+
+    public static final Property<LetterDrawable, Float> ROTATE_PROGRESS =
+        new Property<LetterDrawable, Float>(Float.class, "rotateProgress") {
+            @Override
+            public Float get(LetterDrawable object) {
+                return object.getRotateProgress();
+            }
+
+            @Override
+            public void set(LetterDrawable object, Float value) {
+                object.setRotateProgress(value);
+            }
+        };
+
+
 }

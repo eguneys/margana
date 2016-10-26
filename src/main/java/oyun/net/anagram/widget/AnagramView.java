@@ -76,6 +76,11 @@ public class AnagramView extends GridView {
                 item.setMark(false);
             }
 
+            for (int i : markedSquares) {
+                LetterView item = (LetterView) getChildAt(i);
+                item.shake();
+            }
+
             markedSquares.clear();
         }
         return true;

@@ -62,9 +62,12 @@ public class LetterView extends View {
         }
     }
 
-
     public boolean getMark() {
         return isMarked;
+    }
+
+    public void shake() {
+        mLetterDrawable.animateShake();
     }
 
     private void invalidateAnimation() {
