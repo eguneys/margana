@@ -6,6 +6,7 @@ import android.util.Log;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.AnimatorSet;
+import android.animation.AnimatorListenerAdapter;
 
 import android.view.animation.Interpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -36,9 +37,12 @@ public class LetterDrawable extends Drawable
     private static final Interpolator VanishInterpolator = new DecelerateInterpolator();
     private static final Interpolator PopInterpolator = new OvershootInterpolator();
 
+    private AnimationListener mAnimationListener;
+
     private AnimatorSet mMarkAnimatorSet;
     private AnimatorSet mUnmarkAnimatorSet;
     private AnimatorSet mVanishAnimatorSet;
+    private AnimatorSet mPopAnimatorSet;
 
     private ObjectAnimator mShakeAnimator;
 
@@ -46,7 +50,7 @@ public class LetterDrawable extends Drawable
 
     private float mBackgroundColorProgress = 0f;
     private float mRotateProgress = 0f;
-    private float mScaleProgress = 1f;
+    private float mScaleProgress = 0f;
     private float mAlphaProgress = 1f;
 
     private int mColor;
@@ -126,7 +130,28 @@ public class LetterDrawable extends Drawable
             .with(alphaAnimator);
         mVanishAnimatorSet.setDuration(VanishAnimationDuration);
         mVanishAnimatorSet.setInterpolator(VanishInterpolator);
+        mVanishAnimatorSet.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    if (mAnimationListener != null) {
+                        mAnimationListener.onLetterVanish();
+                    }
+                }
+            });
         
+        mPopAnimatorSet = new AnimatorSet();
+        mPopAnimatorSet.playTogether(ObjectAnimator.ofFloat(this, SCALE_PROGRESS, 1f));
+        mPopAnimatorSet.setDuration(VanishAnimationDuration);
+        mPopAnimatorSet.setInterpolator(PopInterpolator);
+        mPopAnimatorSet.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    if (mAnimationListener != null) {
+                        mAnimationListener.onLetterPop();
+                    }
+                }
+            });
+
     }
 
     private void updateBackgroundColor() {
@@ -260,6 +285,10 @@ public class LetterDrawable extends Drawable
         mVanishAnimatorSet.start();
     }
 
+    public void animatePop() {
+        mPopAnimatorSet.start();
+    }
+
     public static final Property<LetterDrawable, Float> BACKGROUND_COLOR_PROGRESS =
         new Property<LetterDrawable, Float>(Float.class, "backgroundColorProgress") {
             @Override
@@ -312,4 +341,14 @@ public class LetterDrawable extends Drawable
             }
         };
 
+
+    
+    public void setAnimationListener(AnimationListener listener) {
+        this.mAnimationListener = listener;
+    }
+
+    public interface AnimationListener {
+        public void onLetterPop();
+        public void onLetterVanish();
+    }
 }

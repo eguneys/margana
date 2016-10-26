@@ -24,6 +24,9 @@ public class AnagramQuizAdapter extends BaseAdapter {
         mAnagramQuiz = anagramQuiz;
     }
 
+    public AnagramQuiz getAnagram() {
+        return mAnagramQuiz;
+    }
 
     @Override
     public int getCount() {

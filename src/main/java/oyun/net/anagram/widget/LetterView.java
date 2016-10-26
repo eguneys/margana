@@ -20,6 +20,8 @@ public class LetterView extends View {
 
     private final Interpolator mLinearOutSlowInInterpolator = new LinearOutSlowInInterpolator();
 
+    private LetterAnimationListener mAnimationListener;
+
     private LetterDrawable mLetterDrawable;
 
     private boolean isMarked;
@@ -45,9 +47,20 @@ public class LetterView extends View {
         int textColor = ContextCompat.getColor(getContext(), R.color.letter_text);
         int textShadow = ContextCompat.getColor(getContext(), R.color.letter_text_shadow);
         mLetterDrawable = new LetterDrawable(bgColor, shadowColor, textColor, textShadow);
-        setBackground(mLetterDrawable);
 
         isMarked = false;
+        setBackground(mLetterDrawable);
+
+        mLetterDrawable.setAnimationListener(new LetterDrawable.AnimationListener() {
+                @Override
+                public void onLetterPop() {
+                    LetterView.this.mAnimationListener.onLetterPop();
+                }
+                @Override
+                public void onLetterVanish() {
+                    LetterView.this.mAnimationListener.onLetterVanish();
+                }
+            });
     }
 
     public void setLetter(String letter) {
@@ -74,6 +87,10 @@ public class LetterView extends View {
         mLetterDrawable.animateVanish();
     }
 
+    public void pop() {
+        mLetterDrawable.animatePop();
+    }
+
     private void invalidateAnimation() {
         if (isMarked) {
             mLetterDrawable.animateMark();
@@ -92,4 +109,13 @@ public class LetterView extends View {
     //     super.onDraw(canvas);
     //     mLetterDrawable.draw(canvas);
     // }
+
+    public void setAnimationListener(LetterAnimationListener listener) {
+        this.mAnimationListener = listener;
+    }
+
+    public interface LetterAnimationListener {
+        public void onLetterPop();
+        public void onLetterVanish();
+    }
 }
