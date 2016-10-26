@@ -70,6 +70,10 @@ public class LetterView extends View {
         mLetterDrawable.animateShake();
     }
 
+    public void vanish() {
+        mLetterDrawable.animateVanish();
+    }
+
     private void invalidateAnimation() {
         if (isMarked) {
             mLetterDrawable.animateMark();

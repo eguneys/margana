@@ -27,15 +27,18 @@ import android.animation.ArgbEvaluator;
 
 public class LetterDrawable extends Drawable
 {
+    private static final int MAX_VANISH_ROTATE = 8 * 2;
     private static final int MAX_SHAKE_ROTATE = 8;
     private static final int SHADOW_DELTA = 4 * 2;
     private static final int TEXT_SIZE = 50 * 2;
     private static final Interpolator MarkInterpolator = new DecelerateInterpolator();
     private static final Interpolator ShakeInterpolator = new CycleInterpolator(3);
+    private static final Interpolator VanishInterpolator = new DecelerateInterpolator();
+    private static final Interpolator PopInterpolator = new OvershootInterpolator();
 
-    private long mMarkAnimationDuration;
     private AnimatorSet mMarkAnimatorSet;
     private AnimatorSet mUnmarkAnimatorSet;
+    private AnimatorSet mVanishAnimatorSet;
 
     private ObjectAnimator mShakeAnimator;
 
@@ -43,6 +46,8 @@ public class LetterDrawable extends Drawable
 
     private float mBackgroundColorProgress = 0f;
     private float mRotateProgress = 0f;
+    private float mScaleProgress = 1f;
+    private float mAlphaProgress = 1f;
 
     private int mColor;
     private int mShadowColor;
@@ -92,20 +97,36 @@ public class LetterDrawable extends Drawable
     }
 
     private void initAnimations() {
-        mMarkAnimationDuration = 250;
+        final int MarkAnimationDuration = 250;
+        final int VanishAnimationDuration = 300;
+        final int ShakeAnimationDuration = 300;
+
         mMarkAnimatorSet = new AnimatorSet();
         mMarkAnimatorSet.playTogether(ObjectAnimator.ofFloat(this, BACKGROUND_COLOR_PROGRESS, 1f));
-        mMarkAnimatorSet.setDuration(mMarkAnimationDuration);
+        mMarkAnimatorSet.setDuration(MarkAnimationDuration);
         mMarkAnimatorSet.setInterpolator(MarkInterpolator);
 
         mUnmarkAnimatorSet = new AnimatorSet();
         mUnmarkAnimatorSet.playTogether(ObjectAnimator.ofFloat(this, BACKGROUND_COLOR_PROGRESS, 0f));
-        mUnmarkAnimatorSet.setDuration(mMarkAnimationDuration);
+        mUnmarkAnimatorSet.setDuration(MarkAnimationDuration);
         mUnmarkAnimatorSet.setInterpolator(MarkInterpolator);
 
         mShakeAnimator = ObjectAnimator.ofFloat(this, ROTATE_PROGRESS, 0f, MAX_SHAKE_ROTATE);
-        mShakeAnimator.setDuration(300);
+        mShakeAnimator.setDuration(ShakeAnimationDuration);
         mShakeAnimator.setInterpolator(ShakeInterpolator);
+
+        mVanishAnimatorSet = new AnimatorSet();
+        ObjectAnimator scaleAnimator = ObjectAnimator.ofFloat(this, SCALE_PROGRESS, 0f);
+        ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(this, ALPHA_PROGRESS, 0f);
+        ObjectAnimator rotateAnimator = ObjectAnimator.ofFloat(this, ROTATE_PROGRESS, MAX_VANISH_ROTATE);
+
+        mVanishAnimatorSet
+            .play(rotateAnimator)
+            .before(scaleAnimator)
+            .with(alphaAnimator);
+        mVanishAnimatorSet.setDuration(VanishAnimationDuration);
+        mVanishAnimatorSet.setInterpolator(VanishInterpolator);
+        
     }
 
     private void updateBackgroundColor() {
@@ -165,6 +186,8 @@ public class LetterDrawable extends Drawable
 
         canvas.rotate(mRotateProgress, mBounds.width() / 2f, mBounds.height() / 2f);
 
+        canvas.scale(mScaleProgress, mScaleProgress, mBounds.width() / 2f, mBounds.height() / 2f);
+
         canvas.drawBitmap(mTempBitmap, 0, 0, mAlphaPaint);
     }
 
@@ -174,6 +197,7 @@ public class LetterDrawable extends Drawable
 
     @Override
     public void setAlpha(int alpha) {}
+
     @Override
     public void setColorFilter(ColorFilter cf) {}
 
@@ -201,6 +225,25 @@ public class LetterDrawable extends Drawable
         return mRotateProgress;
     }
 
+    public void setScaleProgress(float scaleProgress) {
+        this.mScaleProgress = scaleProgress;
+        invalidateSelf();
+    }
+
+    public float getScaleProgress() {
+        return mScaleProgress;
+    }
+
+    public void setAlphaProgress(float alphaProgress) {
+        this.mAlphaProgress = alphaProgress;
+        invalidateSelf();
+    }
+
+    public float getAlphaProgress() {
+        return mAlphaProgress;
+    }
+
+
     public void animateMark() {
         mMarkAnimatorSet.start();
     }
@@ -211,6 +254,10 @@ public class LetterDrawable extends Drawable
 
     public void animateShake() {
         mShakeAnimator.start();
+    }
+
+    public void animateVanish() {
+        mVanishAnimatorSet.start();
     }
 
     public static final Property<LetterDrawable, Float> BACKGROUND_COLOR_PROGRESS =
@@ -239,5 +286,30 @@ public class LetterDrawable extends Drawable
             }
         };
 
+    public static final Property<LetterDrawable, Float> SCALE_PROGRESS =
+        new Property<LetterDrawable, Float>(Float.class, "scaleProgress") {
+            @Override
+            public Float get(LetterDrawable object) {
+                return object.getScaleProgress();
+            }
+
+            @Override
+            public void set(LetterDrawable object, Float value) {
+                object.setScaleProgress(value);
+            }
+        };
+
+    public static final Property<LetterDrawable, Float> ALPHA_PROGRESS =
+        new Property<LetterDrawable, Float>(Float.class, "alphaProgress") {
+            @Override
+            public Float get(LetterDrawable object) {
+                return object.getAlphaProgress();
+            }
+
+            @Override
+            public void set(LetterDrawable object, Float value) {
+                object.setAlphaProgress(value);
+            }
+        };
 
 }
