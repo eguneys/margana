@@ -3,12 +3,22 @@ package oyun.net.anagram.widget.drawable;
 import android.util.Property;
 import android.util.Log;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.animation.AnimatorSet;
+
+import android.view.animation.Interpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.OvershootInterpolator;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.PixelFormat;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
 
@@ -16,14 +26,27 @@ import android.animation.ArgbEvaluator;
 
 public class LetterDrawable extends Drawable
 {
+    private static final int SHADOW_DELTA = 4 * 2;
+    private static final int TEXT_SIZE = 50 * 2;
+    private static final Interpolator MarkInterpolator = new DecelerateInterpolator();
+
+    private long mMarkAnimationDuration;
+    private AnimatorSet mMarkAnimatorSet;
+    private AnimatorSet mUnmarkAnimatorSet;
+
     private final ArgbEvaluator argbEvaluator = new ArgbEvaluator();
 
     private float mBackgroundColorProgress = 0f;
 
     private int mColor;
+    private int mShadowColor;
     private int mTextColor;
+    private int mTextShadow;
+
+    private String mLetter;
 
     private Paint mPaint;
+    private Paint mShadowPaint;
     private Paint mTextPaint;
 
     private Paint mAlphaPaint;
@@ -32,30 +55,62 @@ public class LetterDrawable extends Drawable
     private Canvas mTempCanvas;
 
     private final RectF mBounds = new RectF();
+    private final RectF mShadowBounds = new RectF();
 
-    public LetterDrawable(int bgColor, int textColor) {
+    public LetterDrawable(int bgColor, int shadowColor, int textColor, int textShadow) {
         mColor = bgColor;
+        mShadowColor = shadowColor;
         mTextColor = textColor;
+        mTextShadow = textShadow;
         initPaints();
+        initAnimations();
     }
 
     private void initPaints() {
-        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mAlphaPaint = new Paint(Paint.ANTI_ALIAS_FLAG |
-                                Paint.FILTER_BITMAP_FLAG |
-                                Paint.DITHER_FLAG);
+        mAlphaPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        // |
+        //                         Paint.FILTER_BITMAP_FLAG |
+        //                         Paint.DITHER_FLAG);
         
-
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setStyle(Paint.Style.FILL);
-        // mMaskPaint.setXfermode(new Por
+
+        mShadowPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mShadowPaint.setStyle(Paint.Style.FILL);
+
+        mShadowPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.OVERLAY));
+
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mTextPaint.setTextSize(TEXT_SIZE);
+        mTextPaint.setTextAlign(Paint.Align.CENTER);
+
         updateBackgroundColor();
+    }
+
+    private void initAnimations() {
+        mMarkAnimationDuration = 250;
+        mMarkAnimatorSet = new AnimatorSet();
+        mMarkAnimatorSet.playTogether(ObjectAnimator.ofFloat(this, BACKGROUND_COLOR_PROGRESS, 1f));
+        mMarkAnimatorSet.setDuration(mMarkAnimationDuration);
+        mMarkAnimatorSet.setInterpolator(MarkInterpolator);
+
+        mUnmarkAnimatorSet = new AnimatorSet();
+        mUnmarkAnimatorSet.playTogether(ObjectAnimator.ofFloat(this, BACKGROUND_COLOR_PROGRESS, 0f));
+        mUnmarkAnimatorSet.setDuration(mMarkAnimationDuration);
+        mUnmarkAnimatorSet.setInterpolator(MarkInterpolator);
     }
 
     private void updateBackgroundColor() {
         float colorProgress = mBackgroundColorProgress;
         this.mPaint.setColor((Integer)argbEvaluator
-                             .evaluate(colorProgress, mColor, mTextColor));
+              .evaluate(colorProgress, mColor, mTextColor));
+        this.mTextPaint.setColor((Integer)argbEvaluator
+              .evaluate(colorProgress, mTextColor, mColor));
+        this.mShadowPaint.setColor((Integer)argbEvaluator
+              .evaluate(colorProgress, mShadowColor, mTextShadow));
+        // this.mPaint.setColor(mColor);
+        // this.mShadowPaint.setColor(mShadowColor);
+        // this.mTextPaint.setColor(mTextColor);
     }
 
     @Override
@@ -63,19 +118,27 @@ public class LetterDrawable extends Drawable
         int width = Math.abs(bounds.right - bounds.left);
         int height = Math.abs(bounds.top - bounds.bottom);
 
+        int shadowDelta = SHADOW_DELTA;
+
         super.onBoundsChange(bounds);
         mBounds.left = bounds.left;
-        mBounds.right = bounds.right;
+        mBounds.right = bounds.right - shadowDelta / 2;
         mBounds.top = bounds.top;
-        mBounds.bottom = bounds.bottom;
+        mBounds.bottom = bounds.bottom - shadowDelta;
+
+        mShadowBounds.left = bounds.left;
+        mShadowBounds.right = bounds.right;
+        mShadowBounds.top = bounds.top;
+        mShadowBounds.bottom = bounds.bottom;
+
 
         // can't create canvas with 0 size
-        if (width > 0 && height > 0) {
-            mTempBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            mTempCanvas = new Canvas(mTempBitmap);
-        } else {
-            mTempCanvas = new Canvas();
-        }
+        // if (width > 0 && height > 0) {
+        //     mTempBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        //     mTempCanvas = new Canvas(mTempBitmap);
+        // } else {
+        //     mTempCanvas = new Canvas();
+        // }
     }
 
     private void setupMode() {
@@ -84,9 +147,19 @@ public class LetterDrawable extends Drawable
     @Override
     public void draw(Canvas canvas) {
 
-        mTempCanvas.drawOval(mBounds, mPaint);
+        canvas.drawOval(mShadowBounds, mShadowPaint);
+        canvas.drawOval(mBounds, mPaint);
 
-        canvas.drawBitmap(mTempBitmap, 0, 0, mAlphaPaint);
+        canvas.drawText(mLetter,
+                             mBounds.width() / 2f,
+                             mBounds.height() / 2f - ((mTextPaint.descent() + mTextPaint.ascent()) / 2f),
+                             mTextPaint);
+
+        // canvas.drawBitmap(mTempBitmap, 0, 0, mAlphaPaint);
+    }
+
+    public void setLetter(String letter) {
+        mLetter = letter;
     }
 
     @Override
@@ -100,14 +173,23 @@ public class LetterDrawable extends Drawable
     }
 
     public void setBackgroundColorProgress(float backgroundColorProgress) {
+        Log.e("YYY ", backgroundColorProgress + "");
         this.mBackgroundColorProgress = backgroundColorProgress;
         updateBackgroundColor();
+        invalidateSelf();
     }
     
     public float getBackgroundColorProgress() {
         return mBackgroundColorProgress;
     }
 
+    public void animateMark() {
+        mMarkAnimatorSet.start();
+    }
+
+    public void animateUnmark() {
+        mUnmarkAnimatorSet.start();
+    }
 
     public static final Property<LetterDrawable, Float> BACKGROUND_COLOR_PROGRESS =
         new Property<LetterDrawable, Float>(Float.class, "backgroundColorProgress") {

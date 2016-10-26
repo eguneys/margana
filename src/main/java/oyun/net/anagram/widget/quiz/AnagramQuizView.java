@@ -25,7 +25,6 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
         mAnagramView = (AnagramView) getLayoutInflater()
             .inflate(R.layout.quiz_anagram_layout, this, false);
         mAnagramView.setAdapter(new AnagramQuizAdapter(getContext(), getQuiz()));
-
         return mAnagramView;
     }
     

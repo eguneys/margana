@@ -32,7 +32,7 @@ public class AnagramQuizAdapter extends BaseAdapter {
 
     @Override
     public String getItem(int position) {
-        return mAnagramQuiz.get(position);
+        return mAnagramQuiz.get(position).toUpperCase();
     }
 
     @Override
@@ -45,6 +45,8 @@ public class AnagramQuizAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = createView(parent);
         }
+        final String letter = getItem(position);
+        ((LetterView)convertView).setLetter(letter);
         return convertView;
     }
 
@@ -52,5 +54,4 @@ public class AnagramQuizAdapter extends BaseAdapter {
         return (LetterView)LayoutInflater.from(mContext)
             .inflate(R.layout.view_letter, parent, false);
     }
-
 }

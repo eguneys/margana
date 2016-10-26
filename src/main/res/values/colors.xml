@@ -15,5 +15,10 @@
   <color name="theme_red_accent">#fffc19</color>
   <color name="theme_red_text">@color/text_light</color>
     
+  <color name="letter_background">#722f2d</color>
+  <color name="letter_shadow">#361817</color>
+  <color name="letter_text">#ffffff</color>
+  <color name="letter_text_shadow">#bfe8e8</color>
+
   <color name="light_grey">#f5f5f5</color>
 </resources>
