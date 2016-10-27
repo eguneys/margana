@@ -11,6 +11,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.view.animation.Interpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
+import android.view.animation.BounceInterpolator;
 import android.view.animation.CycleInterpolator;
 
 import android.graphics.Bitmap;
@@ -35,7 +36,7 @@ public class LetterDrawable extends Drawable
     private static final Interpolator MarkInterpolator = new DecelerateInterpolator();
     private static final Interpolator ShakeInterpolator = new CycleInterpolator(3);
     private static final Interpolator VanishInterpolator = new DecelerateInterpolator();
-    private static final Interpolator PopInterpolator = new OvershootInterpolator();
+    private static final Interpolator PopInterpolator = new DecelerateInterpolator();
 
     private AnimationListener mAnimationListener;
 

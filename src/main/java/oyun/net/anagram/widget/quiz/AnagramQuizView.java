@@ -1,5 +1,7 @@
 package oyun.net.anagram.widget.quiz;
 
+import android.util.Log;
+
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +21,32 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
         super(context, category, quiz);
     }
 
+    private boolean checkIfSolved(String markedAnagram) {
+        return markedAnagram.toLowerCase()
+            .equals(getQuiz().getAnswer().toLowerCase());
+    }
+
     @Override
     protected View createQuizContentView() {
         //mAnagramView = new AnagramView(getContext());
         mAnagramView = (AnagramView) getLayoutInflater()
             .inflate(R.layout.quiz_anagram_layout, this, false);
         mAnagramView.setAdapter(new AnagramQuizAdapter(getContext(), getQuiz()));
+        mAnagramView.setAnagramListener(new AnagramView.AnagramListener() {
+                @Override
+                public void onAnagramMarked(String markedAnagram) {
+                    boolean vanishIfSolved = checkIfSolved(markedAnagram);
+                    mAnagramView.withShakeOrVanishClearMarkedLetters(vanishIfSolved);
+                }
+
+                @Override
+                public void onAnagramVanish() {
+                }
+
+                @Override
+                public void onAnagramPop() {
+                }
+            });
         return mAnagramView;
     }
     

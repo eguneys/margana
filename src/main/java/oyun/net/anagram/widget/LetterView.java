@@ -54,11 +54,15 @@ public class LetterView extends View {
         mLetterDrawable.setAnimationListener(new LetterDrawable.AnimationListener() {
                 @Override
                 public void onLetterPop() {
-                    LetterView.this.mAnimationListener.onLetterPop();
+                    if (LetterView.this.mAnimationListener != null) {
+                        LetterView.this.mAnimationListener.onLetterPop();
+                    }
                 }
                 @Override
                 public void onLetterVanish() {
-                    LetterView.this.mAnimationListener.onLetterVanish();
+                    if (LetterView.this.mAnimationListener != null) {
+                        LetterView.this.mAnimationListener.onLetterVanish();
+                    }
                 }
             });
     }
