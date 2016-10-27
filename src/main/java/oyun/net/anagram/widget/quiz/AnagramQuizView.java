@@ -63,6 +63,7 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
                 public void onAnagramVanish() {
                     Anagram nextAnagram = withSetGetNextAnagram();
                     ((AnagramAdapter)mAnagramView.getAdapter()).setAnagram(nextAnagram);
+                    mAnagramView.popLetters();
                 }
 
                 @Override

@@ -39,4 +39,8 @@ public class Anagram {
     public String getQuestion() {
         return mQuestion;
     }
+
+    public static Anagram createTest(String anagram) {
+        return new Anagram("", new StringBuilder(anagram).reverse().toString(), anagram);
+    }
 }

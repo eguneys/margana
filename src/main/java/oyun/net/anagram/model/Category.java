@@ -12,8 +12,11 @@ public class Category {
     public static final String TAG = "Category";
 
     private static final List<Anagram> defaultAnagrams =
-        new ArrayList<Anagram>(Arrays.asList(new Anagram("1", "nutalfe", "eflatun"),
-                                             new Anagram("2", "ucolbak", "kablocu")));
+        new ArrayList<Anagram>(Arrays.asList(Anagram.createTest("eflatun"),
+                                             Anagram.createTest("kabarma"),
+                                             Anagram.createTest("ekonomi"),
+                                             Anagram.createTest("anagram"),
+                                             Anagram.createTest("kablocu")));
 
     private static final List<Quiz> defaultQuizzes =
         new ArrayList<Quiz>(Arrays.asList(new AnagramQuiz(defaultAnagrams, false)));

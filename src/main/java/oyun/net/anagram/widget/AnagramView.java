@@ -57,13 +57,10 @@ public class AnagramView extends GridView {
         vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                 @Override
                 public boolean onPreDraw() {
+                    popLetters();
+
                     ViewTreeObserver obs = AnagramView.this.getViewTreeObserver();
                     obs.removeOnPreDrawListener(this);
-                    int size = getChildCount();
-                    for (int i = 0; i < size; i++) {
-                        LetterView item = (LetterView) getChildAt(i);
-                        item.pop();
-                    }
                     ((LetterView)getChildAt(0))
                         .setAnimationListener(new LetterView.LetterAnimationListener() {
                                 @Override
@@ -92,6 +89,14 @@ public class AnagramView extends GridView {
             sb.append(adapter.getItem(i));
         }
         return sb.toString();
+    }
+
+    public void popLetters() {
+        int size = getChildCount();
+        for (int i = 0; i < size; i++) {
+            LetterView item = (LetterView) getChildAt(i);
+            item.pop();
+        }
     }
 
     public void clearMarkedLetters() {

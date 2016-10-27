@@ -9,6 +9,7 @@ import android.animation.AnimatorSet;
 import android.animation.AnimatorListenerAdapter;
 
 import android.view.animation.Interpolator;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.view.animation.BounceInterpolator;
@@ -38,7 +39,7 @@ public class LetterDrawable extends Drawable
     private static final Interpolator MarkInterpolator = new DecelerateInterpolator();
     private static final Interpolator ShakeInterpolator = new CycleInterpolator(3);
     private static final Interpolator VanishInterpolator = new DecelerateInterpolator();
-    private static final Interpolator PopInterpolator = new DecelerateInterpolator();
+    private static final Interpolator PopInterpolator = new AccelerateInterpolator();
     private static final Interpolator MarkScaleInterpolator = new BounceInterpolator();
 
     private AnimationListener mAnimationListener;
@@ -141,6 +142,7 @@ public class LetterDrawable extends Drawable
         mVanishAnimatorSet.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animator) {
+                    setRotateProgress(0f);
                     if (mAnimationListener != null) {
                         mAnimationListener.onLetterVanish();
                     }
