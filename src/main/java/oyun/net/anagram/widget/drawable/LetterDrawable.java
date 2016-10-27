@@ -27,6 +27,8 @@ import android.graphics.drawable.Drawable;
 
 import android.animation.ArgbEvaluator;
 
+import android.support.v4.view.animation.PathInterpolatorCompat;
+
 public class LetterDrawable extends Drawable
 {
     private static final int MAX_VANISH_ROTATE = 8 * 2;
@@ -37,6 +39,7 @@ public class LetterDrawable extends Drawable
     private static final Interpolator ShakeInterpolator = new CycleInterpolator(3);
     private static final Interpolator VanishInterpolator = new DecelerateInterpolator();
     private static final Interpolator PopInterpolator = new DecelerateInterpolator();
+    private static final Interpolator MarkScaleInterpolator = new BounceInterpolator();
 
     private AnimationListener mAnimationListener;
 
@@ -106,8 +109,12 @@ public class LetterDrawable extends Drawable
         final int VanishAnimationDuration = 300;
         final int ShakeAnimationDuration = 300;
 
+        ObjectAnimator markScaleAnimator = ObjectAnimator.ofFloat(this, SCALE_PROGRESS, 0.8f, 1f);
+        markScaleAnimator.setInterpolator(MarkScaleInterpolator);
+
         mMarkAnimatorSet = new AnimatorSet();
-        mMarkAnimatorSet.playTogether(ObjectAnimator.ofFloat(this, BACKGROUND_COLOR_PROGRESS, 1f));
+        mMarkAnimatorSet.playTogether(ObjectAnimator.ofFloat(this, BACKGROUND_COLOR_PROGRESS, 1f),
+                                      markScaleAnimator);
         mMarkAnimatorSet.setDuration(MarkAnimationDuration);
         mMarkAnimatorSet.setInterpolator(MarkInterpolator);
 
