@@ -21,8 +21,7 @@ import android.graphics.Canvas;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 
 import oyun.net.anagram.R;
-import oyun.net.anagram.model.quiz.AnagramQuiz;
-import oyun.net.anagram.adapter.AnagramQuizAdapter;
+import oyun.net.anagram.adapter.AnagramAdapter;
 
 public class AnagramView extends GridView {
 
@@ -87,7 +86,7 @@ public class AnagramView extends GridView {
     }
 
     private String getMarkedLetters() {
-        AnagramQuizAdapter adapter = (AnagramQuizAdapter)getAdapter();
+        AnagramAdapter adapter = (AnagramAdapter)getAdapter();
         StringBuilder sb = new StringBuilder();
         for (int i : markedLetters) {
             sb.append(adapter.getItem(i));

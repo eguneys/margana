@@ -1,17 +1,24 @@
 package oyun.net.anagram.model.quiz;
 
-public class AnagramQuiz extends Quiz<String> {
+import java.util.List;
+
+import oyun.net.anagram.model.Anagram;
+
+public class AnagramQuiz extends Quiz<List<Anagram>> {
     
-    public AnagramQuiz(String question, String answer, boolean solved) {
-        super(question, answer, solved);
+    public AnagramQuiz(List<Anagram> answer, boolean solved) {
+        super("", answer, solved);
     }
 
-    public String get(int idx) {
-        return Character
-            .toString(getQuestion().charAt(idx));
+    public Anagram get(int idx) {
+        return getAnagrams().get(idx);
     }
 
     public int size() {
-        return getQuestion().length();
+        return getAnagrams().size();
+    }
+
+    public List<Anagram> getAnagrams() {
+        return getAnswer();
     }
 }
