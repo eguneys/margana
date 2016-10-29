@@ -15,10 +15,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import oyun.net.anagram.R;
-import oyun.net.anagram.fragment.CategorySelectionFragment;
-import oyun.net.anagram.databinding.ActivityCategorySelectionBinding;
+import oyun.net.anagram.fragment.HomeSelectionFragment;
 
-public class CategorySelectionActivity extends AppCompatActivity
+public class HomeSelectionActivity extends AppCompatActivity
 {
 
     public static void start(Context context) {
@@ -27,7 +26,7 @@ public class CategorySelectionActivity extends AppCompatActivity
     }
 
     static Intent getStartIntent(Context context) {
-        Intent starter = new Intent(context, CategorySelectionActivity.class);
+        Intent starter = new Intent(context, HomeSelectionActivity.class);
         return starter;
     }
 
@@ -36,35 +35,27 @@ public class CategorySelectionActivity extends AppCompatActivity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        ActivityCategorySelectionBinding binding = DataBindingUtil
-            .setContentView(this, R.layout.activity_category_selection);
+        setContentView(R.layout.activity_home_selection);
         setUpToolbar();
 
         if (savedInstanceState == null) {
-            attachCategoryGridFragment();
+            attachMenuButtons();
         }
-        setProgressBarVisibility(View.GONE);
-        supportPostponeEnterTransition();
     }
 
     private void setUpToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_player);
         setSupportActionBar(toolbar);
-        // getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
-    private void attachCategoryGridFragment() {
+    private void attachMenuButtons() {
         FragmentManager supportFragmentManager = getSupportFragmentManager();
-        Fragment fragment = supportFragmentManager.findFragmentById(R.id.category_container);
-        if (!(fragment instanceof CategorySelectionFragment)) {
-            fragment = CategorySelectionFragment.newInstance();
+        Fragment fragment = supportFragmentManager.findFragmentById(R.id.home_container);
+        if (!(fragment instanceof HomeSelectionFragment)) {
+            fragment = HomeSelectionFragment.newInstance();
         }
         supportFragmentManager.beginTransaction()
-            .replace(R.id.category_container, fragment)
+            .replace(R.id.home_container, fragment)
             .commit();
-    }
-
-    private void setProgressBarVisibility(int visibility) {
-        findViewById(R.id.progress).setVisibility(visibility);
     }
 }

@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import oyun.net.anagram.R;
-import oyun.net.anagram.activity.CategorySelectionActivity;
+import oyun.net.anagram.activity.HomeSelectionActivity;
 
 public class MainFragment extends Fragment
 {
@@ -87,7 +87,7 @@ public class MainFragment extends Fragment
         final Activity activity = getActivity();
 
         // Don't run a transition if v is null
-        CategorySelectionActivity.start(activity);
+        HomeSelectionActivity.start(activity);
         activity.finish();
         return;
     }

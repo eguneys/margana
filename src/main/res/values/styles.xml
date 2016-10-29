@@ -8,6 +8,7 @@
   </style>
 
   <style name="Anagram.MainActivity"/>
+  <style name="Anagram.HomeSelectionActivity"/>
   <style name="Anagram.CategorySelectionActivity"/>
   <style name="Anagram.QuizActivity"/>
 
@@ -28,7 +29,6 @@
   </style>
   <style name="Anagram.ButtonTheme.PrimaryAction" parent="Theme.AppCompat.Light">
     <item name="android:textSize">@dimen/title_text_size</item>
-    <item name="android:padding">@dimen/spacing_double</item>
   </style>
 
   <style name="Anagram.TextAppearance"/>
