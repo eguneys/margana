@@ -8,17 +8,26 @@ import android.os.Bundle;
 
 import android.view.View;
 
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPropertyAnimatorListenerAdapter;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import oyun.net.anagram.R;
+import oyun.net.anagram.model.Category;
+
 import oyun.net.anagram.fragment.HomeSelectionFragment;
 
 public class HomeSelectionActivity extends AppCompatActivity
 {
+
+    private static final int REQUEST_CATEGORY = 0x2300;
+
+    private View mNavigateMenu;
 
     public static void start(Context context) {
         Intent starter = getStartIntent(context);
@@ -43,9 +52,28 @@ public class HomeSelectionActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public void onResume() {
+        animateEnterTransition();
+        super.onResume();
+    }
+
     private void setUpToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_player);
-        setSupportActionBar(toolbar);
+        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_player);
+        // setSupportActionBar(toolbar);
+        mNavigateMenu = (View) findViewById(R.id.navigate_menu);
+    }
+
+    private void animateEnterTransition() {
+        ViewCompat.animate(mNavigateMenu)
+            .translationX(0)
+            .start();
+    }
+
+    private void animateExitTransition() {
+        ViewCompat.animate(mNavigateMenu)
+            .translationX(-mNavigateMenu.getWidth())
+            .start();
     }
 
     private void attachMenuButtons() {
@@ -57,5 +85,27 @@ public class HomeSelectionActivity extends AppCompatActivity
         supportFragmentManager.beginTransaction()
             .replace(R.id.home_container, fragment)
             .commit();
+    }
+
+    public void startPlayActivity(final Category category) {
+        ViewCompat.animate(mNavigateMenu)
+            .translationX(-mNavigateMenu.getWidth())
+            .setListener(new ViewPropertyAnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(View view) {
+                        // http://stackoverflow.com/questions/40307283/why-does-running-a-second-viewpropertyanimation-on-a-view-break-the-animation-li
+                        ViewCompat.animate(view).setListener(null);
+
+                        Activity activity = HomeSelectionActivity.this;
+                        final Bundle transitionBundle = new Bundle();
+                        Intent startIntent = QuizActivity.getStartIntent(activity, category);
+                        ActivityCompat.startActivityForResult(activity,
+                                                              startIntent,
+                                                              REQUEST_CATEGORY,
+                                                              transitionBundle);
+                    }
+
+                })
+            .start();
     }
 }

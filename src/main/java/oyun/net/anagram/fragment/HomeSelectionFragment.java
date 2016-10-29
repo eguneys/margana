@@ -97,21 +97,12 @@ public class HomeSelectionFragment extends Fragment
             .scaleX(0)
             .setInterpolator(PlayTransitionInterpolator)
             .setListener(new ViewPropertyAnimatorListenerAdapter() {
-                    @Override public void onAnimationEnd(View view) {
-                        // hack to stop enter animate callback?
-                        if (view.getScaleX() == 0)
-                            startPlayActivity(activity, category);
+                    @Override
+                    public void onAnimationEnd(View view) {
+                        ViewCompat.animate(view).setListener(null);
+                        ((HomeSelectionActivity)activity).startPlayActivity(category);
                     }
                 })
             .start();
-    }
-
-    private void startPlayActivity(Activity activity, Category category) {
-        final Bundle transitionBundle = new Bundle();
-        Intent startIntent = QuizActivity.getStartIntent(activity, category);
-        ActivityCompat.startActivityForResult(activity,
-                                              startIntent,
-                                              REQUEST_CATEGORY,
-                                              transitionBundle);
     }
 }
