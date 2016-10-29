@@ -8,44 +8,6 @@
               android:orientation="vertical"
               android:padding="@dimen/spacing_nano"
               >
-  <Button
-        android:id="@+id/play_category_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_micro"
-        android:theme="@style/Anagram.ButtonTheme.PrimaryAction"
-        style="@style/Anagram.ButtonTheme.PrimaryAction"
-        android:elevation="@dimen/elevation_header"
-        android:gravity="center"
-        android:text="@string/play"
-        android:clipToPadding="false"
-        />
-  <Button
-        android:id="@+id/profile_category_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_micro"
-        android:theme="@style/Anagram.ButtonTheme.PrimaryAction"
-        style="@style/Anagram.ButtonTheme.PrimaryAction"
-        android:elevation="@dimen/elevation_header"
-        android:gravity="center"
-        android:text="@string/profile"
-        android:clipToPadding="false"
-        />
-  <!-- <include -->
-  <!--     android:id="@+id/play" -->
-  <!--     android:layout_width="match_parent" -->
-  <!--     android:layout_height="@dimen/size_fab" -->
-  <!--     layout="@layout/item_play" -->
-  <!--     app:category="@string/play" -->
-  <!--     /> -->
-  <!-- <include -->
-  <!--     android:id="@+id/profile" -->
-  <!--     android:layout_width="match_parent" -->
-  <!--     android:layout_height="@dimen/size_fab" -->
-  <!--     layout="@layout/item_play" -->
-  <!--     app:category="@string/profile" -->
-  <!--     /> -->
-
+  
 </LinearLayout>
 

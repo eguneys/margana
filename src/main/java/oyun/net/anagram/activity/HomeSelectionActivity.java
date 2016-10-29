@@ -7,6 +7,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
 import android.view.View;
+import android.widget.ImageView;
 
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -54,26 +55,14 @@ public class HomeSelectionActivity extends AppCompatActivity
 
     @Override
     public void onResume() {
-        animateEnterTransition();
         super.onResume();
+        ((ImageView)mNavigateMenu).setImageResource(R.drawable.ic_menu);
     }
 
     private void setUpToolbar() {
         // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_player);
         // setSupportActionBar(toolbar);
         mNavigateMenu = (View) findViewById(R.id.navigate_menu);
-    }
-
-    private void animateEnterTransition() {
-        ViewCompat.animate(mNavigateMenu)
-            .translationX(0)
-            .start();
-    }
-
-    private void animateExitTransition() {
-        ViewCompat.animate(mNavigateMenu)
-            .translationX(-mNavigateMenu.getWidth())
-            .start();
     }
 
     private void attachMenuButtons() {
@@ -87,25 +76,39 @@ public class HomeSelectionActivity extends AppCompatActivity
             .commit();
     }
 
-    public void startPlayActivity(final Category category) {
+    public void startPlayActivityWithTransition() {
         ViewCompat.animate(mNavigateMenu)
             .translationX(-mNavigateMenu.getWidth())
+            .setDuration(150)
             .setListener(new ViewPropertyAnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(View view) {
                         // http://stackoverflow.com/questions/40307283/why-does-running-a-second-viewpropertyanimation-on-a-view-break-the-animation-li
-                        ViewCompat.animate(view).setListener(null);
-
-                        Activity activity = HomeSelectionActivity.this;
-                        final Bundle transitionBundle = new Bundle();
-                        Intent startIntent = QuizActivity.getStartIntent(activity, category);
-                        ActivityCompat.startActivityForResult(activity,
-                                                              startIntent,
-                                                              REQUEST_CATEGORY,
-                                                              transitionBundle);
+                        ((ImageView)mNavigateMenu).setImageResource(R.drawable.ic_arrow_back);
+                        ViewCompat
+                            .animate(view)
+                            .translationX(0)
+                            .setDuration(150)
+                            .setListener(new ViewPropertyAnimatorListenerAdapter() {
+                                    @Override
+                                    public void onAnimationEnd(View view) {
+                                        startPlayActivity();
+                                    }
+                                })
+                            .start();
                     }
-
                 })
             .start();
+    }
+
+    private void startPlayActivity() {
+        final Bundle transitionBundle = new Bundle();
+        Intent startIntent = CategorySelectionActivity.getStartIntent(this);
+        ActivityCompat.startActivityForResult(this,
+                                              startIntent,
+                                              REQUEST_CATEGORY,
+                                              transitionBundle);
+        // disable animation
+        overridePendingTransition(0, 0);
     }
 }

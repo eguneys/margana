@@ -75,8 +75,7 @@ public class HomeSelectionFragment extends Fragment
                 public void onClick(View v) {
                     Activity activity = getActivity();
                     startPlayActivityWithTransition(activity,
-                                                    mPlayButton,
-                                                    Category.DEFAULT);
+                                                    mPlayButton);
                 }
             });
     }
@@ -91,7 +90,7 @@ public class HomeSelectionFragment extends Fragment
             .start();
     }
 
-    private void startPlayActivityWithTransition(final Activity activity, View toolbar, final Category category) {
+    private void startPlayActivityWithTransition(final Activity activity, View toolbar) {
         ViewCompat.animate(toolbar)
             .translationY(200)
             .scaleX(0)
@@ -100,9 +99,9 @@ public class HomeSelectionFragment extends Fragment
                     @Override
                     public void onAnimationEnd(View view) {
                         ViewCompat.animate(view).setListener(null);
-                        ((HomeSelectionActivity)activity).startPlayActivity(category);
                     }
                 })
             .start();
+        ((HomeSelectionActivity)activity).startPlayActivityWithTransition();
     }
 }

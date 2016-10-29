@@ -49,18 +49,6 @@ public class CategorySelectionFragment extends Fragment
     }
 
     private void setupCategories(final View view) {
-        View mPlayB = (View) view.findViewById(R.id.play_category_title);
-
-        mPlayB.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Activity activity = getActivity();
-                    startPlayActivityWithTransition(activity,
-                                                    v,
-                                                    Category.DEFAULT);
-                }
-            });
-
         view.getViewTreeObserver()
             .addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                     @Override
@@ -70,25 +58,5 @@ public class CategorySelectionFragment extends Fragment
                         return true;
                     }
                 });
-    }
-
-    private void startPlayActivityWithTransition(Activity activity, View toolbar, Category category) {
-
-        // String transitionToolbarString = activity.getString(R.string.transition_toolbar);
-
-        // final Pair[] pairs = TransitionHelper
-        //     .createSafeTransitionParticipants(activity, false, new Pair<>(toolbar, toolbarString));
-
-        // ActivityOptionsCompat sceneTransitionAnimation = ActivityOptionsCompat
-        //     .makeSceneTransitionAnimation(activity, pairs);
-        
-        // final Bundle transitionBundle = sceneTransitionAnimation.toBundle();
-        final Bundle transitionBundle = new Bundle();
-
-        Intent startIntent = QuizActivity.getStartIntent(activity, category);
-        ActivityCompat.startActivityForResult(activity,
-                                              startIntent,
-                                              REQUEST_CATEGORY,
-                                              transitionBundle);
     }
 }

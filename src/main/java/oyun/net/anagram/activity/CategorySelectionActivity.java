@@ -7,19 +7,21 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
 import android.view.View;
+import android.widget.ImageView;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewCompat;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import oyun.net.anagram.R;
 import oyun.net.anagram.fragment.CategorySelectionFragment;
-import oyun.net.anagram.databinding.ActivityCategorySelectionBinding;
 
 public class CategorySelectionActivity extends AppCompatActivity
 {
+    private View mNavigateMenu;
 
     public static void start(Context context) {
         Intent starter = getStartIntent(context);
@@ -36,21 +38,24 @@ public class CategorySelectionActivity extends AppCompatActivity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        ActivityCategorySelectionBinding binding = DataBindingUtil
-            .setContentView(this, R.layout.activity_category_selection);
+        setContentView(R.layout.activity_category_selection);
         setUpToolbar();
 
         if (savedInstanceState == null) {
             attachCategoryGridFragment();
         }
-        setProgressBarVisibility(View.GONE);
         supportPostponeEnterTransition();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(0, 0);
+    }
+
     private void setUpToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_player);
-        setSupportActionBar(toolbar);
-        // getSupportActionBar().setDisplayShowTitleEnabled(false);
+        mNavigateMenu = (View) findViewById(R.id.navigate_menu);
+        ((ImageView)mNavigateMenu).setImageResource(R.drawable.ic_arrow_back);
     }
 
     private void attachCategoryGridFragment() {
@@ -62,9 +67,5 @@ public class CategorySelectionActivity extends AppCompatActivity
         supportFragmentManager.beginTransaction()
             .replace(R.id.category_container, fragment)
             .commit();
-    }
-
-    private void setProgressBarVisibility(int visibility) {
-        findViewById(R.id.progress).setVisibility(visibility);
     }
 }

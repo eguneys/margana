@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@color/anagram_blank"
-                android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:background="@color/anagram_blank"
+              android:orientation="vertical"
+              >
+
+  <!-- toolbar -->
+  <include layout="@layout/layout_toolbar"/>
+
+  <FrameLayout android:id="@+id/home_container"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:background="@color/anagram_blank"
                >
-
-    <!-- toolbar -->
-    <include layout="@layout/layout_toolbar"/>
-
-    <FrameLayout android:id="@+id/home_container"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 android:background="@color/anagram_blank"
-                 >
-    </FrameLayout>
-  </LinearLayout>
-</layout>
+  </FrameLayout>
+</LinearLayout>
