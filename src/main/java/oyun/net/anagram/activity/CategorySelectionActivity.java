@@ -1,22 +1,33 @@
 package oyun.net.anagram.activity;
 
+import android.util.Log;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
+
 import android.view.View;
+import android.view.ViewPropertyAnimator;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+
 import android.widget.ImageView;
 
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewCompat;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.RecyclerView;
 
 import oyun.net.anagram.R;
+import oyun.net.anagram.model.Category;
+
 import oyun.net.anagram.fragment.CategorySelectionFragment;
 
 public class CategorySelectionActivity extends AppCompatActivity
@@ -49,8 +60,30 @@ public class CategorySelectionActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(0, 0);
+        final RecyclerView mCategoriesView = (RecyclerView)findViewById(R.id.categories);
+        // http://stackoverflow.com/questions/24989218/get-visible-items-in-recyclerview
+        final int lastIndex = mCategoriesView.getChildCount();
+        for (int i = 0; i < lastIndex; i++) {
+            View v = mCategoriesView.findViewHolderForAdapterPosition(i).itemView;
+            v.setPivotY(0);
+            ViewPropertyAnimator animator = v
+                .animate()
+                .scaleY(0)
+                .setDuration(200)
+                .setStartDelay((lastIndex - i) * 150);
+
+            if (i == lastIndex - 1) {
+                animator.setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animator) {
+                            overridePendingTransition(0, 0);
+                            super.onBackPressed();
+                        }
+                    });
+            }
+
+            animator.start();
+        }
     }
 
     private void setUpToolbar() {
@@ -67,5 +100,19 @@ public class CategorySelectionActivity extends AppCompatActivity
         supportFragmentManager.beginTransaction()
             .replace(R.id.category_container, fragment)
             .commit();
+    }
+
+    public void startQuizActivityWithTransition(Category category) {
+        startQuizActivity(category);
+    }
+
+    private void startQuizActivity(Category category) {
+        final Bundle transitionBundle = new Bundle();
+        Intent startIntent = QuizActivity.getStartIntent(this, category);
+        ActivityCompat.startActivity(this,
+                                     startIntent,
+                                     transitionBundle);
+        // disable animation
+        overridePendingTransition(0, 0);        
     }
 }

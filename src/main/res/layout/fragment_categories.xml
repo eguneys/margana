@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:id="@+id/categories"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="bottom|center_horizontal"
-              android:orientation="vertical"
-              android:padding="@dimen/spacing_nano"
-              >
-  
-</LinearLayout>
-
+<android.support.v7.widget.RecyclerView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/categories"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/spacing_double"
+    android:gravity="bottom|center_horizontal"
+    android:orientation="vertical"
+    android:padding="@dimen/spacing_nano"
+    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+    />

@@ -54,7 +54,6 @@ public class AnagramAdapter extends BaseAdapter {
             convertView = createView(parent);
         }
         final String letter = getItem(position);
-        Log.e("YYY getView", letter);
         ((LetterView)convertView).setLetter(letter);
         return convertView;
     }

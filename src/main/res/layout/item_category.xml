@@ -1,0 +1,28 @@
+<layout>
+  <data>
+    <variable name="category" type="oyun.net.anagram.model.Category"/>
+  </data>
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/category_item"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_fab"
+                android:gravity="center_horizontal"
+                android:foreground="@drawable/selector_subtle"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_category_item"
+                >
+    <TextView
+        android:id="@+id/category_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="@style/Anagram.TextAppearance.ListItem"
+        android:elevation="@dimen/elevation_header"
+        android:gravity="center"
+        android:text="@{category.name}"
+        android:textColor="@android:color/black"
+        android:paddingLeft="@dimen/spacing_double"
+        android:paddingRight="@dimen/spacing_double"
+        android:clipToPadding="false"
+        />
+  </LinearLayout>
+</layout>
