@@ -18,6 +18,9 @@
       <activity android:name=".activity.HomeSelectionActivity"
                 android:theme="@style/Anagram.HomeSelectionActivity"
                 />
+      <activity android:name=".activity.LetterSelectionActivity"
+                android:theme="@style/Anagram.LetterSelectionActivity"
+                />
       <activity android:name=".activity.CategorySelectionActivity"
                 android:theme="@style/Anagram.CategorySelectionActivity"
                 />

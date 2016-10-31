@@ -103,7 +103,7 @@ public class HomeSelectionActivity extends AppCompatActivity
 
     private void startPlayActivity() {
         final Bundle transitionBundle = new Bundle();
-        Intent startIntent = CategorySelectionActivity.getStartIntent(this);
+        Intent startIntent = LetterSelectionActivity.getStartIntent(this);
         ActivityCompat.startActivityForResult(this,
                                               startIntent,
                                               REQUEST_CATEGORY,

@@ -10,6 +10,7 @@
   <style name="Anagram.MainActivity"/>
   <style name="Anagram.HomeSelectionActivity"/>
   <style name="Anagram.CategorySelectionActivity"/>
+  <style name="Anagram.LetterSelectionActivity"/>
   <style name="Anagram.QuizActivity"/>
 
   <style name="Anagram.Red">

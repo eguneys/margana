@@ -28,9 +28,9 @@ import android.support.v7.widget.RecyclerView;
 import oyun.net.anagram.R;
 import oyun.net.anagram.model.Category;
 
-import oyun.net.anagram.fragment.CategorySelectionFragment;
+import oyun.net.anagram.fragment.LetterSelectionFragment;
 
-public class CategorySelectionActivity extends AppCompatActivity
+public class LetterSelectionActivity extends AppCompatActivity
 {
     private View mNavigateMenu;
 
@@ -40,7 +40,7 @@ public class CategorySelectionActivity extends AppCompatActivity
     }
 
     static Intent getStartIntent(Context context) {
-        Intent starter = new Intent(context, CategorySelectionActivity.class);
+        Intent starter = new Intent(context, LetterSelectionActivity.class);
         return starter;
     }
 
@@ -60,30 +60,8 @@ public class CategorySelectionActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        final RecyclerView mCategoriesView = (RecyclerView)findViewById(R.id.categories);
-        // http://stackoverflow.com/questions/24989218/get-visible-items-in-recyclerview
-        final int lastIndex = mCategoriesView.getChildCount();
-        for (int i = 0; i < lastIndex; i++) {
-            View v = mCategoriesView.findViewHolderForAdapterPosition(i).itemView;
-            v.setPivotY(0);
-            ViewPropertyAnimator animator = v
-                .animate()
-                .scaleY(0)
-                .setDuration(200)
-                .setStartDelay((lastIndex - i) * 150);
-
-            if (i == lastIndex - 1) {
-                animator.setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animator) {
-                            overridePendingTransition(0, 0);
-                            CategorySelectionActivity.super.onBackPressed();
-                        }
-                    });
-            }
-
-            animator.start();
-        }
+        overridePendingTransition(0, 0);
+        super.onBackPressed();
     }
 
     private void setUpToolbar() {
@@ -94,8 +72,8 @@ public class CategorySelectionActivity extends AppCompatActivity
     private void attachCategoryGridFragment() {
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         Fragment fragment = supportFragmentManager.findFragmentById(R.id.category_container);
-        if (!(fragment instanceof CategorySelectionFragment)) {
-            fragment = CategorySelectionFragment.newInstance();
+        if (!(fragment instanceof LetterSelectionFragment)) {
+            fragment = LetterSelectionFragment.newInstance();
         }
         supportFragmentManager.beginTransaction()
             .replace(R.id.category_container, fragment)
