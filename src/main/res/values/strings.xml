@@ -5,6 +5,7 @@
     <string name="back">Back</string>
     <string name="play">Play</string>
     <string name="PLAY">PLAY</string>
+    <string name="shuffle">Shuffle</string>
     <string name="profile">Profile</string>
     <string name="quiz_of_quizzes">%1$s / %2$s</string>
 

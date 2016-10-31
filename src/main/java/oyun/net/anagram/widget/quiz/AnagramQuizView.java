@@ -34,11 +34,17 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
 
     private void setNextAnagram() {
         mNextAnagramIndex++;
+        mNextAnagramIndex = mNextAnagramIndex % ((AnagramQuiz)getQuiz()).size();
     }
 
     private Anagram withSetGetNextAnagram() {
         setNextAnagram();
         return getNextAnagram();
+    }
+
+    private void nextAnagramWithTransition(Anagram nextAnagram) {
+        ((AnagramAdapter)mAnagramView.getAdapter()).setAnagram(nextAnagram);
+        mAnagramView.popLetters();
     }
 
     @Override
@@ -47,8 +53,10 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
         setNextAnagram();
 
         //mAnagramView = new AnagramView(getContext());
-        mAnagramView = (AnagramView) getLayoutInflater()
+        View rootView = getLayoutInflater()
             .inflate(R.layout.quiz_anagram_layout, this, false);
+
+        mAnagramView = (AnagramView) rootView.findViewById(R.id.anagram_content);
 
         mAnagramView.setAdapter(new AnagramAdapter(getContext(), nextAnagram));
 
@@ -62,14 +70,22 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
                 @Override
                 public void onAnagramVanish() {
                     Anagram nextAnagram = withSetGetNextAnagram();
-                    ((AnagramAdapter)mAnagramView.getAdapter()).setAnagram(nextAnagram);
-                    mAnagramView.popLetters();
+                    nextAnagramWithTransition(nextAnagram);
                 }
 
                 @Override
                 public void onAnagramPop() {
                 }
             });
-        return mAnagramView;
+
+        rootView.findViewById(R.id.reload_button).setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    nextAnagramWithTransition(getNextAnagram());
+                }
+
+            });
+        return rootView;
     }
 }

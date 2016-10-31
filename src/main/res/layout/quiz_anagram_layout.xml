@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<oyun.net.anagram.widget.AnagramView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+<oyun.net.anagram.widget.AnagramView
+    android:id="@+id/anagram_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
@@ -11,3 +17,17 @@
     android:listSelector="#00000000"
     android:stretchMode="none"
     android:background="@color/theme_red_background"/>
+
+  <ImageButton
+        android:id="@+id/reload_button"
+        android:layout_width="@dimen/square_normal"
+        android:layout_height="@dimen/square_normal"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:gravity="left"
+        android:theme="@style/Anagram.ButtonTheme.PrimaryAction"
+        android:elevation="@dimen/elevation_header"
+        android:contentDescription="@string/shuffle"
+        android:background="@drawable/bg_home"
+        android:src="@drawable/ic_refresh"
+        />
+</LinearLayout>
