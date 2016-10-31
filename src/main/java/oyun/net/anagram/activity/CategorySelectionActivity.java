@@ -32,6 +32,19 @@ import oyun.net.anagram.fragment.CategorySelectionFragment;
 
 public class CategorySelectionActivity extends AppCompatActivity
 {
+    private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                switch (v.getId()) {
+                case R.id.navigate_menu:
+                    onBackPressed();
+                    break;
+                default:
+                    return;
+                }
+            }
+        };
+
     private View mNavigateMenu;
 
     public static void start(Context context) {
@@ -59,6 +72,12 @@ public class CategorySelectionActivity extends AppCompatActivity
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        overridePendingTransition(0, 0);
+    }
+
+    @Override
     public void onBackPressed() {
         final RecyclerView mCategoriesView = (RecyclerView)findViewById(R.id.categories);
         // http://stackoverflow.com/questions/24989218/get-visible-items-in-recyclerview
@@ -77,7 +96,6 @@ public class CategorySelectionActivity extends AppCompatActivity
                         @Override
                         public void onAnimationEnd(Animator anim) {
                             animator.setListener(null);
-                            overridePendingTransition(0, 0);
                             CategorySelectionActivity.super.onBackPressed();
                         }
                     });
@@ -90,6 +108,7 @@ public class CategorySelectionActivity extends AppCompatActivity
     private void setUpToolbar() {
         mNavigateMenu = (View) findViewById(R.id.navigate_menu);
         ((ImageView)mNavigateMenu).setImageResource(R.drawable.ic_arrow_back);
+        mNavigateMenu.setOnClickListener(mOnClickListener);
     }
 
     private void attachCategoryGridFragment() {

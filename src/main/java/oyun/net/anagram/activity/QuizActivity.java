@@ -53,18 +53,16 @@ public class QuizActivity extends AppCompatActivity
     private Animator mCircularReveal;
     private ObjectAnimator mColorChange;
 
+    private FrameLayout mContainer;
     private FloatingActionButton mQuizFab;
-    private View mToolbarBack;
+    private View mNavigateMenu;
     private ImageView mIcon;
 
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 switch (v.getId()) {
-                case R.id.fab_quiz:
-                    startQuizFromClickOn(v);
-                    break;
-                case R.id.back:
+                case R.id.navigate_menu:
                     onBackPressed();
                     break;
                 default:
@@ -90,6 +88,7 @@ public class QuizActivity extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
         populate(categoryId);
+        startQuizFragmentWithTransition();
     }
 
     @Override
@@ -99,62 +98,69 @@ public class QuizActivity extends AppCompatActivity
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        overridePendingTransition(0, 0);
+    }
+
+    @Override
     public void onBackPressed() {
         if (mIcon == null || mQuizFab == null) {
             super.onBackPressed();
             return;
         }
 
-        ViewCompat.animate(mToolbarBack)
-            .scaleX(0f)
-            .scaleY(0f)
-            .alpha(0f)
-            .setDuration(100)
-            .start();
+        // ViewCompat.animate(mNavigateMenu)
+        //     .scaleX(0f)
+        //     .scaleY(0f)
+        //     .alpha(0f)
+        //     .setDuration(100)
+        //     .start();
 
-        ViewCompat.animate(mIcon)
-            .scaleX(.7f)
-            .scaleY(.7f)
-            .alpha(0f)
-            .setInterpolator(mInterpolator)
-            .start();
+        // ViewCompat.animate(mIcon)
+        //     .scaleX(.7f)
+        //     .scaleY(.7f)
+        //     .alpha(0f)
+        //     .setInterpolator(mInterpolator)
+        //     .start();
 
-        ViewCompat.animate(mQuizFab)
-            .scaleX(0f)
-            .scaleY(0f)
-            .setInterpolator(mInterpolator)
-            .setStartDelay(100)
-            .setListener(new ViewPropertyAnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(View view) {
-                        QuizActivity.super.onBackPressed();
-                    }
-                })
-            .start();
+        // ViewCompat.animate(mQuizFab)
+        //     .scaleX(0f)
+        //     .scaleY(0f)
+        //     .setInterpolator(mInterpolator)
+        //     .setStartDelay(100)
+        //     .setListener(new ViewPropertyAnimatorListenerAdapter() {
+        //             @Override
+        //             public void onAnimationEnd(View view) {
+        //                 QuizActivity.super.onBackPressed();
+        //             }
+        //         })
+        //     .start();
+        super.onBackPressed();
     }
 
-    private void startQuizFromClickOn(final View clickedView) {
-        initQuizFragment();
+    private void startQuizFragmentWithTransition() {
+        revealFragmentContainer(mContainer);
+        setToolbarElevation(false);
+        startQuizFragment();
+    }
+
+    private void startQuizFragment() {
         getSupportFragmentManager()
             .beginTransaction()
             .replace(R.id.quiz_fragment_container, mQuizFragment, FRAGMENT_TAG)
             .commit();
-        final FrameLayout container = (FrameLayout) findViewById(R.id.quiz_fragment_container);
-        container.setBackgroundColor(ContextCompat.
-                                     getColor(this, mCategory.getTheme().getWindowBackgroundColor()));
-        revealFragmentContainer(clickedView, container);
-        setToolbarElevation(false);
     }
 
-    private void revealFragmentContainer(final View clickedView,
+    private void revealFragmentContainer(//final View clickedView,
                                          final FrameLayout fragmentContainer) {
-        if (ApiLevelHelper.isAtLeastLollipop()) {
-            revealFragmentContainerLollipop(clickedView, fragmentContainer);
-        } else {
-            fragmentContainer.setVisibility(View.VISIBLE);
-            clickedView.setVisibility(View.GONE);
-            mIcon.setVisibility(View.GONE);
-        }
+        // if (ApiLevelHelper.isAtLeastLollipop()) {
+        //     revealFragmentContainerLollipop(clickedView, fragmentContainer);
+        // } else {
+        fragmentContainer.setVisibility(View.VISIBLE);
+            // clickedView.setVisibility(View.GONE);
+            // mIcon.setVisibility(View.GONE);
+        // }
     }
 
     private void revealFragmentContainerLollipop(final View clickedView,
@@ -233,35 +239,38 @@ public class QuizActivity extends AppCompatActivity
         setTheme(mCategory.getTheme().getStyle());
         initLayout();
         initToolbar(mCategory);
+
+        mContainer = (FrameLayout) findViewById(R.id.quiz_fragment_container);
+        mContainer.setBackgroundColor(ContextCompat.
+                                      getColor(this, mCategory.getTheme().getWindowBackgroundColor()));
+        initQuizFragment();
     }
 
     private void initLayout() {
         setContentView(R.layout.activity_quiz);
-        mIcon = (ImageView) findViewById(R.id.icon);
-        int resId = getResources().getIdentifier("image_category_play", "drawable",
-                                                 getApplicationContext().getPackageName());
-        mIcon.setImageResource(resId);
-        ViewCompat.animate(mIcon)
-            .scaleX(1)
-            .scaleY(1)
-            .alpha(1)
-            .setInterpolator(mInterpolator)
-            .setStartDelay(300)
-            .start();
 
-        mQuizFab = (FloatingActionButton) findViewById(R.id.fab_quiz);
-        mQuizFab.setImageResource(R.drawable.ic_play);
-        mQuizFab.show();
+        // mIcon = (ImageView) findViewById(R.id.icon);
+        // int resId = getResources().getIdentifier("image_category_play", "drawable",
+        //                                          getApplicationContext().getPackageName());
+        // mIcon.setImageResource(resId);
+        // ViewCompat.animate(mIcon)
+        //     .scaleX(1)
+        //     .scaleY(1)
+        //     .alpha(1)
+        //     .setInterpolator(mInterpolator)
+        //     .setStartDelay(300)
+        //     .start();
 
-        mQuizFab.setOnClickListener(mOnClickListener);
+        // mQuizFab = (FloatingActionButton) findViewById(R.id.fab_quiz);
+        // mQuizFab.setImageResource(R.drawable.ic_play);
+        // mQuizFab.show();
+
+        // mQuizFab.setOnClickListener(mOnClickListener);
     }
 
     private void initToolbar(Category category) {
-        mToolbarBack = findViewById(R.id.back);
-        mToolbarBack.setOnClickListener(mOnClickListener);
-        TextView titleView = (TextView) findViewById(R.id.category_title);
-        titleView.setText(category.getName());
-        titleView.setTextColor(ContextCompat
-        .getColor(this, category.getTheme().getTextPrimaryColor()));
+        mNavigateMenu = findViewById(R.id.navigate_menu);
+        ((ImageView)mNavigateMenu).setImageResource(R.drawable.ic_arrow_back);
+        mNavigateMenu.setOnClickListener(mOnClickListener);
     }
 }
