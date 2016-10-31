@@ -18,7 +18,8 @@ public class AnagramDatabaseHelper {
     }
 
     public static List<Category> getCategories(Context context, boolean fromDb) {
-        return new ArrayList<Category>(Arrays.asList(Category.DEFAULT, Category.RED));
+        return new ArrayList<Category>(Arrays.asList(Category.SEVEN,
+                                                     Category.FOUR));
     }
 
     public static Category getCategoryWith(Context context, String categoryId) {

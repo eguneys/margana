@@ -66,7 +66,7 @@ public class CategorySelectionActivity extends AppCompatActivity
         for (int i = 0; i < lastIndex; i++) {
             View v = mCategoriesView.findViewHolderForAdapterPosition(i).itemView;
             v.setPivotY(0);
-            ViewPropertyAnimator animator = v
+            final ViewPropertyAnimator animator = v
                 .animate()
                 .scaleY(0)
                 .setDuration(200)
@@ -75,9 +75,10 @@ public class CategorySelectionActivity extends AppCompatActivity
             if (i == lastIndex - 1) {
                 animator.setListener(new AnimatorListenerAdapter() {
                         @Override
-                        public void onAnimationEnd(Animator animator) {
+                        public void onAnimationEnd(Animator anim) {
+                            animator.setListener(null);
                             overridePendingTransition(0, 0);
-                            super.onBackPressed();
+                            CategorySelectionActivity.super.onBackPressed();
                         }
                     });
             }

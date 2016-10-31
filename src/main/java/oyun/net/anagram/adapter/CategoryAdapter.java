@@ -19,6 +19,7 @@ import oyun.net.anagram.R;
 import oyun.net.anagram.model.Category;
 import oyun.net.anagram.persistence.AnagramDatabaseHelper;
 
+import oyun.net.anagram.helper.ResourceUtil;
 import oyun.net.anagram.databinding.ItemCategoryBinding;
 
 import oyun.net.anagram.widget.LetterView;
@@ -65,6 +66,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         Category category = getItem(position);
         binding.setCategory(category);
         binding.executePendingBindings();
+        binding.categoryTitle
+            .setText(ResourceUtil.getDynamicString(mActivity,
+                                                   R.string.nbLetters,
+                                                   category.getId()));
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

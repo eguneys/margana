@@ -18,7 +18,6 @@
         style="@style/Anagram.TextAppearance.ListItem"
         android:elevation="@dimen/elevation_header"
         android:gravity="center"
-        android:text="@{category.name}"
         android:textColor="@android:color/black"
         android:paddingLeft="@dimen/spacing_double"
         android:paddingRight="@dimen/spacing_double"

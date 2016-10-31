@@ -31,7 +31,19 @@ public class Category {
                                                                  "2",
                                                                  Theme.red,
                                                                  defaultQuizzes,
-                                                                 false);    
+                                                                 false);
+
+    public static final Category FOUR = new Category("four",
+                                                      "4",
+                                                      Theme.red,
+                                                      defaultQuizzes,
+                                                      false);
+
+    public static final Category SEVEN = new Category("seven",
+                                                      "7",
+                                                      Theme.red,
+                                                      defaultQuizzes,
+                                                      false);
 
 
     private final String mName;

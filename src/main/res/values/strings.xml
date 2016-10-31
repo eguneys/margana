@@ -7,4 +7,6 @@
     <string name="PLAY">PLAY</string>
     <string name="profile">Profile</string>
     <string name="quiz_of_quizzes">%1$s / %2$s</string>
+
+    <string name="nbLetters">%1$s letter</string>
 </resources>
