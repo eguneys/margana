@@ -3,8 +3,13 @@ package oyun.net.anagram.widget.quiz;
 import android.util.Log;
 
 import android.content.Context;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+
 import android.view.View;
 import android.view.ViewGroup;
+
+import android.widget.TextView;
 
 import oyun.net.anagram.R;
 import oyun.net.anagram.model.Category;
@@ -16,8 +21,12 @@ import oyun.net.anagram.widget.AnagramView;
 
 public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
 
+    private final int MarkedLettersFadeDelay = 1000;
+
     private int mNextAnagramIndex = 0;
     private AnagramView mAnagramView;
+
+    private TextView mMarkedLetters;
 
     public AnagramQuizView(Context context, Category category, AnagramQuiz quiz) {
         super(context, category, quiz);
@@ -47,6 +56,21 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
         mAnagramView.popLetters();
     }
 
+    private void fadeMarkedLetters() {
+        mMarkedLetters
+            .animate()
+            .alpha(0)
+            .setStartDelay(MarkedLettersFadeDelay)
+            .setListener(new AnimatorListenerAdapter() {
+                    
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        mMarkedLetters.setText("");
+                        mMarkedLetters.setAlpha(1);
+                    }
+                });
+    }
+
     @Override
     protected View createQuizContentView() {
         Anagram nextAnagram = getNextAnagram();
@@ -56,6 +80,8 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
         View rootView = getLayoutInflater()
             .inflate(R.layout.quiz_anagram_layout, this, false);
 
+        mMarkedLetters = (TextView) rootView.findViewById(R.id.marked_letters);
+
         mAnagramView = (AnagramView) rootView.findViewById(R.id.anagram_content);
 
         mAnagramView.setAdapter(new AnagramAdapter(getContext(), nextAnagram));
@@ -64,7 +90,8 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
                 
                 @Override
                 public void onLetterMarked(String markedAnagram) {
-                    
+                    mMarkedLetters.setText(markedAnagram);
+                    mMarkedLetters.animate().cancel();
                 }
 
                 @Override
@@ -74,6 +101,7 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
                         setNextAnagram();
                     }
                     mAnagramView.withShakeOrVanishClearMarkedLetters(vanishIfSolved);
+                    fadeMarkedLetters();
                 }
 
                 @Override
