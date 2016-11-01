@@ -4,7 +4,17 @@
 [ ] Custom colors
 [ ] Custom sounds
 
+## Todo
+
+[ ] 4 letter custom grid
+[ ] 
+
+## Idea
+
+[ ] different letter shape (eg. hexagonal)
+
     
 ## Bugs
 
 [ ] "Cannot perform this action after onsaveinstance". Press back twice quickly.
+[ ] center grid view

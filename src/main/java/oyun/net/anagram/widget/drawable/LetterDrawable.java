@@ -32,6 +32,13 @@ import android.support.v4.view.animation.PathInterpolatorCompat;
 
 public class LetterDrawable extends Drawable
 {
+    private final int MarkAnimationDuration = 250;
+    private final int ShakeAnimationDuration = 300;
+    private final int PopAnimationDuration = 200;
+    private final int VanishAnimationDuration = 200;
+
+    private final int VanishScaleAnimationDelay = 50;
+
     private static final int MAX_VANISH_ROTATE = 8 * 2;
     private static final int MAX_SHAKE_ROTATE = 8;
     private static final int SHADOW_DELTA = 4 * 2;
@@ -106,10 +113,6 @@ public class LetterDrawable extends Drawable
     }
 
     private void initAnimations() {
-        final int MarkAnimationDuration = 250;
-        final int VanishAnimationDuration = 300;
-        final int ShakeAnimationDuration = 300;
-
         ObjectAnimator markScaleAnimator = ObjectAnimator.ofFloat(this, SCALE_PROGRESS, 0.8f, 1f);
         markScaleAnimator.setInterpolator(MarkScaleInterpolator);
 
@@ -133,16 +136,31 @@ public class LetterDrawable extends Drawable
         ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(this, ALPHA_PROGRESS, 0f);
         ObjectAnimator rotateAnimator = ObjectAnimator.ofFloat(this, ROTATE_PROGRESS, MAX_VANISH_ROTATE);
 
+        scaleAnimator.setStartDelay(VanishScaleAnimationDelay);
+        scaleAnimator.setDuration(VanishAnimationDuration - VanishScaleAnimationDelay);
         mVanishAnimatorSet
-            .play(rotateAnimator)
-            .before(scaleAnimator)
-            .with(alphaAnimator);
+            .playTogether(rotateAnimator, scaleAnimator, alphaAnimator);
         mVanishAnimatorSet.setDuration(VanishAnimationDuration);
         mVanishAnimatorSet.setInterpolator(VanishInterpolator);
         mVanishAnimatorSet.addListener(new AnimatorListenerAdapter() {
+                boolean cancelled = false;
+
+                @Override
+                public void onAnimationStart(Animator animator) {
+                    cancelled = false;
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animator) {
+                    cancelled = true;
+                }
+
                 @Override
                 public void onAnimationEnd(Animator animator) {
                     setRotateProgress(0f);
+                    if (cancelled) {
+                        return;
+                    }
                     if (mAnimationListener != null) {
                         mAnimationListener.onLetterVanish();
                     }
@@ -151,11 +169,26 @@ public class LetterDrawable extends Drawable
         
         mPopAnimatorSet = new AnimatorSet();
         mPopAnimatorSet.playTogether(ObjectAnimator.ofFloat(this, SCALE_PROGRESS, 1f));
-        mPopAnimatorSet.setDuration(VanishAnimationDuration);
+        mPopAnimatorSet.setDuration(PopAnimationDuration);
         mPopAnimatorSet.setInterpolator(PopInterpolator);
         mPopAnimatorSet.addListener(new AnimatorListenerAdapter() {
+                boolean cancelled = false;
+
+                @Override
+                public void onAnimationStart(Animator animator) {
+                    cancelled = false;
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animator) {
+                    cancelled = true;
+                }
+
                 @Override
                 public void onAnimationEnd(Animator animator) {
+                    if (cancelled) {
+                        return;
+                    }
                     if (mAnimationListener != null) {
                         mAnimationListener.onLetterPop();
                     }
@@ -186,7 +219,7 @@ public class LetterDrawable extends Drawable
 
         super.onBoundsChange(bounds);
         mBounds.left = bounds.left;
-        mBounds.right = bounds.right - shadowDelta / 2;
+        mBounds.right = bounds.right; // - shadowDelta / 2;
         mBounds.top = bounds.top;
         mBounds.bottom = bounds.bottom - shadowDelta;
 
@@ -241,6 +274,11 @@ public class LetterDrawable extends Drawable
         return PixelFormat.TRANSLUCENT;
     }
 
+    public void setAnimationDelay(int delay) {
+        this.mPopAnimatorSet.setStartDelay(delay);
+        this.mVanishAnimatorSet.setStartDelay(delay);
+    }
+
     public void setBackgroundColorProgress(float backgroundColorProgress) {
         this.mBackgroundColorProgress = backgroundColorProgress;
         updateBackgroundColor();
@@ -278,6 +316,14 @@ public class LetterDrawable extends Drawable
         return mAlphaProgress;
     }
 
+    public boolean isAnimating() {
+        return
+            mVanishAnimatorSet.isRunning() ||
+            mPopAnimatorSet.isRunning() ||
+            mMarkAnimatorSet.isRunning() ||
+            mUnmarkAnimatorSet.isRunning() ||
+            mShakeAnimator.isRunning();
+    }
 
     public void animateMark() {
         mMarkAnimatorSet.start();
@@ -292,11 +338,24 @@ public class LetterDrawable extends Drawable
     }
 
     public void animateVanish() {
+        if (mVanishAnimatorSet.isRunning()) {
+            return;
+        }
+        cancelAnimations();
         mVanishAnimatorSet.start();
     }
 
     public void animatePop() {
+        if (mPopAnimatorSet.isRunning()) {
+            return;
+        }
+        cancelAnimations();
         mPopAnimatorSet.start();
+    }
+
+    private void cancelAnimations() {
+        mPopAnimatorSet.cancel();
+        mVanishAnimatorSet.cancel();
     }
 
     public static final Property<LetterDrawable, Float> BACKGROUND_COLOR_PROGRESS =

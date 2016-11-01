@@ -7,9 +7,10 @@
     >
 <oyun.net.anagram.widget.AnagramView
     android:id="@+id/anagram_content"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:gravity="center"
     android:numColumns="3"
     android:columnWidth="@dimen/square_normal"
     android:horizontalSpacing="@dimen/spacing_micro"
@@ -20,8 +21,8 @@
 
   <ImageButton
         android:id="@+id/reload_button"
-        android:layout_width="@dimen/square_normal"
-        android:layout_height="@dimen/square_normal"
+        android:layout_width="@dimen/square_small"
+        android:layout_height="@dimen/square_small"
         android:layout_marginTop="@dimen/spacing_normal"
         android:gravity="left"
         android:theme="@style/Anagram.ButtonTheme.PrimaryAction"

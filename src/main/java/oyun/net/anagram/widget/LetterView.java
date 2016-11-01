@@ -83,6 +83,14 @@ public class LetterView extends View {
         return isMarked;
     }
 
+    public void setAnimationDelay(int delay) {
+        mLetterDrawable.setAnimationDelay(delay);
+    }
+
+    public boolean isAnimating() {
+        return mLetterDrawable.isAnimating();
+    }
+
     public void shake() {
         mLetterDrawable.animateShake();
     }

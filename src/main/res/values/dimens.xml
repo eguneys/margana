@@ -22,7 +22,8 @@
 
   <dimen name="home_menu_text_size">20sp</dimen>
 
-  <dimen name="radius_button">4dp</dimen>
+  <dimen name="radius_small">4dp</dimen>
 
   <dimen name="square_normal">88dp</dimen>
+  <dimen name="square_small">64dp</dimen>
 </resources>

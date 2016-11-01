@@ -50,7 +50,7 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
     @Override
     protected View createQuizContentView() {
         Anagram nextAnagram = getNextAnagram();
-        setNextAnagram();
+
 
         //mAnagramView = new AnagramView(getContext());
         View rootView = getLayoutInflater()
@@ -61,15 +61,24 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
         mAnagramView.setAdapter(new AnagramAdapter(getContext(), nextAnagram));
 
         mAnagramView.setAnagramListener(new AnagramView.AnagramListener() {
+                
+                @Override
+                public void onLetterMarked(String markedAnagram) {
+                    
+                }
+
                 @Override
                 public void onAnagramMarked(String markedAnagram) {
                     boolean vanishIfSolved = checkIfSolved(markedAnagram);
+                    if (vanishIfSolved) {
+                        setNextAnagram();
+                    }
                     mAnagramView.withShakeOrVanishClearMarkedLetters(vanishIfSolved);
                 }
 
                 @Override
                 public void onAnagramVanish() {
-                    Anagram nextAnagram = withSetGetNextAnagram();
+                    Anagram nextAnagram = getNextAnagram();
                     nextAnagramWithTransition(nextAnagram);
                 }
 
@@ -82,7 +91,7 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
 
                 @Override
                 public void onClick(View v) {
-                    nextAnagramWithTransition(getNextAnagram());
+                    mAnagramView.vanishLetters();
                 }
 
             });

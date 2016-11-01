@@ -25,15 +25,15 @@ import oyun.net.anagram.adapter.AnagramAdapter;
 
 public class AnagramView extends GridView {
 
-    private AnagramListener mAnagramListener;
 
+    private final int animPosDelay = 20;
     private final Rect hitRect = new Rect();
-
-    private List<Integer> markedLetters;
-
     private final List<Integer> allSquares = java.util.Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8);
 
-    private List<LetterView> allViews;
+    private AnagramListener mAnagramListener;
+
+    private List<LetterViewHolder> mAllViews;
+    private List<Integer> mMarkedLetters;
 
     public AnagramView(Context context) {
         super(context);
@@ -51,17 +51,20 @@ public class AnagramView extends GridView {
     }
 
     private void init() {
-        markedLetters = new ArrayList<Integer>();
+        mMarkedLetters = new ArrayList<Integer>();
 
         ViewTreeObserver vto = getViewTreeObserver();
         vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                 @Override
                 public boolean onPreDraw() {
+                    initViewHolder();
+
                     popLetters();
 
                     ViewTreeObserver obs = AnagramView.this.getViewTreeObserver();
                     obs.removeOnPreDrawListener(this);
-                    ((LetterView)getChildAt(0))
+                    // make sure its the last item to animate
+                    ((LetterView)getChildAt(6))
                         .setAnimationListener(new LetterView.LetterAnimationListener() {
                                 @Override
                                 public void onLetterPop() {
@@ -82,33 +85,48 @@ public class AnagramView extends GridView {
             });
     }
 
+    private void initViewHolder() {
+        mAllViews = new ArrayList<LetterViewHolder>();
+        for (int i = 0; i < getChildCount(); i++) {
+            LetterView itemView = (LetterView)getChildAt(i);
+            int startDelay = i * animPosDelay;
+            itemView.setAnimationDelay(startDelay);
+            mAllViews.add(new LetterViewHolder(itemView, i));
+        }
+    }
+
     private String getMarkedLetters() {
         AnagramAdapter adapter = (AnagramAdapter)getAdapter();
         StringBuilder sb = new StringBuilder();
-        for (int i : markedLetters) {
+        for (int i : mMarkedLetters) {
             sb.append(adapter.getItem(i));
         }
         return sb.toString();
     }
 
+    public void vanishLetters() {
+        for (LetterViewHolder viewHolder : mAllViews) {
+            LetterView item = viewHolder.itemView;
+            item.vanish();
+        }        
+    }
+
     public void popLetters() {
-        int size = getChildCount();
-        for (int i = 0; i < size; i++) {
-            LetterView item = (LetterView) getChildAt(i);
-            item.pop();
+        for (LetterViewHolder viewHolder : mAllViews) {
+            viewHolder.itemView.pop();
         }
     }
 
     public void clearMarkedLetters() {
-        for (int i : markedLetters) {
+        for (int i : mMarkedLetters) {
             LetterView item = (LetterView) getChildAt(i);
             item.setMark(false);
         }
-        markedLetters.clear();
+        mMarkedLetters.clear();
     }
 
     public void withShakeOrVanishClearMarkedLetters(boolean isSolved) {
-        for (int i : markedLetters) {
+        for (int i : mMarkedLetters) {
             LetterView item = (LetterView) getChildAt(i);
             if (isSolved) {
                 item.vanish();
@@ -117,7 +135,7 @@ public class AnagramView extends GridView {
             }
             item.setMark(false);
         }
-        markedLetters.clear();
+        mMarkedLetters.clear();
     }
 
     // http://stackoverflow.com/questions/24251029/android-get-position-listview-in-ontouchlistener
@@ -128,15 +146,18 @@ public class AnagramView extends GridView {
 
         switch (event.getAction()) {
         case MotionEvent.ACTION_MOVE:
-            final int size = getChildCount();
-            for (int i = 0; i < size; i++) {
-                LetterView item = (LetterView) getChildAt(i);
+            for (LetterViewHolder viewHolder : mAllViews) {
+                LetterView item = viewHolder.itemView;
                 item.getHitRect(hitRect);
                 hitRect.inset(10, 10);
                 if (hitRect.contains(eventX, eventY)) {
-                    if (!item.getMark()) {
-                        markedLetters.add(i);
+                    if (!item.getMark() && !item.isAnimating()) {
+                        mMarkedLetters.add(viewHolder.index);
                         item.setMark(true);
+                        if (mAnagramListener != null) {
+                            mAnagramListener.onLetterMarked(getMarkedLetters());
+                        }
+                        break;
                     }
                 }
             }
@@ -149,11 +170,22 @@ public class AnagramView extends GridView {
         return true;
     }
 
+    public class LetterViewHolder {
+        public LetterView itemView;
+        public int index;
+
+        public LetterViewHolder(LetterView itemView, int index) {
+            this.itemView = itemView;
+            this.index = index;
+        }
+    }
+
     public void setAnagramListener(AnagramListener listener) {
         this.mAnagramListener = listener;
     }
 
     public interface AnagramListener {
+        public void onLetterMarked(String markedAnagram);
         public void onAnagramMarked(String markedAnagram);
         public void onAnagramVanish();
         public void onAnagramPop();
