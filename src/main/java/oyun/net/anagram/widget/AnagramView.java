@@ -23,7 +23,7 @@ import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import oyun.net.anagram.R;
 import oyun.net.anagram.adapter.AnagramAdapter;
 
-public class AnagramView extends GridView {
+public class AnagramView extends AbsAnagramView {
 
 
     private final int animPosDelay = 20;
@@ -64,7 +64,7 @@ public class AnagramView extends GridView {
                     ViewTreeObserver obs = AnagramView.this.getViewTreeObserver();
                     obs.removeOnPreDrawListener(this);
                     // make sure its the last item to animate
-                    ((LetterView)getChildAt(6))
+                    ((LetterView)getLastAnimatedView())
                         .setAnimationListener(new LetterView.LetterAnimationListener() {
                                 @Override
                                 public void onLetterPop() {

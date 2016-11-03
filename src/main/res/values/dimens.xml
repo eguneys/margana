@@ -26,4 +26,5 @@
 
   <dimen name="square_normal">88dp</dimen>
   <dimen name="square_small">64dp</dimen>
+  <dimen name="square_quadz">280dp</dimen>
 </resources>
