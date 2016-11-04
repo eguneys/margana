@@ -28,6 +28,8 @@ public abstract class AbsAnagramView2 extends GridLayout {
 
     protected List<LetterViewHolder> mAllViews;
 
+    protected List<LetterViewHolder> mAllViews4;
+
     public AbsAnagramView2(Context context) {
         this(context, null);
     }
@@ -48,18 +50,16 @@ public abstract class AbsAnagramView2 extends GridLayout {
         mAllViews = new ArrayList<LetterViewHolder>();
 
         for (int i = 0; i < mChildCount; i++) {
-            int row = i / 3;
-            int col = i % 3;
             LetterView child = createLetterView();
-            GridLayout.LayoutParams p = (GridLayout.LayoutParams) child.getLayoutParams();
-            p.setMargins(mSpacing, mSpacing, mSpacing, mSpacing);
-            p.rowSpec = GridLayout.spec(row);
-            p.columnSpec = GridLayout.spec(col);
-            child.setLayoutParams(p);
-
-            mAllViews.add(new LetterViewHolder(child, i));
-            addView(child, p);
+            mAllViews.add(new LetterViewHolder(child));
+            addView(child, child.getLayoutParams());
         }
+        // for (int i = 0; i < 4; i++) {
+        //     LetterView child = createLetterView();
+        //     mAllViews4.add(new LetterViewHolder(child));
+        //     addView(child, child.getLayoutParams());
+        // }
+        layoutChildren();
     }
 
     private LetterView createLetterView() {
@@ -67,25 +67,49 @@ public abstract class AbsAnagramView2 extends GridLayout {
             .inflate(R.layout.view_letter, this, false);
     }
 
+    private void layoutChildren() {
+        int size = getChildCount();
+        int colCount = size > 4 ? 3 : 2;
+
+        for (int i = 0; i < size; i++) {
+            View child = getChildAt(i);
+            int row = i / colCount;
+            int col = i % colCount;
+            GridLayout.LayoutParams p = (GridLayout.LayoutParams) child.getLayoutParams();
+            p.setMargins(mSpacing, mSpacing, mSpacing, mSpacing);
+            p.rowSpec = GridLayout.spec(row);
+            p.columnSpec = GridLayout.spec(col);
+            child.setLayoutParams(p);
+        }
+    }
+
     public void setAnagram(Anagram anagram) {
         mAnagram = anagram;
 
-        for (LetterViewHolder v : mAllViews) {
-            v.itemView.setLetter(mAnagram.getLetter(v.index));
+        int size = anagram.size();
+        for (int i = 0; i < size; i++) {
+            LetterViewHolder v = mAllViews.get(i);
+            v.itemView.setLetter(mAnagram.getLetter(i));
+        }
+        for (int i = size; i < getChildCount(); i++) {
+            LetterView child = mAllViews.get(i).itemView;
+            child.setVisibility(View.GONE);
+        }
+        for (int i = 0; i < size; i++) {
+            LetterView child = mAllViews.get(i).itemView;
+            child.setVisibility(View.VISIBLE);
         }
     }
 
     protected View getLastAnimatedView() {
-        return getChildAt(mChildCount - 1);
+        return getChildAt(mAnagram.size() - 1);
     }
 
     protected class LetterViewHolder {
         public LetterView itemView;
-        public int index;
 
-        public LetterViewHolder(LetterView itemView, int index) {
+        public LetterViewHolder(LetterView itemView) {
             this.itemView = itemView;
-            this.index = index;
         }
     }
 }

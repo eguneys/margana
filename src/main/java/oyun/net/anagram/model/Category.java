@@ -12,7 +12,10 @@ public class Category {
     public static final String TAG = "Category";
 
     private static final List<Anagram> defaultAnagrams =
-        new ArrayList<Anagram>(Arrays.asList(Anagram.createTest("eflatun"),
+        new ArrayList<Anagram>(Arrays.asList(Anagram.createTest("test1"),
+                                             Anagram.createTest("test12"),
+                                             Anagram.createTest("test123"),
+                                             Anagram.createTest("eflatun"),
                                              Anagram.createTest("kabarma"),
                                              Anagram.createTest("ekonomi"),
                                              Anagram.createTest("anagram"),

@@ -28,7 +28,6 @@ public class AnagramView extends AbsAnagramView2 {
 
     private final int animPosDelay = 20;
     private final Rect hitRect = new Rect();
-    private final List<Integer> allSquares = java.util.Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8);
 
     private AnagramListener mAnagramListener;
 
@@ -132,13 +131,15 @@ public class AnagramView extends AbsAnagramView2 {
 
         switch (event.getAction()) {
         case MotionEvent.ACTION_MOVE:
-            for (LetterViewHolder viewHolder : mAllViews) {
+            int size = mAllViews.size();
+            for (int i = 0; i < size; i++) {
+                LetterViewHolder viewHolder = mAllViews.get(i);
                 LetterView item = viewHolder.itemView;
                 item.getHitRect(hitRect);
                 hitRect.inset(10, 10);
                 if (hitRect.contains(eventX, eventY)) {
                     if (!item.getMark() && !item.isAnimating()) {
-                        mMarkedLetters.add(viewHolder.index);
+                        mMarkedLetters.add(i);
                         item.setMark(true);
                         if (mAnagramListener != null) {
                             mAnagramListener.onLetterMarked(getMarkedLetters());
