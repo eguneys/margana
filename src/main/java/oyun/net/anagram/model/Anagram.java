@@ -24,6 +24,10 @@ public class Anagram {
         return Character.toString(mQuestion.charAt(index));
     }
 
+    public String getLetter(int index) {
+        return get(index);
+    }
+
     public int size() {
         return mQuestion.length();
     }

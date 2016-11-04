@@ -23,7 +23,7 @@ import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import oyun.net.anagram.R;
 import oyun.net.anagram.adapter.AnagramAdapter;
 
-public class AnagramView extends AbsAnagramView {
+public class AnagramView extends AbsAnagramView2 {
 
 
     private final int animPosDelay = 20;
@@ -32,7 +32,6 @@ public class AnagramView extends AbsAnagramView {
 
     private AnagramListener mAnagramListener;
 
-    private List<LetterViewHolder> mAllViews;
     private List<Integer> mMarkedLetters;
 
     public AnagramView(Context context) {
@@ -57,8 +56,6 @@ public class AnagramView extends AbsAnagramView {
         vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                 @Override
                 public boolean onPreDraw() {
-                    initViewHolder();
-
                     popLetters();
 
                     ViewTreeObserver obs = AnagramView.this.getViewTreeObserver();
@@ -85,21 +82,10 @@ public class AnagramView extends AbsAnagramView {
             });
     }
 
-    private void initViewHolder() {
-        mAllViews = new ArrayList<LetterViewHolder>();
-        for (int i = 0; i < getChildCount(); i++) {
-            LetterView itemView = (LetterView)getChildAt(i);
-            int startDelay = i * animPosDelay;
-            itemView.setAnimationDelay(startDelay);
-            mAllViews.add(new LetterViewHolder(itemView, i));
-        }
-    }
-
     private String getMarkedLetters() {
-        AnagramAdapter adapter = (AnagramAdapter)getAdapter();
         StringBuilder sb = new StringBuilder();
         for (int i : mMarkedLetters) {
-            sb.append(adapter.getItem(i));
+            sb.append(mAnagram.getLetter(i));
         }
         return sb.toString();
     }
@@ -168,16 +154,6 @@ public class AnagramView extends AbsAnagramView {
             }
         }
         return true;
-    }
-
-    public class LetterViewHolder {
-        public LetterView itemView;
-        public int index;
-
-        public LetterViewHolder(LetterView itemView, int index) {
-            this.itemView = itemView;
-            this.index = index;
-        }
     }
 
     public void setAnagramListener(AnagramListener listener) {

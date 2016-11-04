@@ -52,7 +52,7 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
     }
 
     private void nextAnagramWithTransition(Anagram nextAnagram) {
-        ((AnagramAdapter)mAnagramView.getAdapter()).setAnagram(nextAnagram);
+        mAnagramView.setAnagram(nextAnagram);
         mAnagramView.popLetters();
     }
 
@@ -84,7 +84,7 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
 
         mAnagramView = (AnagramView) rootView.findViewById(R.id.anagram_content);
 
-        mAnagramView.setAdapter(new AnagramAdapter(getContext(), nextAnagram));
+        mAnagramView.setAnagram(nextAnagram);
 
         mAnagramView.setAnagramListener(new AnagramView.AnagramListener() {
                 
