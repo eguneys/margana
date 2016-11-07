@@ -81,7 +81,7 @@ public class QuizFragment extends Fragment
         final int firstUnsolvedQuizPosition = mCategory.getFirstUnsolvedQuizPosition();
         final List<Quiz> quizzes = mCategory.getQuizzes();
         mQuizSize = quizzes.size();
-        mProgressText = (TextView) view.findViewById(R.id.progress_text);
+        // mProgressText = (TextView) view.findViewById(R.id.progress_text);
         mProgressBar = ((ProgressBar) view.findViewById(R.id.progress));
         mProgressBar.setMax(mQuizSize);
         setProgress(firstUnsolvedQuizPosition);
@@ -106,8 +106,8 @@ public class QuizFragment extends Fragment
         // if (!isAdded()) {
         //     return;
         // }
-        mProgressText
-            .setText(getString(R.string.quiz_of_quizzes, currentQuizPosition, mQuizSize));
+        // mProgressText
+        //     .setText(getString(R.string.quiz_of_quizzes, currentQuizPosition, mQuizSize));
         mProgressBar.setProgress(currentQuizPosition);
     }
 
