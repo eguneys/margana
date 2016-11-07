@@ -99,8 +99,11 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
                     boolean vanishIfSolved = checkIfSolved(markedAnagram);
                     if (vanishIfSolved) {
                         setNextAnagram();
+                        mAnagramView.vanishLetters();
+                    } else {
+                        mAnagramView.shakeMarkedLetters();
                     }
-                    mAnagramView.withShakeOrVanishClearMarkedLetters(vanishIfSolved);
+                    mAnagramView.clearMarkedLetters();
                     fadeMarkedLetters();
                 }
 

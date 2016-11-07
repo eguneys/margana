@@ -21,10 +21,34 @@ import android.graphics.Canvas;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 
 import oyun.net.anagram.R;
+import oyun.net.anagram.model.Anagram;
 import oyun.net.anagram.adapter.AnagramAdapter;
 
 public class AnagramView extends AbsAnagramView2 {
 
+
+    private final LetterView.LetterAnimationListener mLetterAnimationListener = 
+        new LetterView.LetterAnimationListener() {
+            @Override
+            public void onLetterPop(LetterView v) {
+                if (getLastAnimatedView() != v) {
+                    return;
+                }
+                if (mAnagramListener != null) {
+                    mAnagramListener.onAnagramPop();
+                }
+            }
+
+            @Override
+            public void onLetterVanish(LetterView v) {
+                if (getLastAnimatedView() != v) {
+                    return;
+                }
+                if (mAnagramListener != null) {
+                    mAnagramListener.onAnagramVanish();
+                }
+            }
+        };
 
     private final int animPosDelay = 20;
     private final Rect hitRect = new Rect();
@@ -51,6 +75,7 @@ public class AnagramView extends AbsAnagramView2 {
     private void init() {
         mMarkedLetters = new ArrayList<Integer>();
 
+        setLetterStartDelay();
         ViewTreeObserver vto = getViewTreeObserver();
         vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                 @Override
@@ -59,26 +84,27 @@ public class AnagramView extends AbsAnagramView2 {
 
                     ViewTreeObserver obs = AnagramView.this.getViewTreeObserver();
                     obs.removeOnPreDrawListener(this);
-                    // make sure its the last item to animate
-                    ((LetterView)getLastAnimatedView())
-                        .setAnimationListener(new LetterView.LetterAnimationListener() {
-                                @Override
-                                public void onLetterPop() {
-                                    if (mAnagramListener != null) {
-                                        mAnagramListener.onAnagramPop();
-                                    }
-                                }
 
-                                @Override
-                                public void onLetterVanish() {
-                                    if (mAnagramListener != null) {
-                                        mAnagramListener.onAnagramVanish();
-                                    }
-                                }
-                            });
                     return true;
                 }
             });
+    }
+
+    private void setLetterStartDelay() {
+        int colCount = 3;
+        int[] colDelays = { 2, 1, 2 };
+        int row = 0;
+        int col = 0;
+        for (LetterViewHolder viewHolder : mAllViews) {
+            LetterView item = viewHolder.itemView;
+            item.setAnimationDelay(row * 50 + colDelays[col] * 20);
+
+            col++;
+            if (col == colCount) {
+                col = 0;
+                row++;
+            }
+        }
     }
 
     private String getMarkedLetters() {
@@ -87,6 +113,14 @@ public class AnagramView extends AbsAnagramView2 {
             sb.append(mAnagram.getLetter(i));
         }
         return sb.toString();
+    }
+
+    @Override
+    public void setAnagram(Anagram anagram) {
+        super.setAnagram(anagram);
+        // make sure its the last item to animate
+        ((LetterView)getLastAnimatedView())
+            .setAnimationListener(mLetterAnimationListener);
     }
 
     public void vanishLetters() {
@@ -99,6 +133,13 @@ public class AnagramView extends AbsAnagramView2 {
     public void popLetters() {
         for (LetterViewHolder viewHolder : mAllViews) {
             viewHolder.itemView.pop();
+        }
+    }
+
+    public void shakeMarkedLetters() {
+        for (int i : mMarkedLetters) {
+            LetterView item = (LetterView) getChildAt(i);
+            item.shake();
         }
     }
 
@@ -131,7 +172,7 @@ public class AnagramView extends AbsAnagramView2 {
 
         switch (event.getAction()) {
         case MotionEvent.ACTION_MOVE:
-            int size = mAllViews.size();
+            int size = mAnagram.size();
             for (int i = 0; i < size; i++) {
                 LetterViewHolder viewHolder = mAllViews.get(i);
                 LetterView item = viewHolder.itemView;

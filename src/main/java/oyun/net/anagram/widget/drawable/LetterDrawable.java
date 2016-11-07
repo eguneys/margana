@@ -70,7 +70,7 @@ public class LetterDrawable extends Drawable
     private int mTextColor;
     private int mTextShadow;
 
-    private String mLetter;
+    private String mLetter = "";
 
     private Paint mPaint;
     private Paint mShadowPaint;

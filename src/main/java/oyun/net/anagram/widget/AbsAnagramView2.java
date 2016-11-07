@@ -22,7 +22,7 @@ public abstract class AbsAnagramView2 extends GridLayout {
 
     private int mSpacing;
 
-    private int mChildCount = 7;
+    private int mChildCount;
 
     protected Anagram mAnagram;
 
@@ -44,12 +44,13 @@ public abstract class AbsAnagramView2 extends GridLayout {
     }
 
     private void init() {
+        int MAX_CHILD = 9;
         mSpacing = (int) getContext().getResources().getDimension(R.dimen.spacing_nano);
         setColumnCount(3);
 
         mAllViews = new ArrayList<LetterViewHolder>();
 
-        for (int i = 0; i < mChildCount; i++) {
+        for (int i = 0; i < MAX_CHILD; i++) {
             LetterView child = createLetterView();
             mAllViews.add(new LetterViewHolder(child));
             addView(child, child.getLayoutParams());
@@ -85,6 +86,7 @@ public abstract class AbsAnagramView2 extends GridLayout {
 
     public void setAnagram(Anagram anagram) {
         mAnagram = anagram;
+        setLastAnimatedView();
 
         int size = anagram.size();
         for (int i = 0; i < size; i++) {
@@ -93,7 +95,7 @@ public abstract class AbsAnagramView2 extends GridLayout {
         }
         for (int i = size; i < getChildCount(); i++) {
             LetterView child = mAllViews.get(i).itemView;
-            child.setVisibility(View.GONE);
+            child.setVisibility(View.INVISIBLE);
         }
         for (int i = 0; i < size; i++) {
             LetterView child = mAllViews.get(i).itemView;
@@ -101,8 +103,12 @@ public abstract class AbsAnagramView2 extends GridLayout {
         }
     }
 
+    private void setLastAnimatedView() {
+        mChildCount = mAnagram.size() - 1;
+    }
+
     protected View getLastAnimatedView() {
-        return getChildAt(mAnagram.size() - 1);
+        return getChildAt(mChildCount);
     }
 
     protected class LetterViewHolder {

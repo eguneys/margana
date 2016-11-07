@@ -55,13 +55,13 @@ public class LetterView extends View {
                 @Override
                 public void onLetterPop() {
                     if (LetterView.this.mAnimationListener != null) {
-                        LetterView.this.mAnimationListener.onLetterPop();
+                        LetterView.this.mAnimationListener.onLetterPop(LetterView.this);
                     }
                 }
                 @Override
                 public void onLetterVanish() {
                     if (LetterView.this.mAnimationListener != null) {
-                        LetterView.this.mAnimationListener.onLetterVanish();
+                        LetterView.this.mAnimationListener.onLetterVanish(LetterView.this);
                     }
                 }
             });
@@ -127,7 +127,7 @@ public class LetterView extends View {
     }
 
     public interface LetterAnimationListener {
-        public void onLetterPop();
-        public void onLetterVanish();
+        public void onLetterPop(LetterView v);
+        public void onLetterVanish(LetterView v);
     }
 }
