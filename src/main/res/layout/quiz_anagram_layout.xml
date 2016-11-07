@@ -7,10 +7,10 @@
 
   <TextView
       android:id="@+id/marked_letters"
-      android:layout_width="match_parent"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_alignParentTop="true"
-      android:gravity="center"
+      android:layout_centerHorizontal="true"
       android:textColor="@color/text_light"
       android:textSize="@dimen/title_text_size"
       android:paddingBottom="@dimen/spacing_micro"
@@ -35,6 +35,28 @@
       android:contentDescription="@string/shuffle"
       android:background="@drawable/bg_home"
       android:src="@drawable/ic_refresh"
+      />
+
+  <TextView
+      android:id="@+id/anagram_score_text"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignRight="@id/anagram_content"
+      android:layout_alignBaseline="@id/marked_letters"
+      android:gravity="center"
+      android:textColor="@color/text_light"
+      android:textSize="@dimen/big_text_size"
+      />
+
+  <oyun.net.anagram.widget.ScoreTextView
+      android:id="@+id/anagram_score_poptext"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_toLeftOf="@id/anagram_score_text"
+      android:layout_alignBaseline="@id/marked_letters"
+      android:gravity="center"
+      android:textColor="@color/theme_red_accent"
+      android:textSize="@dimen/title_text_size"
       />
 
   <LinearLayout

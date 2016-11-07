@@ -18,18 +18,25 @@ import oyun.net.anagram.model.quiz.Quiz;
 import oyun.net.anagram.model.quiz.AnagramQuiz;
 import oyun.net.anagram.adapter.AnagramAdapter;
 import oyun.net.anagram.widget.AnagramView;
+import oyun.net.anagram.widget.ScoreTextView;
 import oyun.net.anagram.helper.TimerHelper;
 
 public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
 
     private final int MarkedLettersFadeDelay = 1000;
+    private final String ScoreFormatText = "%1$02d";
 
+    private int mAnagramScore;
+    
     private int mNextAnagramIndex = 0;
     private AnagramView mAnagramView;
 
     private TextView mMarkedLetters;
     private TextView mTimerText;
     private TextView mTimerDeciText;
+
+    private TextView mScoreText;
+    private ScoreTextView mScorePopText;
 
     private TimerHelper mTimerHelper;
 
@@ -93,6 +100,10 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
                 });
     }
 
+    private void updateAnagramScore() {
+        mScoreText.setText(String.format(ScoreFormatText, mAnagramScore));
+    }
+
     @Override
     protected View createQuizContentView() {
 
@@ -106,6 +117,11 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
 
         mTimerText = (TextView)rootView.findViewById(R.id.timer_text);
         mTimerDeciText = (TextView)rootView.findViewById(R.id.timer_deci_text);
+
+        mScoreText = (TextView)rootView.findViewById(R.id.anagram_score_text);
+        mScorePopText = (ScoreTextView)rootView.findViewById(R.id.anagram_score_poptext);
+
+        updateAnagramScore();
 
         mMarkedLetters = (TextView) rootView.findViewById(R.id.marked_letters);
 
@@ -128,6 +144,15 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
                         if (vanishIfSolved) {
                             setNextAnagram();
                             mAnagramView.vanishLetters();
+                            int score = markedAnagram.length();
+                            if (mScorePopText.isAnimating()) {
+                                mScorePopText.doublePop(score);
+                            } else {
+                                mScorePopText.pop(score);
+                            }
+
+                            mAnagramScore += score;
+                            updateAnagramScore();
                         } else {
                             mAnagramView.shakeMarkedLetters();
                         }
