@@ -18,6 +18,7 @@ import oyun.net.anagram.model.quiz.Quiz;
 import oyun.net.anagram.model.quiz.AnagramQuiz;
 import oyun.net.anagram.adapter.AnagramAdapter;
 import oyun.net.anagram.widget.AnagramView;
+import oyun.net.anagram.helper.TimerHelper;
 
 public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
 
@@ -27,9 +28,30 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
     private AnagramView mAnagramView;
 
     private TextView mMarkedLetters;
+    private TextView mTimerText;
+    private TextView mTimerDeciText;
+
+    private TimerHelper mTimerHelper;
 
     public AnagramQuizView(Context context, Category category, AnagramQuiz quiz) {
         super(context, category, quiz);
+    }
+
+    private void init() {
+        mTimerHelper = new TimerHelper();
+        mTimerHelper.setListener(new TimerHelper.TimerListener() {
+                @Override
+                public void onTimer(int minutes, int seconds, int deciMillis) {
+                    String formatString = minutes==0?
+                        String.format("%1$02d", seconds):
+                        String.format("%1$02d:%2$02d", minutes, seconds);
+
+                    String deciFormat = String.format(".%1$d", deciMillis);
+
+                    mTimerText.setText(formatString);
+                    mTimerDeciText.setText(deciFormat);
+                }
+            });
     }
 
     private boolean checkIfSolved(String markedAnagram) {
@@ -73,12 +95,17 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
 
     @Override
     protected View createQuizContentView() {
-        Anagram nextAnagram = getNextAnagram();
 
+        init();
+
+        Anagram nextAnagram = getNextAnagram();
 
         //mAnagramView = new AnagramView(getContext());
         View rootView = getLayoutInflater()
             .inflate(R.layout.quiz_anagram_layout, this, false);
+
+        mTimerText = (TextView)rootView.findViewById(R.id.timer_text);
+        mTimerDeciText = (TextView)rootView.findViewById(R.id.timer_deci_text);
 
         mMarkedLetters = (TextView) rootView.findViewById(R.id.marked_letters);
 
@@ -86,46 +113,50 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
 
         mAnagramView.setAnagram(nextAnagram);
 
-        mAnagramView.setAnagramListener(new AnagramView.AnagramListener() {
+        mAnagramView
+            .setAnagramListener(new AnagramView.AnagramListener() {
                 
-                @Override
-                public void onLetterMarked(String markedAnagram) {
-                    mMarkedLetters.setText(markedAnagram);
-                    mMarkedLetters.animate().cancel();
-                }
-
-                @Override
-                public void onAnagramMarked(String markedAnagram) {
-                    boolean vanishIfSolved = checkIfSolved(markedAnagram);
-                    if (vanishIfSolved) {
-                        setNextAnagram();
-                        mAnagramView.vanishLetters();
-                    } else {
-                        mAnagramView.shakeMarkedLetters();
+                    @Override
+                    public void onLetterMarked(String markedAnagram) {
+                        mMarkedLetters.setText(markedAnagram);
+                        mMarkedLetters.animate().cancel();
                     }
-                    mAnagramView.clearMarkedLetters();
-                    fadeMarkedLetters();
-                }
 
-                @Override
-                public void onAnagramVanish() {
-                    Anagram nextAnagram = getNextAnagram();
-                    nextAnagramWithTransition(nextAnagram);
-                }
+                    @Override
+                    public void onAnagramMarked(String markedAnagram) {
+                        boolean vanishIfSolved = checkIfSolved(markedAnagram);
+                        if (vanishIfSolved) {
+                            setNextAnagram();
+                            mAnagramView.vanishLetters();
+                        } else {
+                            mAnagramView.shakeMarkedLetters();
+                        }
+                        mAnagramView.clearMarkedLetters();
+                        fadeMarkedLetters();
+                    }
 
-                @Override
-                public void onAnagramPop() {
-                }
-            });
+                    @Override
+                    public void onAnagramVanish() {
+                        Anagram nextAnagram = getNextAnagram();
+                        nextAnagramWithTransition(nextAnagram);
+                    }
 
-        rootView.findViewById(R.id.reload_button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onAnagramPop() {
+                    }
+                });
 
-                @Override
-                public void onClick(View v) {
-                    mAnagramView.vanishLetters();
-                }
+        rootView.findViewById(R.id.reload_button)
+            .setOnClickListener(new View.OnClickListener() {
 
-            });
+                    @Override
+                    public void onClick(View v) {
+                        mAnagramView.vanishLetters();
+                    }
+                });
+
+        mTimerHelper.start();
+
         return rootView;
     }
 }
