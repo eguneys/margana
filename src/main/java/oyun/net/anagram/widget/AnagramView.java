@@ -57,6 +57,8 @@ public class AnagramView extends AbsAnagramView2 {
 
     private List<Integer> mMarkedLetters;
 
+    private boolean mCanInteract;
+
     public AnagramView(Context context) {
         super(context);
         init();
@@ -81,6 +83,7 @@ public class AnagramView extends AbsAnagramView2 {
                 @Override
                 public boolean onPreDraw() {
                     popLetters();
+                    mCanInteract = true;
 
                     ViewTreeObserver obs = AnagramView.this.getViewTreeObserver();
                     obs.removeOnPreDrawListener(this);
@@ -115,6 +118,10 @@ public class AnagramView extends AbsAnagramView2 {
         return sb.toString();
     }
 
+    public void setInteraction(boolean canInteract) {
+        mCanInteract = canInteract;
+    }
+
     @Override
     public void setAnagram(Anagram anagram) {
         super.setAnagram(anagram);
@@ -124,6 +131,9 @@ public class AnagramView extends AbsAnagramView2 {
     }
 
     public void vanishLetters() {
+        if (!mCanInteract) {
+            return;
+        }
         for (LetterViewHolder viewHolder : mAllViews) {
             LetterView item = viewHolder.itemView;
             item.vanish();
@@ -167,6 +177,9 @@ public class AnagramView extends AbsAnagramView2 {
     // http://stackoverflow.com/questions/24251029/android-get-position-listview-in-ontouchlistener
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (!mCanInteract) {
+            return true;
+        }
         int eventX = (int) event.getX();
         int eventY = (int) event.getY();
 

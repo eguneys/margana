@@ -10,14 +10,23 @@ public class Anagram {
 
     private final String mId;
     private final String mAnswer;
-    private final String mQuestion;
+    private String mOrigQuestion;
+    private final List<Character> mQuestionShuffle;
+
+    private String mQuestion;
 
     public Anagram(String id,
                    String question,
                    String answer) {
         mId = id;
+        mOrigQuestion = question;
         mQuestion = question;
         mAnswer = answer;
+
+        mQuestionShuffle = new ArrayList<>();
+        for (char c : mOrigQuestion.toCharArray()) {
+            mQuestionShuffle.add(c);
+        }
     }
 
     public String get(int index) {
@@ -42,6 +51,16 @@ public class Anagram {
 
     public String getQuestion() {
         return mQuestion;
+    }
+
+    public void shuffle() {
+        java.util.Collections.shuffle(mQuestionShuffle);
+
+        StringBuilder sb = new StringBuilder();
+        for (char c : mQuestionShuffle)
+            sb.append(c);
+
+        mQuestion = sb.toString();
     }
 
     public static Anagram createTest(String anagram) {

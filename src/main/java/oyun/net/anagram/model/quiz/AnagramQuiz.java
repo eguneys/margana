@@ -6,8 +6,14 @@ import oyun.net.anagram.model.Anagram;
 
 public class AnagramQuiz extends Quiz<List<Anagram>> {
     
-    public AnagramQuiz(List<Anagram> answer, boolean solved) {
+    private int mTime;
+
+    /*
+     * time required to solve the quiz in seconds
+     */
+    public AnagramQuiz(List<Anagram> answer, int time, boolean solved) {
         super("", answer, solved);
+        mTime = time;
     }
 
     public Anagram get(int idx) {
@@ -20,5 +26,9 @@ public class AnagramQuiz extends Quiz<List<Anagram>> {
 
     public List<Anagram> getAnagrams() {
         return getAnswer();
+    }
+
+    public long getTime() {
+        return mTime;
     }
 }

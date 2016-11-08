@@ -38,6 +38,7 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
     private TextView mScoreText;
     private ScoreTextView mScorePopText;
 
+    private long mTime;
     private TimerHelper mTimerHelper;
 
     public AnagramQuizView(Context context, Category category, AnagramQuiz quiz) {
@@ -45,10 +46,29 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
     }
 
     private void init() {
+        mTime = ((AnagramQuiz)getQuiz()).getTime() * 1000;
+
         mTimerHelper = new TimerHelper();
         mTimerHelper.setListener(new TimerHelper.TimerListener() {
                 @Override
-                public void onTimer(int minutes, int seconds, int deciMillis) {
+                public void onTimeout() {
+                    mAnagramView.setInteraction(false);
+                }
+
+                @Override
+                public boolean onTimer(long elapsed) {
+                    elapsed = mTime - elapsed;
+
+                    if (elapsed <= 0) {
+                        elapsed = 0;
+                    }
+
+                    int deciMillis = (int) (elapsed / 100) % 10;
+                    int seconds = (int) (elapsed / 1000);
+                    int minutes = seconds / 60;
+                    seconds = seconds % 60;
+
+
                     String formatString = minutes==0?
                         String.format("%1$02d", seconds):
                         String.format("%1$02d:%2$02d", minutes, seconds);
@@ -57,8 +77,14 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
 
                     mTimerText.setText(formatString);
                     mTimerDeciText.setText(deciFormat);
+
+                    return elapsed == 0;
                 }
             });
+    }
+
+    private void shuffleAnagram() {
+        getNextAnagram().shuffle();
     }
 
     private boolean checkIfSolved(String markedAnagram) {
@@ -176,6 +202,7 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
 
                     @Override
                     public void onClick(View v) {
+                        shuffleAnagram();
                         mAnagramView.vanishLetters();
                     }
                 });

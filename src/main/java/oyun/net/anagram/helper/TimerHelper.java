@@ -18,13 +18,14 @@ public class TimerHelper implements Runnable {
 
     @Override
     public void run() {
-        int deciMillis = (int) (getMillis() / 100) % 10;
-        int seconds = (int) (getMillis() / 1000);
-        int minutes = seconds / 60;
-        seconds = seconds % 60;
-
+        boolean pendingStop = false;
         if (mListener != null) {
-            mListener.onTimer(minutes, seconds, deciMillis);
+            pendingStop = mListener.onTimer(getMillis());
+
+            if (pendingStop) {
+                mListener.onTimeout();
+                return;
+            }
         }
 
         if (elapsedTime == -1) {
@@ -52,7 +53,8 @@ public class TimerHelper implements Runnable {
     }
 
     public interface TimerListener {
-        public void onTimer(int minutes, int seconds, int deciMillis);
+        public boolean onTimer(long elapsed);
+        public void onTimeout();
     }
 
     public void setListener(TimerListener listener) {
