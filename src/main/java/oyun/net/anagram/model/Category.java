@@ -84,6 +84,14 @@ public class Category {
         return mQuizzes;
     }
 
+    public boolean isSolved() {
+        return mSolved;
+    }
+
+    public void setSolved(boolean solved) {
+        this.mSolved = solved;
+    }
+
     public int getFirstUnsolvedQuizPosition() {
         if (mQuizzes == null) {
             return -1;

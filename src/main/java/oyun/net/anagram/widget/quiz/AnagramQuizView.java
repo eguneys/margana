@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import oyun.net.anagram.R;
+import oyun.net.anagram.activity.QuizActivity;
+
 import oyun.net.anagram.model.Category;
 import oyun.net.anagram.model.Anagram;
 import oyun.net.anagram.model.quiz.Quiz;
@@ -96,14 +98,12 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
         return ((AnagramQuiz)getQuiz()).get(mNextAnagramIndex);
     }
 
-    private void setNextAnagram() {
+    private boolean setNextAnagram() {
+        if (mNextAnagramIndex >= ((AnagramQuiz)getQuiz()).size() - 1) {
+            return false;
+        }
         mNextAnagramIndex++;
-        mNextAnagramIndex = mNextAnagramIndex % ((AnagramQuiz)getQuiz()).size();
-    }
-
-    private Anagram withSetGetNextAnagram() {
-        setNextAnagram();
-        return getNextAnagram();
+        return true;
     }
 
     private void nextAnagramWithTransition(Anagram nextAnagram) {
@@ -126,8 +126,25 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
                 });
     }
 
+    private void updateAnagramScoreWithMarked(int score) {
+        if (mScorePopText.isAnimating()) {
+            mScorePopText.doublePop(score);
+        } else {
+            mScorePopText.pop(score);
+        }
+
+        mAnagramScore += score;
+
+        updateAnagramScore();
+    }
+
     private void updateAnagramScore() {
         mScoreText.setText(String.format(ScoreFormatText, mAnagramScore));
+    }
+
+    private void markQuizSolved() {
+        AnagramQuiz mQuiz = (AnagramQuiz)getQuiz();
+        mQuiz.setSolved(true);
     }
 
     @Override
@@ -168,17 +185,17 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
                     public void onAnagramMarked(String markedAnagram) {
                         boolean vanishIfSolved = checkIfSolved(markedAnagram);
                         if (vanishIfSolved) {
-                            setNextAnagram();
-                            mAnagramView.vanishLetters();
-                            int score = markedAnagram.length();
-                            if (mScorePopText.isAnimating()) {
-                                mScorePopText.doublePop(score);
-                            } else {
-                                mScorePopText.pop(score);
+                            updateAnagramScoreWithMarked(markedAnagram.length());
+
+                            if (!setNextAnagram()) {
+                                mTimerHelper.stop();
+                                mAnagramView.setInteraction(false);
+                                markQuizSolved();
+                                ((QuizActivity)getContext()).proceed();
+                                return;
                             }
 
-                            mAnagramScore += score;
-                            updateAnagramScore();
+                            mAnagramView.vanishLetters();
                         } else {
                             mAnagramView.shakeMarkedLetters();
                         }

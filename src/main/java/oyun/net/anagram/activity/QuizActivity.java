@@ -273,4 +273,8 @@ public class QuizActivity extends AppCompatActivity
         ((ImageView)mNavigateMenu).setImageResource(R.drawable.ic_arrow_back);
         mNavigateMenu.setOnClickListener(mOnClickListener);
     }
+
+    public void proceed() {
+        mQuizFragment.showSummary();
+    }
 }

@@ -10,7 +10,7 @@ import android.support.v4.view.animation.FastOutSlowInInterpolator;
 
 import android.support.design.widget.FloatingActionButton;
 
-
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import oyun.net.anagram.R;
 import oyun.net.anagram.model.Category;
+import oyun.net.anagram.model.Theme;
 import oyun.net.anagram.model.quiz.Quiz;
 
 import oyun.net.anagram.adapter.QuizAdapter;
@@ -64,7 +65,12 @@ public class QuizFragment extends Fragment
                              Bundle savedInstanceState) {
         // Create a themed Context and custom LayoutInflater
         // to get nicely themed views in this fragment
-        final View contentView = inflater.inflate(R.layout.fragment_quiz, container, false);
+        final Theme theme = mCategory.getTheme();
+        final ContextThemeWrapper context = new ContextThemeWrapper(getActivity(),
+                                                                theme.getStyleId());
+        final LayoutInflater themedInflater = LayoutInflater.from(context);
+
+        final View contentView = themedInflater.inflate(R.layout.fragment_quiz, container, false);
         return contentView;
     }
 
@@ -88,8 +94,9 @@ public class QuizFragment extends Fragment
     }
 
     private void decideOnViewToDisplay() {
-        final boolean isSolved = false;
+        final boolean isSolved = mCategory.isSolved();
         if (isSolved) {
+            showSummary();
         } else {
             mQuizView.setAdapter(getQuizAdapter());
         }
@@ -116,5 +123,9 @@ public class QuizFragment extends Fragment
             mQuizAdapter = new QuizAdapter(getActivity(), mCategory);
         }
         return mQuizAdapter;
+    }
+
+    public void showSummary() {
+        mQuizView.setVisibility(View.GONE);
     }
 }
