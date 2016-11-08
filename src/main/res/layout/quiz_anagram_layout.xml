@@ -21,8 +21,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_centerHorizontal="true"
-      android:layout_below="@id/marked_letters"
-      android:background="@color/theme_red_accent"/>
+      android:layout_below="@id/marked_letters"/>
 
   <ImageButton
       android:id="@+id/reload_button"

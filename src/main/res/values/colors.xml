@@ -1,30 +1,125 @@
 <resources>
+  <color name="pink_50">#ffffff</color>
+  <color name="pink_100">#fffdfd</color>
+  <color name="pink_200">#ffc5d8</color>
+  <color name="pink_300">#ff7da9</color>
+  <color name="pink_400">#ff5f95</color>
+  <color name="pink_500">#ff4081</color>
+  <color name="pink_600">#ff216d</color>
+  <color name="pink_700">#ff0359</color>
+  <color name="pink_800">#e3004d</color>
+  <color name="pink_900">#c50043</color>
+  <color name="pink_A100">#ffffff</color>
+  <color name="pink_A200">#fffdfd</color>
+  <color name="pink_A400">#ff5f95</color>
+  <color name="pink_A700">#ff0359</color>
+  <color name="red_50">#fff0f0</color>
+  <color name="red_100">#ffa4a5</color>
+  <color name="red_200">#ff6c6e</color>
+  <color name="red_300">#ff2428</color>
+  <color name="red_400">#ff060a</color>
+  <color name="red_500">#e60004</color>
+  <color name="red_600">#c70003</color>
+  <color name="red_700">#a90003</color>
+  <color name="red_800">#8a0002</color>
+  <color name="red_900">#6c0002</color>
+  <color name="red_A100">#fff0f0</color>
+  <color name="red_A200">#ffa4a5</color>
+  <color name="red_A400">#ff060a</color>
+  <color name="red_A700">#a90003</color>
+  <color name="orange_50">#fffaf5</color>
+  <color name="orange_100">#fecfaa</color>
+  <color name="orange_200">#fdb072</color>
+  <color name="orange_300">#fc892c</color>
+  <color name="orange_400">#fc780e</color>
+  <color name="orange_500">#e86903</color>
+  <color name="orange_600">#ca5b03</color>
+  <color name="orange_700">#ac4e02</color>
+  <color name="orange_800">#8d4002</color>
+  <color name="orange_900">#6f3201</color>
+  <color name="orange_A100">#fffaf5</color>
+  <color name="orange_A200">#fecfaa</color>
+  <color name="orange_A400">#fc780e</color>
+  <color name="orange_A700">#ac4e02</color>
+  <color name="yellow_50">#fffdf3</color>
+  <color name="yellow_100">#fdeea8</color>
+  <color name="yellow_200">#fbe371</color>
+  <color name="yellow_300">#f9d62c</color>
+  <color name="yellow_400">#f9d00e</color>
+  <color name="yellow_500">#e2bc06</color>
+  <color name="yellow_600">#c4a305</color>
+  <color name="yellow_700">#a68a04</color>
+  <color name="yellow_800">#897204</color>
+  <color name="yellow_900">#6b5903</color>
+  <color name="yellow_A100">#fffdf3</color>
+  <color name="yellow_A200">#fdeea8</color>
+  <color name="yellow_A400">#f9d00e</color>
+  <color name="yellow_A700">#a68a04</color>
+  <color name="lime_50">#fdfced</color>
+  <color name="lime_100">#f4efa9</color>
+  <color name="lime_200">#ede677</color>
+  <color name="lime_300">#e5db38</color>
+  <color name="lime_400">#e1d61e</color>
+  <color name="lime_500">#c6bc1a</color>
+  <color name="lime_600">#aba216</color>
+  <color name="lime_700">#908913</color>
+  <color name="lime_800">#756f0f</color>
+  <color name="lime_900">#5a550c</color>
+  <color name="lime_A100">#fdfced</color>
+  <color name="lime_A200">#f4efa9</color>
+  <color name="lime_A400">#e1d61e</color>
+  <color name="lime_A700">#908913</color>
+  <color name="green_50">#fafdf5</color>
+  <color name="green_100">#d9f2b4</color>
+  <color name="green_200">#c2e984</color>
+  <color name="green_300">#a3df48</color>
+  <color name="green_400">#96da2e</color>
+  <color name="green_500">#86c623</color>
+  <color name="green_600">#74ac1e</color>
+  <color name="green_700">#63921a</color>
+  <color name="green_800">#517815</color>
+  <color name="green_900">#405e11</color>
+  <color name="green_A100">#fafdf5</color>
+  <color name="green_A200">#d9f2b4</color>
+  <color name="green_A400">#96da2e</color>
+  <color name="green_A700">#63921a</color>
+
+
   <color name="touch_effect">#9ccc</color>
 
-  <color name="anagram_primary">#00bad2</color>
-  <color name="anagram_primary_dark">#00a3b8</color>
-  <color name="anagram_blank">#424242</color>
-  <color name="anagram_accent">#3F51B5</color>
+  <color name="anagram_background">@color/pink_100</color>
+  <color name="anagram_primary">@color/pink_500</color>
+  <color name="anagram_primary_dark">@color/pink_600</color>
+  <color name="anagram_accent">@color/yellow_A400</color>
+  <color name="anagram_blank">@color/pink_50</color>
+  <color name="anagram_text">@color/pink_A100</color>
 
-  <color name="text_light">@android:color/white</color>
+  <color name="text_light">#ffffff</color>
   <color name="text_dark">#616161</color>
 
-  <color name="theme_red_background">#ff8a80</color>
-  <color name="theme_red_primary">#ff5252</color>
-  <color name="theme_red_primary_dark">#e64a4a</color>
-  <color name="theme_red_accent">#fffc19</color>
+  <color name="theme_red_background">#2b2d42</color>
+  <color name="theme_red_primary">#e71d36</color>
+  <color name="theme_red_primary_dark">#d90429</color>
+  <color name="theme_red_accent">#ffc61c</color>
   <color name="theme_red_text">@color/text_light</color>
-    
-  <color name="letter_background">#722f2d</color>
-  <color name="letter_shadow">#361817</color>
-  <color name="letter_text">#ffffff</color>
-  <color name="letter_text_shadow">#bfe8e8</color>
-  <color name="letter_text_shadow2">#cccccc</color>
 
-  <color name="light_button">#ffdbd7</color>
-  <color name="light_button_shadow">#ffc4be</color>
-  <color name="button">#ce7268</color>
-  <color name="button_shadow">#b24a3f</color>
+
+
+  <color name="letter_background">#00a8e8</color>
+  <color name="letter_shadow">#007ea7</color>
+  <color name="letter_text">@color/text_light</color>
+  <color name="letter_text_shadow">#efd9ce</color>
+    
+  <!-- <color name="letter_background">#722f2d</color> -->
+  <!-- <color name="letter_shadow">#361817</color> -->
+  <!-- <color name="letter_text">#ffffff</color> -->
+  <!-- <color name="letter_text_shadow">#bfe8e8</color> -->
+  <!-- <color name="letter_text_shadow2">#cccccc</color> -->
+
+  <color name="light_button">@color/yellow_200</color>
+  <color name="light_button_shadow">@color/yellow_300</color>
+  <color name="button">@color/anagram_primary</color>
+  <color name="button_shadow">@color/anagram_primary_dark</color>
 
   <color name="light_grey">#f5f5f5</color>
 </resources>

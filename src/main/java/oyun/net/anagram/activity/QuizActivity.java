@@ -236,7 +236,7 @@ public class QuizActivity extends AppCompatActivity
             finish();
         }
         mCategory = AnagramDatabaseHelper.getCategoryWith(this, categoryId);
-        setTheme(mCategory.getTheme().getStyle());
+        setTheme(mCategory.getTheme().getStyleId());
         initLayout();
         initToolbar(mCategory);
 

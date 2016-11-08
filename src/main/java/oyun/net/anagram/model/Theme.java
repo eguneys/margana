@@ -4,14 +4,14 @@ import oyun.net.anagram.R;
 
 public enum Theme {
     anagram(R.color.anagram_primary,
+            R.color.anagram_background,
             R.color.anagram_primary_dark,
-            R.color.theme_red_background,
-            R.color.theme_red_text,
+            R.color.anagram_text,
             R.color.anagram_accent,
             R.style.Anagram),
     red(R.color.theme_red_primary,
-        R.color.theme_red_primary_dark,
         R.color.theme_red_background,
+        R.color.theme_red_primary_dark,
         R.color.theme_red_text,
         R.color.theme_red_accent,
         R.style.Anagram_Red);
@@ -58,7 +58,7 @@ public enum Theme {
         return mAccentColorId;
     }
 
-    public int getStyle() {
+    public int getStyleId() {
         return mStyleId;
     }
 

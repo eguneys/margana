@@ -11,6 +11,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.view.animation.Interpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.AnticipateOvershootInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.CycleInterpolator;
@@ -39,6 +40,7 @@ public class LetterDrawable extends Drawable
 
     private final int VanishScaleAnimationDelay = 50;
 
+    private static final float MIN_MARK_SCALE = 0.9f;
     private static final int MAX_VANISH_ROTATE = 8 * 2;
     private static final int MAX_SHAKE_ROTATE = 8;
     private static final int SHADOW_DELTA = 4 * 2;
@@ -46,7 +48,7 @@ public class LetterDrawable extends Drawable
     private static final Interpolator MarkInterpolator = new DecelerateInterpolator();
     private static final Interpolator ShakeInterpolator = new CycleInterpolator(3);
     private static final Interpolator VanishInterpolator = new DecelerateInterpolator();
-    private static final Interpolator PopInterpolator = new AccelerateInterpolator();
+    private static final Interpolator PopInterpolator = new DecelerateInterpolator();
     private static final Interpolator MarkScaleInterpolator = new BounceInterpolator();
 
     private AnimationListener mAnimationListener;
@@ -94,11 +96,12 @@ public class LetterDrawable extends Drawable
     }
 
     private void initPaints() {
-        mAlphaPaint = new Paint(Paint.ANTI_ALIAS_FLAG |
-                                Paint.FILTER_BITMAP_FLAG |
-                                Paint.DITHER_FLAG);
+        int AFD_FLAG = Paint.ANTI_ALIAS_FLAG |
+            Paint.FILTER_BITMAP_FLAG |
+            Paint.DITHER_FLAG;
+        mAlphaPaint = new Paint(AFD_FLAG);
         
-        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaint = new Paint(AFD_FLAG);
         mPaint.setStyle(Paint.Style.FILL);
 
         mShadowPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -113,7 +116,7 @@ public class LetterDrawable extends Drawable
     }
 
     private void initAnimations() {
-        ObjectAnimator markScaleAnimator = ObjectAnimator.ofFloat(this, SCALE_PROGRESS, 0.8f, 1f);
+        ObjectAnimator markScaleAnimator = ObjectAnimator.ofFloat(this, SCALE_PROGRESS, MIN_MARK_SCALE, 1f);
         markScaleAnimator.setInterpolator(MarkScaleInterpolator);
 
         mMarkAnimatorSet = new AnimatorSet();
