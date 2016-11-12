@@ -18,5 +18,5 @@
 
 [ ] "Cannot perform this action after onsaveinstance". Press back twice quickly.
 [ ] center grid view
-[ ] anagram word size boundary
+[ ] anagram word size boundary >3 <10
 [ ] loading on db populate

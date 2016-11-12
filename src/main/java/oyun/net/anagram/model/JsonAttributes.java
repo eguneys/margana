@@ -14,6 +14,7 @@ public interface JsonAttributes {
     String SCORES = "scores";
     String SOLVED = "solved";
     String WORD = "word";
+    String WORD_LENGTH = "length";
 
     interface QuizType {
         String ANAGRAM_QUIZ = "anagram-quiz";

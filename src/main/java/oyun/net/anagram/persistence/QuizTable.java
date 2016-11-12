@@ -10,13 +10,15 @@ public interface QuizTable {
     String FK_CATEGORY = "fk_category";
     String COLUMN_TYPE = "type";
     String COLUMN_TIME = "time";
+    String COLUMN_LENGTH = "wLength";
     String COLUMN_SOLVED = "solved";
 
     String[] PROJECTION = new String[]{ COLUMN_ID,
                                         FK_CATEGORY,
                                         COLUMN_TYPE,
                                         COLUMN_SOLVED,
-                                        COLUMN_TIME
+                                        COLUMN_TIME,
+                                        COLUMN_LENGTH
     };
 
     String CREATE = "CREATE TABLE " + NAME + " ("
@@ -25,7 +27,8 @@ public interface QuizTable {
         + CategoryTable.NAME + "(" + CategoryTable.COLUMN_ID + "), "
         + COLUMN_TYPE + " TEXT NOT NULL, "
         + COLUMN_SOLVED + " TEXT, "
-        + COLUMN_TIME + " INTEGER NOT NULL "
+        + COLUMN_TIME + " INTEGER NOT NULL, "
+        + COLUMN_LENGTH + " INTEGER NOT NULL "
         + ");";
 
 }

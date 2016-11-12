@@ -123,10 +123,11 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         final String type = cursor.getString(2);
         final boolean solved = getBooleanFromDatabase(cursor.getString(3));
         final int time = cursor.getInt(4);
+        final int wordLength = cursor.getInt(5);
 
         switch (type) {
         case JsonAttributes.QuizType.ANAGRAM_QUIZ: {
-            return createAnagramQuiz(readableDatabase, time);
+            return createAnagramQuiz(readableDatabase, time, wordLength);
         }
         default: {
             throw new IllegalArgumentException("Quiz type " + type + " is not supported");
@@ -134,28 +135,32 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    private static Quiz createAnagramQuiz(SQLiteDatabase readableDatabase, int time) {
-        final List<Anagram> anagrams = getRandomUnsolvedAnagrams(readableDatabase);
+    private static Quiz createAnagramQuiz(SQLiteDatabase readableDatabase, int time, int wordLength) {
+        final List<Anagram> anagrams = getRandomUnsolvedAnagrams(readableDatabase, wordLength);
 
-        return new AnagramQuiz(anagrams, time, false);
+        return new AnagramQuiz(anagrams, time, wordLength, false);
     }
 
 
     // http://stackoverflow.com/questions/1253561/sqlite-order-by-rand
-    private static List<Anagram> getRandomUnsolvedAnagrams(SQLiteDatabase readableDatabase) {
+    private static List<Anagram> getRandomUnsolvedAnagrams(SQLiteDatabase readableDatabase, int anagramLength) {
         final List<Anagram> anagrams = new ArrayList<>();
 
         String orderBy = "";
         String limit = "10";
         String queryString = "SELECT * FROM " + AnagramTable.NAME + " WHERE "
             + AnagramTable.COLUMN_ID + " IN "
-            + "(SELECT " + AnagramTable.COLUMN_ID + " FROM "
-            + AnagramTable.NAME + " ORDER BY RANDOM() LIMIT ?" +  ")"
+            + "(SELECT " + AnagramTable.COLUMN_ID + " FROM " + AnagramTable.NAME
+            + filterByAnagramLength(anagramLength)
+            + " ORDER BY RANDOM() LIMIT ?" +  ")"
             + "AND " + AnagramTable.FK_QUIZ + " IS NULL";
         // queryString = "SELECT * FROM anagram LIMIT ?";
+        Log.e("YYY getrand", queryString);
         final Cursor cursor = readableDatabase
             .rawQuery(queryString,
-                      new String[] { limit });
+                      new String[] {
+                          limit
+                      });
 
         while (cursor.moveToNext()) {
             final Anagram anagram = getAnagram(cursor);
@@ -163,6 +168,13 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         }
 
         return anagrams;
+    }
+
+    private static String filterByAnagramLength(int anagramLength) {
+        if (anagramLength == -1) {
+            return "";
+        }
+        return " WHERE LENGTH(" + AnagramTable.COLUMN_QUESTION + ") = " + anagramLength;
     }
 
     private static Anagram getAnagram(Cursor cursor) {
@@ -292,6 +304,7 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
             values.put(QuizTable.FK_CATEGORY, categoryId);
             values.put(QuizTable.COLUMN_TYPE, quiz.getString(JsonAttributes.TYPE));
             values.put(QuizTable.COLUMN_TIME, quiz.getString(JsonAttributes.TIME));
+            values.put(QuizTable.COLUMN_LENGTH, quiz.getString(JsonAttributes.WORD_LENGTH));
             db.insert(QuizTable.NAME, null, values);
         }
     }

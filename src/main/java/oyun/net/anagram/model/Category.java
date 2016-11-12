@@ -22,7 +22,7 @@ public class Category {
                                              Anagram.createTest("kablocu")));
 
     private static final List<Quiz> defaultQuizzes =
-        new ArrayList<Quiz>(Arrays.asList(new AnagramQuiz(defaultAnagrams, 120, false)));
+        new ArrayList<Quiz>(Arrays.asList(new AnagramQuiz(defaultAnagrams, 120, 7, false)));
 
     public static final Category DEFAULT = new Category("defaultCategory",
                                                         "1",
@@ -54,7 +54,6 @@ public class Category {
     private final Theme mTheme;
     private final List<Quiz> mQuizzes;
     private boolean mSolved;
-
 
     public Category(String name,
                     String id,

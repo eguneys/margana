@@ -95,7 +95,7 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
     }
 
     private Anagram getNextAnagram() {
-        return ((AnagramQuiz)getQuiz()).get(mNextAnagramIndex);
+         return ((AnagramQuiz)getQuiz()).get(mNextAnagramIndex);
     }
 
     private boolean setNextAnagram() {
@@ -153,6 +153,7 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
         init();
 
         Anagram nextAnagram = getNextAnagram();
+        Log.e("YYY createQuiz", nextAnagram.getQuestion());
 
         //mAnagramView = new AnagramView(getContext());
         View rootView = getLayoutInflater()

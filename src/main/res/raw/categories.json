@@ -1,23 +1,85 @@
 [
   {
     "name": "4",
-    "id": "4letter",
+    "id": "4",
     "theme": "red",
     "quizzes": [
       {
         "type": "anagram-quiz",
-        "time": "120"
+        "time": "120",
+        "length": 4
+      }
+    ]
+  },
+  {
+    "name": "5",
+    "id": "5",
+    "theme": "red",
+    "quizzes": [
+      {
+        "type": "anagram-quiz",
+        "time": "120",
+        "length": 5
+      }
+    ]
+  },
+  {
+    "name": "6",
+    "id": "6",
+    "theme": "red",
+    "quizzes": [
+      {
+        "type": "anagram-quiz",
+        "time": "120",
+        "length": 6
       }
     ]
   },
   {
     "name": "7",
-    "id": "7letter",
+    "id": "7",
     "theme": "red",
     "quizzes": [
       {
         "type": "anagram-quiz",
-        "time": "120"
+        "time": "120",
+        "length": 7
+      }
+    ]
+  },
+  {
+    "name": "8",
+    "id": "8",
+    "theme": "red",
+    "quizzes": [
+      {
+        "type": "anagram-quiz",
+        "time": "120",
+        "length": 8
+      }
+    ]
+  },
+  {
+    "name": "9",
+    "id": "9",
+    "theme": "red",
+    "quizzes": [
+      {
+        "type": "anagram-quiz",
+        "time": "120",
+        "length": 9
+      }
+    ]
+  },
+  {
+    "name": "mixed",
+    "id": "10",
+    "theme": "red",
+    "quizzes": [
+      {
+        "type": "anagram-quiz",
+        "time": "120",
+        "length": -1
       }
     ]
   }
