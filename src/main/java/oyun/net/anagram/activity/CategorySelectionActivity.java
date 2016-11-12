@@ -24,9 +24,11 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.LinearLayoutManager;
 
 import oyun.net.anagram.R;
 import oyun.net.anagram.model.Category;
+import oyun.net.anagram.adapter.CategoryAdapter;
 
 import oyun.net.anagram.fragment.CategorySelectionFragment;
 
@@ -44,6 +46,7 @@ public class CategorySelectionActivity extends AppCompatActivity
                 }
             }
         };
+
 
     private View mNavigateMenu;
 
@@ -68,8 +71,16 @@ public class CategorySelectionActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             attachCategoryGridFragment();
         }
+
         supportPostponeEnterTransition();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startEnterTransition();
+    }
+
 
     @Override
     public void onPause() {
@@ -79,30 +90,88 @@ public class CategorySelectionActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+        animateVanishStart(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    CategorySelectionActivity.super.onBackPressed();
+                }
+            }, false);
+    }
+
+    public void startEnterTransition() {
+        final RecyclerView mCategoriesView = (RecyclerView)findViewById(R.id.categories);
+
+        // http://stackoverflow.com/questions/24989218/get-visible-items-in-recyclerview
+        final LinearLayoutManager mCategoriesLayout = (LinearLayoutManager)mCategoriesView.getLayoutManager();
+
+        final int firstIndex = mCategoriesLayout.findFirstVisibleItemPosition();
+        final int lastIndex = mCategoriesLayout.findLastVisibleItemPosition();
+        int lPivotY;
+        int lStartDelay;
+
+        for (int i = firstIndex; i <= lastIndex && i > -1; i++) {
+            // RecyclerView.ViewHolder holder = mCategoriesView.findViewHolderForAdapterPosition(i);
+            //View view = holder.itemView;
+            View view = mCategoriesLayout.findViewByPosition(i);
+
+            int startDelay = i - firstIndex;
+
+            view.setPivotY(view.getHeight());
+            view.setScaleY(0);
+            view.animate()
+                .scaleY(1)
+                .setDuration(CategoryAdapter.ANIM_DURATION)
+                .setStartDelay(startDelay * CategoryAdapter.ANIM_DELAY)
+                .start();
+        }
+    }
+
+    // returns the last animator
+    private void animateVanishStart(final AnimatorListenerAdapter lastAnimatorListener, boolean directionDown) {
         final RecyclerView mCategoriesView = (RecyclerView)findViewById(R.id.categories);
         // http://stackoverflow.com/questions/24989218/get-visible-items-in-recyclerview
-        final int lastIndex = mCategoriesView.getChildCount();
-        for (int i = 0; i < lastIndex; i++) {
-            View v = mCategoriesView.findViewHolderForAdapterPosition(i).itemView;
-            v.setPivotY(0);
+        final LinearLayoutManager mCategoriesLayout = (LinearLayoutManager)mCategoriesView.getLayoutManager();
+
+        final int firstIndex = mCategoriesLayout.findFirstVisibleItemPosition();
+        final int lastIndex = mCategoriesLayout.findLastVisibleItemPosition();
+        int lPivotY;
+        int lStartDelay;
+
+        for (int i = firstIndex; i <= lastIndex; i++) {
+            RecyclerView.ViewHolder holder = mCategoriesView.findViewHolderForAdapterPosition(i);
+            View v = holder.itemView;
+
+            if (directionDown) {
+                lPivotY = v.getHeight();
+                lStartDelay = i - firstIndex;
+            } else {
+                lPivotY = 0;
+                lStartDelay = lastIndex - i;
+            }
+
+            v.setPivotY(lPivotY);
+
             final ViewPropertyAnimator animator = v
                 .animate()
                 .scaleY(0)
-                .setDuration(200)
-                .setStartDelay((lastIndex - i) * 150);
-
-            if (i == lastIndex - 1) {
-                animator.setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator anim) {
-                            animator.setListener(null);
-                            CategorySelectionActivity.super.onBackPressed();
-                        }
-                    });
-            }
+                .setDuration(CategoryAdapter.ANIM_DURATION)
+                .setStartDelay(lStartDelay * CategoryAdapter.ANIM_DELAY);
 
             animator.start();
         }
+
+        mCategoriesView
+            .animate()
+            .translationY(100 * (directionDown ? 1 : -1))
+            .setDuration(CategoryAdapter.ANIM_DURATION)
+            .setListener(new AnimatorListenerAdapter() {
+                    public void onAnimationEnd(Animator animator) {
+                        animator.removeListener(this);
+                        mCategoriesView.setTranslationY(0);
+                        lastAnimatorListener.onAnimationEnd(animator);
+                    }
+                })
+            .start();
     }
 
     private void setUpToolbar() {
@@ -122,8 +191,13 @@ public class CategorySelectionActivity extends AppCompatActivity
             .commit();
     }
 
-    public void startQuizActivityWithTransition(Category category) {
-        startQuizActivity(category);
+    public void startQuizActivityWithTransition(final Category category) {
+        animateVanishStart(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    startQuizActivity(category);
+                }
+            }, true);
     }
 
     private void startQuizActivity(Category category) {

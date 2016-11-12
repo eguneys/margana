@@ -26,12 +26,17 @@ import oyun.net.anagram.widget.LetterView;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
+    public static final int ANIM_DURATION = 200;
+    public static final int ANIM_DELAY = 25;
+
     private OnItemClickListener mOnItemClickListener;
 
     private final Activity mActivity;
     private List<Category> mCategories;
 
     private final LayoutInflater mLayoutInflater;
+
+    private int mLastAnimatedPosition;
 
     public CategoryAdapter(Activity activity) {
         mActivity = activity;
@@ -82,12 +87,17 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     }
 
     private void setScaleAnimation(View view, int position) {
+        if (position <= mLastAnimatedPosition) {
+            return;
+        }
+        mLastAnimatedPosition = position;
+
         view.setPivotY(view.getHeight());
         view.setScaleY(0);
         view.animate()
             .scaleY(1)
-            .setDuration(200)
-            .setStartDelay(position * 150)
+            .setDuration(ANIM_DURATION)
+            .setStartDelay(position * ANIM_DELAY)
             .start();
     }
 

@@ -59,7 +59,7 @@ public class CategorySelectionFragment extends Fragment
 
     private void setupCategories(final RecyclerView categoriesView) {
         final int spacing = getContext().getResources()
-            .getDimensionPixelSize(R.dimen.spacing_double);
+            .getDimensionPixelSize(R.dimen.spacing_micro);
         categoriesView.addItemDecoration(new OffsetDecoration(spacing));
 
         mAdapter = new CategoryAdapter(getActivity());

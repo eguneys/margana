@@ -5,7 +5,7 @@
   <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/category_item"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/size_fab"
+                android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:foreground="@drawable/selector_subtle"
                 android:orientation="horizontal"
@@ -19,9 +19,8 @@
         android:elevation="@dimen/elevation_header"
         android:gravity="center"
         android:textColor="@android:color/black"
-        android:paddingLeft="@dimen/spacing_double"
-        android:paddingRight="@dimen/spacing_double"
-        android:clipToPadding="false"
+        android:textSize="@dimen/big_text_size"
+        android:padding="@dimen/spacing_double"
         />
   </LinearLayout>
 </layout>
