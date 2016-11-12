@@ -25,22 +25,22 @@ public class Category {
         new ArrayList<Quiz>(Arrays.asList(new AnagramQuiz(defaultAnagrams, 120, false)));
 
     public static final Category DEFAULT = new Category("defaultCategory",
-                                                                 "1",
-                                                                 Theme.anagram,
-                                                                 defaultQuizzes,
-                                                                 false);
+                                                        "1",
+                                                        Theme.anagram,
+                                                        defaultQuizzes,
+                                                        false);
 
     public static final Category RED = new Category("Red",
-                                                                 "2",
-                                                                 Theme.red,
-                                                                 defaultQuizzes,
-                                                                 false);
+                                                    "2",
+                                                    Theme.red,
+                                                    defaultQuizzes,
+                                                    false);
 
     public static final Category FOUR = new Category("four",
-                                                      "4",
-                                                      Theme.red,
-                                                      defaultQuizzes,
-                                                      false);
+                                                     "4",
+                                                     Theme.red,
+                                                     defaultQuizzes,
+                                                     false);
 
     public static final Category SEVEN = new Category("seven",
                                                       "7",
@@ -55,6 +55,13 @@ public class Category {
     private final List<Quiz> mQuizzes;
     private boolean mSolved;
 
+
+    public Category(String name,
+                    String id,
+                    Theme theme,
+                    List<Quiz> quizzes) {
+        this(name, id, theme, quizzes, false);
+    }
 
     public Category(String name,
                     String id,

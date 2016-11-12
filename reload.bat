@@ -1,1 +1,2 @@
-gradlew assembleDebug && ainstall.bat
+gradlew assembleDebug && ainstall.bat && dbremove.bat
+

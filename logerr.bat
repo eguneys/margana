@@ -1,1 +1,1 @@
-adb logcat | grep E/AndroidRuntime
+adb logcat | grep E/

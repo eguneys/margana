@@ -1,0 +1,24 @@
+[
+  {
+    "name": "4",
+    "id": "4letter",
+    "theme": "red",
+    "quizzes": [
+      {
+        "type": "anagram-quiz",
+        "time": "120"
+      }
+    ]
+  },
+  {
+    "name": "7",
+    "id": "7letter",
+    "theme": "red",
+    "quizzes": [
+      {
+        "type": "anagram-quiz",
+        "time": "120"
+      }
+    ]
+  }
+]
