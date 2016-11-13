@@ -33,6 +33,16 @@
           android:scaleX="0.7"
           android:scaleY="0.7"
           />
+
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_gravity="center"
+          android:textColor="@color/text_light"
+          android:textSize="@dimen/big_text_size"
+          android:text="Something"
+          />
+
         <FrameLayout
           android:id="@+id/quiz_fragment_container"
           android:layout_width="match_parent"

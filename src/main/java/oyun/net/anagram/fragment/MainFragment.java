@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import oyun.net.anagram.R;
 import oyun.net.anagram.activity.HomeSelectionActivity;
+import oyun.net.anagram.persistence.AnagramDatabaseHelper;
 
 public class MainFragment extends Fragment
 {
@@ -34,6 +35,8 @@ public class MainFragment extends Fragment
         //         .replace(R.id.main_container, MainFragment.newInstance(false))
         //         .commit();
         // }
+        AnagramDatabaseHelper.initDb(getActivity());
+
         super.onCreate(savedInstanceState);
     }
 

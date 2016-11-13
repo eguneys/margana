@@ -57,6 +57,10 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         return mInstance;
     }
 
+    public static void initDb(Context context) {
+        SQLiteDatabase readableDatabase = getReadableDatabase(context);
+    }
+
     public static List<Category> getCategories(Context context, boolean fromDb) {
         if (mCategories == null || fromDb) {
             mCategories = loadCategories(context);
