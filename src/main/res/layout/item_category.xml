@@ -17,8 +17,19 @@
         android:layout_height="match_parent"
         style="@style/Anagram.TextAppearance.ListItem"
         android:elevation="@dimen/elevation_header"
-        android:gravity="center"
-        android:textColor="@android:color/black"
+        android:gravity="left|center_vertical"
+        android:textColor="@color/text_dark"
+        android:textSize="@dimen/big_text_size"
+        android:padding="@dimen/spacing_double"
+        />
+    <TextView
+        android:id="@+id/category_nbItems"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="@style/Anagram.TextAppearance.ListItem"
+        android:elevation="@dimen/elevation_header"
+        android:gravity="right|center_vertical"
+        android:textColor="@color/text_light"
         android:textSize="@dimen/big_text_size"
         android:padding="@dimen/spacing_double"
         />

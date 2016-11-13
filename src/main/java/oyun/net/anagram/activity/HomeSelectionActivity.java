@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.AsyncTask;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -20,6 +21,7 @@ import android.support.v7.widget.Toolbar;
 
 import oyun.net.anagram.R;
 import oyun.net.anagram.model.Category;
+import oyun.net.anagram.persistence.AnagramDatabaseHelper;
 
 import oyun.net.anagram.fragment.HomeSelectionFragment;
 
@@ -110,5 +112,17 @@ public class HomeSelectionActivity extends AppCompatActivity
                                               transitionBundle);
         // disable animation
         overridePendingTransition(0, 0);
+    }
+
+
+    private class FillDatabaseAsyncTask extends AsyncTask<Void, Void, Void>  {
+        @Override
+        protected Void doInBackground(Void... params) {
+            AnagramDatabaseHelper.getCategories(HomeSelectionActivity.this, true);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {}
     }
 }

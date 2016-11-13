@@ -2,6 +2,7 @@ package oyun.net.anagram.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.ActivityCompat;
@@ -16,6 +17,7 @@ import android.support.v7.widget.RecyclerView;
 
 import android.support.design.widget.FloatingActionButton;
 
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +27,8 @@ import oyun.net.anagram.R;
 import oyun.net.anagram.activity.CategorySelectionActivity;
 import oyun.net.anagram.activity.QuizActivity;
 
-import oyun.net.anagram.adapter.CategoryAdapter;
 import oyun.net.anagram.model.Category;
+import oyun.net.anagram.adapter.CategoryAdapter;
 
 import oyun.net.anagram.widget.OffsetDecoration;
 
@@ -54,6 +56,7 @@ public class CategorySelectionFragment extends Fragment
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mCategoriesView = (RecyclerView)view.findViewById(R.id.categories);
         setupCategories(mCategoriesView);
+
         super.onViewCreated(view, savedInstanceState);
     }
 

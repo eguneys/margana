@@ -172,7 +172,8 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
 
     private static String filterByAnagramLength(int anagramLength) {
         if (anagramLength == -1) {
-            return "";
+            return " WHERE LENGTH(" + AnagramTable.COLUMN_QUESTION + ") > 3 AND "
+                + "LENGTH(" + AnagramTable.COLUMN_QUESTION + ") < 10";
         }
         return " WHERE LENGTH(" + AnagramTable.COLUMN_QUESTION + ") = " + anagramLength;
     }
