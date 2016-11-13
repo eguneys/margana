@@ -9,6 +9,7 @@
     <string name="profile">Profile</string>
     <string name="quiz_of_quizzes">%1$s / %2$s</string>
     <string name="loading">Loading...</string>
+    <string name="congratz">Congratulations!</string>
 
     <string name="nbLetters">%1$s letters</string>
 </resources>

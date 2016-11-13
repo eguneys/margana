@@ -1,0 +1,1 @@
+reload.bat && dbremove.bat

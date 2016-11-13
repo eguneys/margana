@@ -2,6 +2,8 @@ package oyun.net.anagram.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.AsyncTask;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
@@ -35,8 +37,7 @@ public class MainFragment extends Fragment
         //         .replace(R.id.main_container, MainFragment.newInstance(false))
         //         .commit();
         // }
-        AnagramDatabaseHelper.initDb(getActivity());
-
+        new InitDbTask().execute();
         super.onCreate(savedInstanceState);
     }
 
@@ -93,5 +94,18 @@ public class MainFragment extends Fragment
         HomeSelectionActivity.start(activity);
         activity.finish();
         return;
+    }
+
+    private class InitDbTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        public Void doInBackground(Void... params) {
+            AnagramDatabaseHelper.initDb(getActivity());
+            return null;
+        }
+
+        @Override
+        public void onPostExecute(Void params) {
+            performSignInWithTransition();
+        }
     }
 }

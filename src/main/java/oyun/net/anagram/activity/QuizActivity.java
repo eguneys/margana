@@ -38,6 +38,8 @@ import oyun.net.anagram.helper.ApiLevelHelper;
 import oyun.net.anagram.helper.ViewUtils;
 import oyun.net.anagram.persistence.AnagramDatabaseHelper;
 
+import oyun.net.anagram.widget.AnagramSummaryView;
+
 public class QuizActivity extends AppCompatActivity
 {
 
@@ -49,6 +51,8 @@ public class QuizActivity extends AppCompatActivity
 
     private Interpolator mInterpolator;
     private QuizFragment mQuizFragment;
+
+    private AnagramSummaryView mAnagramSummary;
 
     private Animator mCircularReveal;
     private ObjectAnimator mColorChange;
@@ -201,7 +205,7 @@ public class QuizActivity extends AppCompatActivity
         mCircularReveal.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    mIcon.setVisibility(View.GONE);
+                    // mIcon.setVisibility(View.GONE);
                     mCircularReveal.removeListener(this);
                 }
             });
@@ -249,6 +253,8 @@ public class QuizActivity extends AppCompatActivity
     private void initLayout() {
         setContentView(R.layout.activity_quiz);
 
+        mAnagramSummary = (AnagramSummaryView) findViewById(R.id.anagram_summary);
+
         // mIcon = (ImageView) findViewById(R.id.icon);
         // int resId = getResources().getIdentifier("image_category_play", "drawable",
         //                                          getApplicationContext().getPackageName());
@@ -275,6 +281,8 @@ public class QuizActivity extends AppCompatActivity
     }
 
     public void proceed() {
-        mQuizFragment.showSummary();
+        // mQuizFragment.showSummary();
+        mAnagramSummary.setVisibility(View.VISIBLE);
+        mAnagramSummary.animateSummary();
     }
 }
