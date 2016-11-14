@@ -17,8 +17,8 @@
 ## Bugs
 
   [ ] "Cannot perform this action after onsaveinstance". Press back twice quickly.
-  [ ] center grid view
-  [ ] anagram word size boundary >3 <10
   [ ] loading on db populate
-  [ ] all categories prefetch anagrams
   [ ] summary layout
+  [x] center grid view
+  [x] anagram word size boundary >3 <10
+  [x] all categories prefetch anagrams

@@ -1,6 +1,7 @@
 package oyun.net.anagram.model.quiz;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import oyun.net.anagram.model.Anagram;
 
@@ -8,6 +9,10 @@ public class AnagramQuiz extends Quiz<List<Anagram>> {
     
     private int mTime;
     private int mNbWords;
+
+    public AnagramQuiz(int time, int nbWords, boolean solved) {
+        this(new ArrayList<Anagram>(), time, nbWords, solved);
+    }    
 
     /*
      * time required to solve the quiz in seconds
@@ -28,6 +33,10 @@ public class AnagramQuiz extends Quiz<List<Anagram>> {
 
     public List<Anagram> getAnagrams() {
         return getAnswer();
+    }
+
+    public void addAnagrams(List<Anagram> anagrams) {
+        getAnswer().addAll(anagrams);
     }
 
     public long getTime() {

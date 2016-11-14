@@ -22,6 +22,7 @@ import oyun.net.anagram.R;
 import oyun.net.anagram.model.Category;
 import oyun.net.anagram.model.Theme;
 import oyun.net.anagram.model.quiz.Quiz;
+import oyun.net.anagram.model.quiz.AnagramQuiz;
 
 import oyun.net.anagram.adapter.QuizAdapter;
 import oyun.net.anagram.helper.ApiLevelHelper;
@@ -56,7 +57,8 @@ public class QuizFragment extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         String categoryId = getArguments().getString(Category.TAG);
-        mCategory = AnagramDatabaseHelper.getCategoryWith(getActivity(), categoryId);
+        mCategory = AnagramDatabaseHelper.getCategoryById(getActivity(), categoryId);
+        populateCategoryWithAnagrams();
         super.onCreate(savedInstanceState);
     }
 
@@ -81,6 +83,11 @@ public class QuizFragment extends Fragment
         setQuizViewAnimations();
         initProgressToolbar(view);
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    private void populateCategoryWithAnagrams() {
+        AnagramQuiz quiz = (AnagramQuiz)mCategory.getFirstQuiz();
+        quiz.addAnagrams(AnagramDatabaseHelper.getRandomUnsolvedAnagrams(getActivity(), quiz.getLength(), 10));
     }
 
     private void initProgressToolbar(View view) {
@@ -122,6 +129,7 @@ public class QuizFragment extends Fragment
         if (null == mQuizAdapter) {
             mQuizAdapter = new QuizAdapter(getActivity(), mCategory);
         }
+
         return mQuizAdapter;
     }
 

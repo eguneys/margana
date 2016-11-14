@@ -90,6 +90,10 @@ public class Category {
         return mQuizzes;
     }
 
+    public Quiz getFirstQuiz() {
+        return getQuizzes().get(0);
+    }
+
     public boolean isSolved() {
         return mSolved;
     }

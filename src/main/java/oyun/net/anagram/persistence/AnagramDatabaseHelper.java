@@ -68,7 +68,7 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         return mCategories;
     }
 
-    public static Category getCategoryWith(Context context, String categoryId) {
+    public static Category getCategoryById(Context context, String categoryId) {
         SQLiteDatabase readableDatabase = getReadableDatabase(context);
         Cursor data = readableDatabase
             .query(CategoryTable.NAME, CategoryTable.PROJECTION,
@@ -98,6 +98,14 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
             .query(CategoryTable.NAME, CategoryTable.PROJECTION, null, null, null, null, null);
         return data;
     }
+
+    // private static Category getCategoryWithRandomAnagrams(Cursor cursor, SQLiteDatabase readableDatabase) {
+    //     Category cat = getCategory(cursor, readableDatabase);
+    //     AnagramQuiz quiz = ((AnagramQuiz)cat.getFirstQuiz());
+    //     quiz.addAnagrams(getRandomUnsolvedAnagrams(readableDatabase, quiz.getLength(), 10));
+
+    //     return cat;
+    // }
 
     private static Category getCategory(Cursor cursor, SQLiteDatabase readableDatabase) {
         final String id = cursor.getString(0);
@@ -140,14 +148,13 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
     }
 
     private static Quiz createAnagramQuiz(SQLiteDatabase readableDatabase, int time, int wordLength) {
-        final List<Anagram> anagrams = getRandomUnsolvedAnagrams(readableDatabase, wordLength, 10);
-
-        return new AnagramQuiz(anagrams, time, wordLength, false);
+        return new AnagramQuiz(time, wordLength, false);
     }
 
 
     // http://stackoverflow.com/questions/1253561/sqlite-order-by-rand
-    public static List<Anagram> getRandomUnsolvedAnagrams(SQLiteDatabase readableDatabase, int anagramLength, int limit) {
+    public static List<Anagram> getRandomUnsolvedAnagrams(Context context, int anagramLength, int limit) {
+        SQLiteDatabase readableDatabase = getReadableDatabase(context);
         final List<Anagram> anagrams = new ArrayList<>();
 
         String orderBy = "";

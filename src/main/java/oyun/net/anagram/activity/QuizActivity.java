@@ -239,7 +239,7 @@ public class QuizActivity extends AppCompatActivity
             Log.w(TAG, "Didn't find a category. Finishing");
             finish();
         }
-        mCategory = AnagramDatabaseHelper.getCategoryWith(this, categoryId);
+        mCategory = AnagramDatabaseHelper.getCategoryById(this, categoryId);
         setTheme(mCategory.getTheme().getStyleId());
         initLayout();
         initToolbar(mCategory);
