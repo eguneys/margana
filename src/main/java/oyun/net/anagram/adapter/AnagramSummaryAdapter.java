@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import oyun.net.anagram.R;
 import oyun.net.anagram.model.Anagram;
+import oyun.net.anagram.helper.ResourceUtil;
 
 public class AnagramSummaryAdapter extends BaseAdapter {
 
@@ -47,7 +48,10 @@ public class AnagramSummaryAdapter extends BaseAdapter {
         final Anagram anagram = getItem(position);
 
         TextView anagramTitle = (TextView) convertView.findViewById(R.id.anagram_title);
+        TextView anagramSolveTime = (TextView) convertView.findViewById(R.id.anagram_solve_time);
         anagramTitle.setText(anagram.getQuestion());
+
+        anagramSolveTime.setText(formatSolveTime(anagram.getSolveTime()));
 
         return convertView;
     }
@@ -55,5 +59,12 @@ public class AnagramSummaryAdapter extends BaseAdapter {
     private View createView(ViewGroup parent) {
         return LayoutInflater.from(mContext)
             .inflate(R.layout.item_anagram_summary, parent, false);
+    }
+
+    private String formatSolveTime(int seconds) {
+        int minutes = seconds / 60;
+        seconds = seconds % 60;
+
+        return String.format("%1$02d:%2$02d", minutes, seconds);
     }
 }

@@ -10,18 +10,23 @@ public class Anagram {
 
     private final String mId;
     private final String mAnswer;
+    private final String mMeaning;
     private String mOrigQuestion;
     private final List<Character> mQuestionShuffle;
 
     private String mQuestion;
 
+    private int mSolveTime;
+
     public Anagram(String id,
                    String question,
-                   String answer) {
+                   String answer,
+                   String meaning) {
         mId = id;
         mOrigQuestion = question;
         mQuestion = question;
         mAnswer = answer;
+        mMeaning = meaning;
 
         mQuestionShuffle = new ArrayList<>();
         for (char c : mOrigQuestion.toCharArray()) {
@@ -53,6 +58,18 @@ public class Anagram {
         return mQuestion;
     }
 
+    public String getMeaning() {
+        return mMeaning;
+    }
+
+    public int getSolveTime() {
+        return mSolveTime;
+    }
+
+    public void setSolveTime(int time) {
+        mSolveTime = time;
+    }
+
     public void shuffle() {
         java.util.Collections.shuffle(mQuestionShuffle);
 
@@ -64,6 +81,6 @@ public class Anagram {
     }
 
     public static Anagram createTest(String anagram) {
-        return new Anagram("", new StringBuilder(anagram).reverse().toString(), anagram);
+        return new Anagram("", new StringBuilder(anagram).reverse().toString(), anagram, "");
     }
 }

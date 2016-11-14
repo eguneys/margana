@@ -20,3 +20,5 @@
   [ ] center grid view
   [ ] anagram word size boundary >3 <10
   [ ] loading on db populate
+  [ ] all categories prefetch anagrams
+  [ ] summary layout

@@ -31,7 +31,7 @@
   <TextView
       android:id="@+id/anagram_meaning"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
+      android:layout_height="0dp"
       android:layout_weight="1"
       android:padding="@dimen/spacing_normal"
       android:background="@drawable/bg_list"

@@ -11,5 +11,6 @@
     <string name="loading">Loading...</string>
     <string name="congratz">Congratulations!</string>
 
+    <string name="nbSolveTime">%1s</string>
     <string name="nbLetters">%1$s letters</string>
 </resources>

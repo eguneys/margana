@@ -175,7 +175,7 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
 
 
         // debug
-        ((QuizActivity)getContext()).proceed(getCategory());
+        // ((QuizActivity)getContext()).proceed(getCategory());
 
         mAnagramView
             .setAnagramListener(new AnagramView.AnagramListener() {
@@ -191,6 +191,11 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
                         boolean vanishIfSolved = checkIfSolved(markedAnagram);
                         if (vanishIfSolved) {
                             updateAnagramScoreWithMarked(markedAnagram.length());
+                            
+                            Anagram solvedAnagram = getNextAnagram();
+                            
+                            solvedAnagram.setSolveTime((int)mTimerHelper.getLapTime() / 1000);
+                            mTimerHelper.lap();
 
                             if (!setNextAnagram()) {
                                 mTimerHelper.stop();

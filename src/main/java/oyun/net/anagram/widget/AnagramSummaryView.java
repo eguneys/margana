@@ -105,7 +105,7 @@ public class AnagramSummaryView extends LinearLayout {
     private void selectAnagramAtAdapterPosition(int position) {
         Anagram anagram = mAnagramsAdapter.getItem(position);
         mAnagramTitle.setText(anagram.getAnswer());
-        mAnagramMeaning.setText(anagram.getAnswer());
+        mAnagramMeaning.setText(anagram.getMeaning());
     }
 
     public void setCategory(Category category) {

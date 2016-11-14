@@ -12,6 +12,7 @@ public class TimerHelper implements Runnable {
 
     private volatile long startTime;
     private volatile long elapsedTime;
+    private volatile long lastLapTime;
 
     public TimerHelper() {}
 
@@ -36,12 +37,21 @@ public class TimerHelper implements Runnable {
     public void start() {
         this.startTime = now();
         this.elapsedTime = -1;
+        this.lastLapTime = now();
         handler.post(this);
     }
 
     public void stop() {
         this.elapsedTime = now() - startTime;
         handler.removeCallbacks(this);
+    }
+
+    public void lap() {
+        this.lastLapTime = now();
+    }
+
+    public long getLapTime() {
+        return now() - this.lastLapTime;
     }
 
     private long getMillis() {

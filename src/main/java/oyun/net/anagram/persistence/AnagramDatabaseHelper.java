@@ -140,18 +140,17 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
     }
 
     private static Quiz createAnagramQuiz(SQLiteDatabase readableDatabase, int time, int wordLength) {
-        final List<Anagram> anagrams = getRandomUnsolvedAnagrams(readableDatabase, wordLength);
+        final List<Anagram> anagrams = getRandomUnsolvedAnagrams(readableDatabase, wordLength, 10);
 
         return new AnagramQuiz(anagrams, time, wordLength, false);
     }
 
 
     // http://stackoverflow.com/questions/1253561/sqlite-order-by-rand
-    private static List<Anagram> getRandomUnsolvedAnagrams(SQLiteDatabase readableDatabase, int anagramLength) {
+    public static List<Anagram> getRandomUnsolvedAnagrams(SQLiteDatabase readableDatabase, int anagramLength, int limit) {
         final List<Anagram> anagrams = new ArrayList<>();
 
         String orderBy = "";
-        String limit = "10";
         String queryString = "SELECT * FROM " + AnagramTable.NAME + " WHERE "
             + AnagramTable.COLUMN_ID + " IN "
             + "(SELECT " + AnagramTable.COLUMN_ID + " FROM " + AnagramTable.NAME
@@ -163,7 +162,7 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         final Cursor cursor = readableDatabase
             .rawQuery(queryString,
                       new String[] {
-                          limit
+                          limit + ""
                       });
 
         while (cursor.moveToNext()) {
@@ -188,7 +187,7 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         final String answer = cursor.getString(3);
         final String meaning = cursor.getString(4);
 
-        return new Anagram(id, question, answer);
+        return new Anagram(id, question, answer, meaning);
     }
 
     private static boolean getBooleanFromDatabase(String isSolved) {
