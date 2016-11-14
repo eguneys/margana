@@ -17,14 +17,15 @@
       android:layout_weight="1"
       android:layout_marginTop="@dimen/spacing_normal"
       android:layout_marginBottom="@dimen/spacing_normal"
-      android:background="@color/anagram_blank"
+      android:background="@drawable/bg_list"
       />
   <TextView
       android:id="@+id/anagram_title"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:paddingLeft="@dimen/spacing_normal"
-      android:background="@color/anagram_blank"
+      android:layout_marginBottom="-4dp"
+      android:padding="@dimen/spacing_normal"
+      android:background="@drawable/bg_list2"
       android:textColor="@color/letter_background"
       android:textSize="@dimen/title_text_size"/>
   <TextView
@@ -32,8 +33,8 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_weight="1"
-      android:paddingLeft="@dimen/spacing_normal"
-      android:background="@color/anagram_blank"
+      android:padding="@dimen/spacing_normal"
+      android:background="@drawable/bg_list"
       android:textColor="@color/text_dark"
       android:textSize="@dimen/list_item_text_size"/>
 </merge>
