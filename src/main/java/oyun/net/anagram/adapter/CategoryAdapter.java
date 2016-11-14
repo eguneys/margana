@@ -71,10 +71,21 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         Category category = getItem(position);
         binding.setCategory(category);
         binding.executePendingBindings();
-        binding.categoryTitle
-            .setText(ResourceUtil.getDynamicString(mActivity,
-                                                   R.string.nbLetters,
-                                                   category.getId()));
+
+        String catId = category.getId();
+
+        if (catId == "10") {
+            binding.categoryTitle.setText(R.string.mixed);
+        } else {
+            binding.categoryTitle
+                .setText(ResourceUtil.getDynamicString(mActivity,
+                                                       R.string.nbLetters,
+                                                       category.getId()));
+
+            binding.categoryNbItems
+                .setText(String.format("%1$d/%2$d", category.getNbSolved(), category.getNbTotal()));
+
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

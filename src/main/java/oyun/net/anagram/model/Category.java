@@ -55,23 +55,45 @@ public class Category {
     private final List<Quiz> mQuizzes;
     private boolean mSolved;
 
-    public Category(String name,
-                    String id,
-                    Theme theme,
-                    List<Quiz> quizzes) {
-        this(name, id, theme, quizzes, false);
-    }
+    private int mWordLength;
+
+    private int mNbUnsolved;
+    private int mNbSolved;
 
     public Category(String name,
                     String id,
                     Theme theme,
                     List<Quiz> quizzes,
                     boolean solved) {
+        this(name, id, theme, quizzes, solved, -1, 0, 0);
+    }
+
+    public Category(String name,
+                    String id,
+                    Theme theme,
+                    List<Quiz> quizzes,
+                    int wordLength,
+                    int nbSolved,
+                    int nbUnsolved) {
+        this(name, id, theme, quizzes, false, wordLength, nbSolved, nbUnsolved);
+    }
+
+    public Category(String name,
+                    String id,
+                    Theme theme,
+                    List<Quiz> quizzes,
+                    boolean solved,
+                    int wordLength,
+                    int nbSolved,
+                    int nbUnsolved) {
         mName = name;
         mId = id;
         mTheme = theme;
         mQuizzes = quizzes;
         mSolved = solved;
+        mWordLength = wordLength;
+        mNbSolved = nbSolved;
+        mNbUnsolved = nbUnsolved;
     }
 
     public String getName() {
@@ -88,6 +110,17 @@ public class Category {
 
     public List<Quiz> getQuizzes() {
         return mQuizzes;
+    }
+
+    public int getNbUnsolved() {
+        return mNbUnsolved;
+    }
+
+    public int getNbSolved() {
+        return mNbSolved;
+    }
+    public int getNbTotal() {
+        return mNbUnsolved + mNbSolved;
     }
 
     public Quiz getFirstQuiz() {

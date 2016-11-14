@@ -111,11 +111,14 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         final String id = cursor.getString(0);
         final String name = cursor.getString(1);
         final String themeName = cursor.getString(2);
+        final int wordLength = cursor.getInt(3);
         final List<Quiz> quizzes = getQuizzes(id, readableDatabase);
+        final int nbUnsolved = getUnsolvedAnagramsCountByLength(readableDatabase, wordLength);
+        final int nbSolved = getSolvedAnagramsCountByLength(readableDatabase, wordLength);
 
         final Theme theme = Theme.valueOf(themeName);
 
-        return new Category(name, id, theme, quizzes);
+        return new Category(name, id, theme, quizzes, wordLength, nbSolved, nbUnsolved);
     }
 
     private static List<Quiz> getQuizzes(final String categoryId, SQLiteDatabase database) {
@@ -164,8 +167,6 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
             + filterByAnagramLength(anagramLength)
             + " ORDER BY RANDOM() LIMIT ?" +  ")"
             + "AND " + AnagramTable.FK_QUIZ + " IS NULL";
-        // queryString = "SELECT * FROM anagram LIMIT ?";
-        Log.e("YYY getrand", queryString);
         final Cursor cursor = readableDatabase
             .rawQuery(queryString,
                       new String[] {
@@ -178,6 +179,37 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         }
 
         return anagrams;
+    }
+
+    private static int getSolvedAnagramsCountByLength(SQLiteDatabase readableDatabase, int anagramLength) {
+        final String queryString = "SELECT COUNT(*) FROM " + AnagramTable.NAME
+            + filterByAnagramLength(anagramLength)
+            + " AND " + selectAnagramSolved();
+
+        return readFromQueryInt(readableDatabase, queryString);
+    }
+
+    private static int getUnsolvedAnagramsCountByLength(SQLiteDatabase readableDatabase, int anagramLength) {
+        final String queryString = "SELECT COUNT(*) FROM " + AnagramTable.NAME
+            + filterByAnagramLength(anagramLength)
+            + " AND " + selectAnagramUnsolved();
+
+        return readFromQueryInt(readableDatabase, queryString);
+    }
+
+    private static int readFromQueryInt(SQLiteDatabase readableDatabase, String queryString) {
+        final Cursor cursor = readableDatabase
+            .rawQuery(queryString, new String[] {});
+        cursor.moveToFirst();
+        return cursor.getInt(0);
+    }
+
+    private static String selectAnagramSolved() {
+        return AnagramTable.FK_QUIZ + " IS NOT NULL";
+    }
+
+    private static String selectAnagramUnsolved() {
+        return AnagramTable.FK_QUIZ + " IS NULL";
     }
 
     private static String filterByAnagramLength(int anagramLength) {
@@ -303,6 +335,11 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         values.put(CategoryTable.COLUMN_ID, categoryId);
         values.put(CategoryTable.COLUMN_NAME, category.getString(JsonAttributes.NAME));
         values.put(CategoryTable.COLUMN_THEME, category.getString(JsonAttributes.THEME));
+
+        String nbWord = category.getString(JsonAttributes.NB_WORD);
+        if (nbWord != null| nbWord != "-1") {
+            values.put(CategoryTable.COLUMN_NB_WORD, nbWord);
+        }
         db.insert(CategoryTable.NAME, null, values);
     }
 

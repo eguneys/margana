@@ -3,6 +3,7 @@
     "name": "4",
     "id": "4",
     "theme": "red",
+    "length": 4,
     "quizzes": [
       {
         "type": "anagram-quiz",
@@ -15,6 +16,7 @@
     "name": "5",
     "id": "5",
     "theme": "red",
+    "length": 5,
     "quizzes": [
       {
         "type": "anagram-quiz",
@@ -27,6 +29,7 @@
     "name": "6",
     "id": "6",
     "theme": "red",
+    "length": 6,
     "quizzes": [
       {
         "type": "anagram-quiz",
@@ -39,6 +42,7 @@
     "name": "7",
     "id": "7",
     "theme": "red",
+    "length": 7,
     "quizzes": [
       {
         "type": "anagram-quiz",
@@ -51,6 +55,7 @@
     "name": "8",
     "id": "8",
     "theme": "red",
+    "length": 8,
     "quizzes": [
       {
         "type": "anagram-quiz",
@@ -63,6 +68,7 @@
     "name": "9",
     "id": "9",
     "theme": "red",
+    "length": 9,
     "quizzes": [
       {
         "type": "anagram-quiz",
@@ -75,6 +81,7 @@
     "name": "mixed",
     "id": "10",
     "theme": "red",
+    "length": -1,
     "quizzes": [
       {
         "type": "anagram-quiz",
