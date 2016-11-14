@@ -173,6 +173,10 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
 
         mAnagramView.setAnagram(nextAnagram);
 
+
+        // debug
+        ((QuizActivity)getContext()).proceed(getCategory());
+
         mAnagramView
             .setAnagramListener(new AnagramView.AnagramListener() {
                 
@@ -192,7 +196,7 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
                                 mTimerHelper.stop();
                                 mAnagramView.setInteraction(false);
                                 markQuizSolved();
-                                ((QuizActivity)getContext()).proceed();
+                                ((QuizActivity)getContext()).proceed(getCategory());
                                 return;
                             }
 

@@ -44,6 +44,8 @@ public class LinesDrawable extends Drawable
     private final float DP_LINES_WIDTH = 30;
     private final float PX_LINES_WIDTH = DP_LINES_WIDTH * mDensity;
 
+    private AnimationListener mAnimationListener;
+
     private AnimatorSet mLinesAnimatorSet;
 
     private float mLinesProgress = 0f;
@@ -89,6 +91,14 @@ public class LinesDrawable extends Drawable
         mLinesAnimatorSet.playTogether(ObjectAnimator.ofFloat(this, LINES_PROGRESS, 1f));
         mLinesAnimatorSet.setDuration(LinesAnimationDuration);
         mLinesAnimatorSet.setInterpolator(LinesInterpolator);
+        mLinesAnimatorSet.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    if (mAnimationListener != null) {
+                        mAnimationListener.onAnimationEnd();
+                    }
+                }
+            });
     }
 
     @Override
@@ -205,4 +215,12 @@ public class LinesDrawable extends Drawable
                 object.setLinesProgress(value);
             }
         };
+
+    public void setAnimationListener(AnimationListener listener) {
+        this.mAnimationListener = listener;
+    }
+
+    public interface AnimationListener {
+        public void onAnimationEnd();
+    }
 }

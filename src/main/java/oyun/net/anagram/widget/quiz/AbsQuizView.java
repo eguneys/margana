@@ -81,6 +81,9 @@ public abstract class AbsQuizView<Q extends Quiz> extends FrameLayout {
 
     protected abstract View createQuizContentView();
 
+    public Category getCategory() {
+        return mCategory;
+    }
 
     public Q getQuiz() {
         return mQuiz;

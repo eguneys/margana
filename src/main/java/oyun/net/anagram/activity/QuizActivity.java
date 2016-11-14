@@ -280,8 +280,9 @@ public class QuizActivity extends AppCompatActivity
         mNavigateMenu.setOnClickListener(mOnClickListener);
     }
 
-    public void proceed() {
+    public void proceed(Category category) {
         // mQuizFragment.showSummary();
+        mAnagramSummary.setCategory(category);
         mAnagramSummary.setVisibility(View.VISIBLE);
         mAnagramSummary.animateSummary();
     }
