@@ -85,6 +85,8 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
                     return elapsed == 0;
                 }
             });
+
+        
     }
 
     private void shuffleAnagram() {
@@ -149,6 +151,10 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
         mQuiz.setSolved(true);
     }
 
+    private void stopAnagramInteraction() {
+        
+    }
+
     @Override
     protected View createQuizContentView() {
 
@@ -204,10 +210,10 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
                             if (!setNextAnagram()) {
                                 mTimerHelper.stop();
                                 mAnagramView.setInteraction(false);
+
                                 markQuizSolved();
                                 getCategory().setSolved(true);
                                 ((QuizActivity)getContext()).proceed(getCategory());
-                                return;
                             }
 
                             mAnagramView.vanishLetters();
@@ -235,9 +241,25 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
 
                     @Override
                     public void onClick(View v) {
-                        shuffleAnagram();
                         mAnagramView.vanishLetters();
                     }
+                });
+
+        rootView.findViewById(R.id.skip_button)
+            .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!setNextAnagram()) {
+                            mTimerHelper.stop();
+                            mAnagramView.setInteraction(false);
+
+                            markQuizSolved();
+                            getCategory().setSolved(true);
+                            ((QuizActivity)getContext()).proceed(getCategory());
+                        }
+
+                        mAnagramView.vanishLetters();
+                    }                    
                 });
 
         mTimerHelper.start();

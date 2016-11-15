@@ -28,12 +28,25 @@
       android:layout_width="@dimen/square_small"
       android:layout_height="@dimen/square_small"
       android:layout_alignParentBottom="true"
-      android:layout_gravity="left"
       android:theme="@style/Anagram.ButtonTheme.PrimaryAction"
       android:elevation="@dimen/elevation_header"
       android:contentDescription="@string/shuffle"
-      android:background="@drawable/bg_home"
+      android:background="@drawable/bg_home_blue"
       android:src="@drawable/ic_refresh"
+      />
+  <ImageButton
+      android:id="@+id/skip_button"
+      android:layout_width="@dimen/square_small"
+      android:layout_height="@dimen/square_small"
+      android:layout_alignTop="@id/reload_button"
+      android:layout_toRightOf="@id/reload_button"
+      android:layout_marginRight="@dimen/spacing_micro"
+      android:layout_marginLeft="@dimen/spacing_micro"
+      android:theme="@style/Anagram.ButtonTheme.PrimaryAction"
+      android:elevation="@dimen/elevation_header"
+      android:contentDescription="@string/skip"
+      android:background="@drawable/bg_home_blue"
+      android:src="@drawable/ic_skip"
       />
 
   <TextView
@@ -61,9 +74,9 @@
   <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/reload_button"
-        android:layout_alignBottom="@id/reload_button"
-        android:layout_alignTop="@id/reload_button"
+        android:layout_toRightOf="@id/skip_button"
+        android:layout_alignBottom="@id/skip_button"
+        android:layout_alignTop="@id/skip_button"
         android:gravity="center"
         android:orientation="horizontal">
     <TextView
