@@ -35,6 +35,9 @@ import android.support.v4.view.animation.PathInterpolatorCompat;
 
 public class LinesDrawable extends Drawable
 {
+    public static final int VERTICAL = 0x02;
+    public static final int HORIZONTAL = 0x03;
+
     private final int LinesAnimationDuration = 600;
 
     private static final Interpolator LinesInterpolator = new DecelerateInterpolator();
@@ -55,6 +58,8 @@ public class LinesDrawable extends Drawable
     private float[] mLinePoints;
     private float[] mLinePointsProgress;
 
+    private int mOrientation;
+
     private int mColor;
 
     private Paint mPaint;
@@ -67,6 +72,7 @@ public class LinesDrawable extends Drawable
 
     public LinesDrawable(int bgColor) {
         mColor = bgColor;
+        mOrientation = VERTICAL;
 
         initPaints();
         initAnimations();
@@ -112,8 +118,6 @@ public class LinesDrawable extends Drawable
         mBounds.top = bounds.top;
         mBounds.bottom = bounds.bottom;
 
-        mNbLines = (int) (height / PX_LINES_WIDTH);
-
         // can't create canvas with 0 size
         if (width > 0 && height > 0) {
             mTempBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
@@ -129,7 +133,18 @@ public class LinesDrawable extends Drawable
     }
 
     private void initLinePoints() {
+        if (mOrientation == HORIZONTAL) {
+            initLinePointsHorizontal();
+        } else {
+            initLinePointsVertical();
+        }
+    }
+
+    private void initLinePointsVertical() {
         float height = mBounds.height();
+
+        mNbLines = (int) (mBounds.width() / PX_LINES_WIDTH) + 5;
+
         mLinePoints = new float[mNbLines * 4];
         mLinePointsProgress = new float[mNbLines * 4];
 
@@ -147,6 +162,33 @@ public class LinesDrawable extends Drawable
             mLinePoints[i * 4 + 1] = odd ? yTop : yBottom;
             mLinePoints[i * 4 + 2] = x1;
             mLinePoints[i * 4 + 3] = odd ? yBottom : yTop;
+        }
+    }
+
+    private void initLinePointsHorizontal() {
+        float width = mBounds.width();
+
+        // tweak for unknown reason
+        mNbLines = (int) (mBounds.height() / PX_LINES_WIDTH) + 5;
+
+        mLinePoints = new float[mNbLines * 4];
+        mLinePointsProgress = new float[mNbLines * 4];
+
+        for (int i = 0; i < mNbLines; i++) {
+
+            boolean odd = i % 2 == 0;
+
+            float x0 = i * 0;
+            float x1 = width;
+            float yTop = i * PX_LINES_WIDTH;
+
+            float yBottom = i * PX_LINES_WIDTH;
+            // float yMiddle = height / 2f;
+
+            mLinePoints[i * 4 + 0] = odd ? x0 : x1;
+            mLinePoints[i * 4 + 1] = yTop;
+            mLinePoints[i * 4 + 2] = odd ? x1 : x0;
+            mLinePoints[i * 4 + 3] = yBottom;
         }
     }
 
@@ -170,6 +212,11 @@ public class LinesDrawable extends Drawable
         return PixelFormat.TRANSLUCENT;
     }
 
+    public void setOrientation(int orientation) {
+        mOrientation = orientation;
+        initLinePoints();
+    }
+
     public void setLinesProgress(float linesProgress) {
         this.mLinesProgress = linesProgress;
         updateLinePoints();
@@ -189,6 +236,14 @@ public class LinesDrawable extends Drawable
     }
 
     private void updateLinePoints() {
+        if (mOrientation == HORIZONTAL) {
+            updateLinePointsHorizontal();
+        } else {
+            updateLinePointsVertical();
+        }
+    }
+
+    private void updateLinePointsVertical() {
         for (int i = 0; i < mNbLines; i++) {
             float x0 = mLinePoints[i * 4 + 0];
             float y0 = mLinePoints[i * 4 + 1];
@@ -199,6 +254,20 @@ public class LinesDrawable extends Drawable
             mLinePointsProgress[i * 4 + 1] = y0;
             mLinePointsProgress[i * 4 + 2] = x1;
             mLinePointsProgress[i * 4 + 3] = y0 + (y1 - y0) * mLinesProgress;
+        }        
+    }
+
+    private void updateLinePointsHorizontal() {
+        for (int i = 0; i < mNbLines; i++) {
+            float x0 = mLinePoints[i * 4 + 0];
+            float y0 = mLinePoints[i * 4 + 1];
+            float x1 = mLinePoints[i * 4 + 2];
+            float y1 = mLinePoints[i * 4 + 3];
+
+            mLinePointsProgress[i * 4 + 0] = x0;
+            mLinePointsProgress[i * 4 + 1] = y0;
+            mLinePointsProgress[i * 4 + 2] = x0 + (x1 - x0) * mLinesProgress;
+            mLinePointsProgress[i * 4 + 3] = y1;
         }        
     }
 

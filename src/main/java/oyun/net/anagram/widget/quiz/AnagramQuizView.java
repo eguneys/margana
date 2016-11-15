@@ -152,6 +152,7 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
 
         init();
 
+        shuffleAnagram();
         Anagram nextAnagram = getNextAnagram();
         Log.e("YYY createQuiz", nextAnagram.getQuestion());
 
@@ -175,6 +176,7 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
 
 
         // debug
+        // getCategory().setSolved(true);
         // ((QuizActivity)getContext()).proceed(getCategory());
 
         mAnagramView
@@ -201,6 +203,7 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
                                 mTimerHelper.stop();
                                 mAnagramView.setInteraction(false);
                                 markQuizSolved();
+                                getCategory().setSolved(true);
                                 ((QuizActivity)getContext()).proceed(getCategory());
                                 return;
                             }
@@ -215,6 +218,7 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
 
                     @Override
                     public void onAnagramVanish() {
+                        shuffleAnagram();
                         Anagram nextAnagram = getNextAnagram();
                         nextAnagramWithTransition(nextAnagram);
                     }

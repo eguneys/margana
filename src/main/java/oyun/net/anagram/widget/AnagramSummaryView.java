@@ -113,6 +113,12 @@ public class AnagramSummaryView extends LinearLayout {
         mAnagramsAdapter = new AnagramSummaryAdapter(getContext(), items);
         mAnagramsList.setAdapter(mAnagramsAdapter);
         selectAnagramAtAdapterPosition(0);
+
+        if (category.isSolved()) {
+            mLinesDrawable.setOrientation(LinesDrawable.HORIZONTAL);
+        } else {
+            mLinesDrawable.setOrientation(LinesDrawable.VERTICAL);
+        }
     }
 
     public void animateSummary() {
