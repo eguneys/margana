@@ -1,5 +1,7 @@
 <resources>
 
+  <dimen name="spacing_1dp">1dp</dimen>
+
   <dimen name="spacing_nano">2dp</dimen>
   <dimen name="spacing_micro">4dp</dimen>
   <dimen name="spacing_normal">8dp</dimen>
@@ -10,6 +12,8 @@
   <dimen name="size_fab">56dp</dimen>
   <dimen name="size_avatar_toolbar">40dp</dimen>
   <dimen name="size_score_mark">24dp</dimen>
+
+  <dimen name="size_progress_bar">8dp</dimen>
 
   <dimen name="elevation_header">4dp</dimen>
 

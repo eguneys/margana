@@ -6,21 +6,20 @@
     android:orientation="vertical"
     >
 
-  <ProgressBar
-      android:id="@+id/progress"
+  <oyun.net.anagram.widget.AnagramProgressView
+      android:id="@+id/anagram_progress"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
+      android:layout_height="@dimen/size_progress_bar"
       android:layout_alignParentBottom="true"
-      style="@style/Widget.AppCompat.ProgressBar.Horizontal"
       android:layout_marginLeft="@dimen/spacing_double"
       android:layout_marginRight="@dimen/spacing_double"
-      android:progressTint="?android:colorAccent"
+      android:layout_marginBottom="@dimen/spacing_micro"
       />
 
   <AdapterViewFlipper
       android:id="@+id/quiz_view"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:layout_above="@id/progress"
+      android:layout_above="@id/anagram_progress"
       />
 </RelativeLayout>

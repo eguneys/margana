@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterViewAnimator;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import oyun.net.anagram.R;
@@ -28,6 +27,8 @@ import oyun.net.anagram.adapter.QuizAdapter;
 import oyun.net.anagram.helper.ApiLevelHelper;
 import oyun.net.anagram.persistence.AnagramDatabaseHelper;
 
+import oyun.net.anagram.widget.AnagramProgressView;
+
 public class QuizFragment extends Fragment
 {
     
@@ -38,7 +39,7 @@ public class QuizFragment extends Fragment
     private QuizAdapter mQuizAdapter;
 
     private TextView mProgressText;
-    private ProgressBar mProgressBar;
+    private AnagramProgressView mProgressView;
 
     public static QuizFragment newInstance(String categoryId) {
         if (categoryId == null) {
@@ -95,9 +96,9 @@ public class QuizFragment extends Fragment
         final List<Quiz> quizzes = mCategory.getQuizzes();
         mQuizSize = quizzes.size();
         // mProgressText = (TextView) view.findViewById(R.id.progress_text);
-        mProgressBar = ((ProgressBar) view.findViewById(R.id.progress));
-        mProgressBar.setMax(mQuizSize);
-        setProgress(firstUnsolvedQuizPosition);
+        mProgressView = ((AnagramProgressView) view.findViewById(R.id.anagram_progress));
+        // mProgressView.setMax(mQuizSize);
+        // setProgress(firstUnsolvedQuizPosition);
     }
 
     private void decideOnViewToDisplay() {
@@ -122,7 +123,7 @@ public class QuizFragment extends Fragment
         // }
         // mProgressText
         //     .setText(getString(R.string.quiz_of_quizzes, currentQuizPosition, mQuizSize));
-        mProgressBar.setProgress(currentQuizPosition);
+        // mProgressBar.setProgress(currentQuizPosition);
     }
 
     private QuizAdapter getQuizAdapter() {

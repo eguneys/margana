@@ -94,6 +94,8 @@
   <color name="anagram_blank">@color/pink_50</color>
   <color name="anagram_text">@color/pink_A100</color>
 
+
+
   <color name="text_light">#ffffff</color>
   <color name="text_dark">#616161</color>
 
@@ -103,7 +105,16 @@
   <color name="theme_red_accent">#ffc61c</color>
   <color name="theme_red_text">@color/text_light</color>
 
+  
+  <color name="red_shadow_600">#c13b2f</color>
+  <color name="red_shadow_500">#ce3f31</color>
+  <color name="red_shadow_400">#d9473a</color>
+  <color name="red_shadow_300">#e84c3d</color>
 
+  <color name="progress_background">@color/yellow_400</color>
+  <color name="progress_shadow">@color/yellow_800</color>
+  <color name="progress_empty_bg">@color/red_shadow_400</color>
+  <color name="progress_empty_shadow">@color/red_shadow_600</color>
 
   <color name="letter_background">#00a8e8</color>
   <color name="letter_shadow">#007ea7</color>
