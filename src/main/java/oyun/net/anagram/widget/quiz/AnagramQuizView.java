@@ -55,6 +55,8 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
                 @Override
                 public void onTimeout() {
                     mAnagramView.setInteraction(false);
+                    ((QuizActivity)getContext()).proceed(getCategory());
+                    
                 }
 
                 @Override

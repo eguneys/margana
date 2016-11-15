@@ -36,7 +36,7 @@ import oyun.net.anagram.adapter.AnagramSummaryAdapter;
 
 import oyun.net.anagram.widget.drawable.LinesDrawable;;
 
-public class AnagramSummaryView extends LinearLayout {
+public class AnagramSummaryView extends RelativeLayout {
 
 
     private long CongratzScaleAnimationDuration = 400;
@@ -68,7 +68,6 @@ public class AnagramSummaryView extends LinearLayout {
     }
 
     private void init() {
-        setOrientation(LinearLayout.VERTICAL);
         int bgColor = ContextCompat.getColor(getContext(), R.color.anagram_primary_dark);
 
         LayoutInflater.from(getContext()).inflate(R.layout.view_anagram_summary, this, true);
