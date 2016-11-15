@@ -33,6 +33,7 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
     private int mNextAnagramIndex = 0;
     private AnagramView mAnagramView;
 
+    private TextView mAnagramNb;
     private TextView mMarkedLetters;
     private TextView mTimerText;
     private TextView mTimerDeciText;
@@ -102,6 +103,35 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
          return ((AnagramQuiz)getQuiz()).get(mNextAnagramIndex);
     }
 
+    private boolean setNextUnsolvedAnagram() {
+        AnagramQuiz quiz = (AnagramQuiz)getQuiz();
+        int size = quiz.size();
+
+
+        // go up
+        for (int i = mNextAnagramIndex + 1; i < size; i++) {
+            if (!quiz.get(i).isSolved()) {
+                mNextAnagramIndex = i;
+                return true;
+            }
+        }
+
+        // go down
+        for (int i = mNextAnagramIndex - 1; i > -1; i--) {
+            if (!quiz.get(i).isSolved()) {
+                mNextAnagramIndex = i;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void addTimeSpentBeforeNextAnagram() {
+        Anagram anagram = getNextAnagram();
+        anagram.addTimeSpent((int)mTimerHelper.getLapTime() / 1000);
+        mTimerHelper.lap();
+    }
+
     private boolean setNextAnagram() {
         if (mNextAnagramIndex >= ((AnagramQuiz)getQuiz()).size() - 1) {
             return false;
@@ -146,6 +176,10 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
         mScoreText.setText(String.format(ScoreFormatText, mAnagramScore));
     }
 
+    private void updateAnagramNb() {
+        mAnagramNb.setText(String.format("#%1$d", mNextAnagramIndex + 1));
+    }
+
     private void markQuizSolved() {
         AnagramQuiz mQuiz = (AnagramQuiz)getQuiz();
         mQuiz.setSolved(true);
@@ -178,6 +212,10 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
 
         mMarkedLetters = (TextView) rootView.findViewById(R.id.marked_letters);
 
+        mAnagramNb = (TextView) rootView.findViewById(R.id.anagram_nb);
+
+        updateAnagramNb();
+
         mAnagramView = (AnagramView) rootView.findViewById(R.id.anagram_content);
 
         mAnagramView.setAnagram(nextAnagram);
@@ -199,15 +237,14 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
                     @Override
                     public void onAnagramMarked(String markedAnagram) {
                         boolean vanishIfSolved = checkIfSolved(markedAnagram);
+
                         if (vanishIfSolved) {
                             updateAnagramScoreWithMarked(markedAnagram.length());
                             
-                            Anagram solvedAnagram = getNextAnagram();
-                            
-                            solvedAnagram.setSolveTime((int)mTimerHelper.getLapTime() / 1000);
-                            mTimerHelper.lap();
+                            addTimeSpentBeforeNextAnagram();
+                            getNextAnagram().setSolved(true);
 
-                            if (!setNextAnagram()) {
+                            if (!setNextUnsolvedAnagram()) {
                                 mTimerHelper.stop();
                                 mAnagramView.setInteraction(false);
 
@@ -215,6 +252,7 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
                                 getCategory().setSolved(true);
                                 ((QuizActivity)getContext()).proceed(getCategory());
                             }
+                            updateAnagramNb();
 
                             mAnagramView.vanishLetters();
                         } else {
@@ -249,7 +287,9 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
             .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (!setNextAnagram()) {
+                            
+                        addTimeSpentBeforeNextAnagram();
+                        if (!setNextUnsolvedAnagram()) {
                             mTimerHelper.stop();
                             mAnagramView.setInteraction(false);
 
@@ -258,6 +298,7 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
                             ((QuizActivity)getContext()).proceed(getCategory());
                         }
 
+                        updateAnagramNb();
                         mAnagramView.vanishLetters();
                     }                    
                 });

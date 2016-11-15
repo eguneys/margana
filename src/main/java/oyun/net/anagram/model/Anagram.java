@@ -16,7 +16,9 @@ public class Anagram {
 
     private String mQuestion;
 
-    private int mSolveTime;
+    private boolean mSolved;
+
+    private int mTimeSpent;
 
     public Anagram(String id,
                    String question,
@@ -62,12 +64,20 @@ public class Anagram {
         return mMeaning;
     }
 
-    public int getSolveTime() {
-        return mSolveTime;
+    public int getTimeSpent() {
+        return mTimeSpent;
     }
 
-    public void setSolveTime(int time) {
-        mSolveTime = time;
+    public void addTimeSpent(int time) {
+        mTimeSpent = mTimeSpent + time;
+    }
+
+    public void setSolved(boolean solved) {
+        mSolved = solved;
+    }
+
+    public boolean isSolved() {
+        return mSolved;
     }
 
     public void shuffle() {

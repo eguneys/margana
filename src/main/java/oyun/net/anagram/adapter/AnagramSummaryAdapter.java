@@ -51,7 +51,7 @@ public class AnagramSummaryAdapter extends BaseAdapter {
         TextView anagramSolveTime = (TextView) convertView.findViewById(R.id.anagram_solve_time);
         anagramTitle.setText(anagram.getQuestion());
 
-        anagramSolveTime.setText(formatSolveTime(anagram.getSolveTime()));
+        anagramSolveTime.setText(formatSolveTime(anagram.getTimeSpent()));
 
         return convertView;
     }
