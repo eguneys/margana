@@ -10,6 +10,11 @@ public final class ResourceUtil {
         return text;
     }
 
+    public static String getDynamicString2(Context context, int resId, String arg1, String arg2) {
+        String text = String.format(context.getResources().getString(resId), arg1, arg2);
+        return text;
+    }
+
     // http://stackoverflow.com/questions/6583843/how-to-access-resource-with-dynamic-name-in-my-case
     public static String getResourceString(String name, Context context) {
 

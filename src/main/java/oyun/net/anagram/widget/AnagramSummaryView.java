@@ -33,6 +33,7 @@ import oyun.net.anagram.model.Anagram;
 import oyun.net.anagram.model.Category;
 import oyun.net.anagram.model.quiz.AnagramQuiz;
 import oyun.net.anagram.adapter.AnagramSummaryAdapter;
+import oyun.net.anagram.helper.ResourceUtil;
 
 import oyun.net.anagram.widget.drawable.LinesDrawable;;
 
@@ -44,6 +45,7 @@ public class AnagramSummaryView extends RelativeLayout {
 
     private LinesDrawable mLinesDrawable;
 
+    private TextView mAnagramScoreSummary;
     private TextView mCongratzText;
     private TextView mAnagramTitle;
     private TextView mAnagramMeaning;
@@ -51,6 +53,8 @@ public class AnagramSummaryView extends RelativeLayout {
     private ListView mAnagramsList;
 
     private AnagramSummaryAdapter mAnagramsAdapter;
+
+    private Category mCategory;
     
     public AnagramSummaryView(Context context) {
         super(context);
@@ -77,6 +81,8 @@ public class AnagramSummaryView extends RelativeLayout {
         mAnagramTitle = (TextView) findViewById(R.id.anagram_title);
         mAnagramMeaning = (TextView) findViewById(R.id.anagram_meaning);
 
+        mAnagramScoreSummary = (TextView) findViewById(R.id.anagram_score_summary);
+
         mAnagramsList = (ListView) findViewById(R.id.anagrams_list);
 
         mAnagramsList.setOnItemClickListener(new ListView.OnItemClickListener() {
@@ -101,6 +107,13 @@ public class AnagramSummaryView extends RelativeLayout {
             });
     }
 
+    private void updateAnagramSummaryTexts() {
+        AnagramQuiz quiz = (AnagramQuiz)mCategory.getFirstQuiz();
+        mAnagramScoreSummary.setText(ResourceUtil.getDynamicString(getContext(),
+                                                                   R.string.youScored,
+                                                                   "" + quiz.getScore()));
+    }
+
     private void selectAnagramAtAdapterPosition(int position) {
         Anagram anagram = mAnagramsAdapter.getItem(position);
         mAnagramTitle.setText(anagram.getAnswer());
@@ -108,10 +121,13 @@ public class AnagramSummaryView extends RelativeLayout {
     }
 
     public void setCategory(Category category) {
-        List<Anagram> items = ((AnagramQuiz)category.getQuizzes().get(0)).getAnagramsWithTimeSpent();
+        mCategory = category;
+        List<Anagram> items = ((AnagramQuiz)category.getFirstQuiz()).getAnagramsWithTimeSpent();
         mAnagramsAdapter = new AnagramSummaryAdapter(getContext(), items);
         mAnagramsList.setAdapter(mAnagramsAdapter);
         selectAnagramAtAdapterPosition(0);
+
+        updateAnagramSummaryTexts();
 
         if (category.isSolved()) {
             mLinesDrawable.setOrientation(LinesDrawable.HORIZONTAL);

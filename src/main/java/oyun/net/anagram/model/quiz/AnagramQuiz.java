@@ -48,6 +48,39 @@ public class AnagramQuiz extends Quiz<List<Anagram>> {
         return result;
     }
 
+    public List<Anagram> getSolvedAnagrams() {
+        List<Anagram> result = new ArrayList<Anagram>();
+        List<Anagram> anagrams = getAnagrams();
+
+        for (Anagram anagram : anagrams) {
+            if (anagram.isSolved()) {
+                result.add(anagram);
+            }
+        }
+                
+        return result;
+    }
+
+    public int getScore() {
+        int result = 0;
+        List<Anagram> anagrams = getAnagrams();
+
+        for (Anagram anagram : anagrams) {
+            if (anagram.isSolved()) {
+                result += anagram.size();
+            }
+        }
+        return result;
+    }
+
+    public int getNbSolved() {
+        return getSolvedAnagrams().size();
+    }
+
+    public int getNbTotal() {
+        return getAnagrams().size();
+    }
+
     public void addAnagrams(List<Anagram> anagrams) {
         getAnswer().addAll(anagrams);
     }

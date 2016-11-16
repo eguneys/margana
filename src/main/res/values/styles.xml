@@ -4,7 +4,7 @@
   <style name="Anagram" parent="Anagram.Base"/>
 
   <style name="Anagram.Base" parent="Theme.AppCompat.Light.NoActionBar">
-    
+    <item name="android:typeface">serif</item>
   </style>
 
   <style name="Anagram.MainActivity"/>

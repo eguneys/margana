@@ -26,7 +26,7 @@
       android:src="@drawable/ic_refresh"
       />
   <TextView
-      android:id="@+id/anagram_summary_text"
+      android:id="@+id/anagram_score_summary"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_alignBottom="@id/replay_button"
@@ -36,13 +36,12 @@
       android:gravity="center"
       android:padding="@dimen/spacing_normal"
       android:textColor="@color/text_light"
-      android:textSize="@dimen/title_text_size_24"
-      android:text="You scored 999!"/>
+      android:textSize="@dimen/title_text_size_24"/>
   <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:layout_below="@id/congratz_text"
-      android:layout_above="@id/anagram_summary_text"
+      android:layout_above="@id/anagram_score_summary"
       android:layout_marginBottom="@dimen/spacing_normal"
       android:orientation="vertical"
       >
