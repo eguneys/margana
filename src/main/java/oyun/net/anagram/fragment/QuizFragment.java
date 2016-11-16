@@ -136,4 +136,8 @@ public class QuizFragment extends Fragment
     public void showSummary() {
         mQuizView.setVisibility(View.GONE);
     }
+
+    public void replay() {
+        mQuizView.setVisibility(View.VISIBLE);
+    }
 }

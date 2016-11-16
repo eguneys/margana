@@ -255,23 +255,13 @@ public class QuizActivity extends AppCompatActivity
 
         mAnagramSummary = (AnagramSummaryView) findViewById(R.id.anagram_summary);
 
-        // mIcon = (ImageView) findViewById(R.id.icon);
-        // int resId = getResources().getIdentifier("image_category_play", "drawable",
-        //                                          getApplicationContext().getPackageName());
-        // mIcon.setImageResource(resId);
-        // ViewCompat.animate(mIcon)
-        //     .scaleX(1)
-        //     .scaleY(1)
-        //     .alpha(1)
-        //     .setInterpolator(mInterpolator)
-        //     .setStartDelay(300)
-        //     .start();
-
-        // mQuizFab = (FloatingActionButton) findViewById(R.id.fab_quiz);
-        // mQuizFab.setImageResource(R.drawable.ic_play);
-        // mQuizFab.show();
-
-        // mQuizFab.setOnClickListener(mOnClickListener);
+        mAnagramSummary.setAnimationListener(new AnagramSummaryView.AnimationListener() {
+                @Override
+                public void onVanishEnd() {
+                    mAnagramSummary.setVisibility(View.GONE);
+                    mQuizFragment.replay();
+                }
+            });
     }
 
     private void initToolbar(Category category) {
@@ -285,5 +275,9 @@ public class QuizActivity extends AppCompatActivity
         mAnagramSummary.setCategory(category);
         mAnagramSummary.setVisibility(View.VISIBLE);
         mAnagramSummary.animateSummary();
+    }
+
+    public void replayCategory() {
+        mAnagramSummary.animateVanish();
     }
 }

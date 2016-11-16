@@ -18,6 +18,7 @@ import android.view.animation.OvershootInterpolator;
 
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ListView;
 import android.widget.AdapterView;
@@ -29,6 +30,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 
 import oyun.net.anagram.R;
+
+import oyun.net.anagram.activity.QuizActivity;
+
 import oyun.net.anagram.model.Anagram;
 import oyun.net.anagram.model.Category;
 import oyun.net.anagram.model.quiz.AnagramQuiz;
@@ -43,7 +47,11 @@ public class AnagramSummaryView extends RelativeLayout {
     private long CongratzScaleAnimationDuration = 400;
     private Interpolator CongratzScaleInterpolator = new OvershootInterpolator();
 
+    private AnimationListener mAnimationListener;
+
     private LinesDrawable mLinesDrawable;
+
+    private ImageButton mReplayButton;
 
     private TextView mAnagramScoreSummary;
     private TextView mCongratzText;
@@ -76,6 +84,15 @@ public class AnagramSummaryView extends RelativeLayout {
 
         LayoutInflater.from(getContext()).inflate(R.layout.view_anagram_summary, this, true);
 
+        mReplayButton = (ImageButton) findViewById(R.id.replay_button);
+
+        mReplayButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ((QuizActivity)getContext()).replayCategory();
+                }
+            });
+
         mCongratzText = (TextView) findViewById(R.id.congratz_text);
 
         mAnagramTitle = (TextView) findViewById(R.id.anagram_title);
@@ -103,6 +120,13 @@ public class AnagramSummaryView extends RelativeLayout {
                 @Override
                 public void onAnimationEnd() {
                     animateSummaryLayout();
+                }
+
+                @Override
+                public void onVanishAnimationEnd() {
+                    if (mAnimationListener != null) {
+                        mAnimationListener.onVanishEnd();
+                    }
                 }
             });
     }
@@ -134,6 +158,25 @@ public class AnagramSummaryView extends RelativeLayout {
         } else {
             mLinesDrawable.setOrientation(LinesDrawable.VERTICAL);
         }
+    }
+
+    public void animateVanish() {
+        mCongratzText
+            .animate()
+            .scaleX(0)
+            .scaleY(0)
+            .start();
+
+        mAnagramsList
+            .animate()
+            .alpha(0f)
+            .scaleY(0)
+            .start();
+
+        mAnagramTitle.setAlpha(0);
+        mAnagramMeaning.setAlpha(0);
+
+        mLinesDrawable.animateLinesReverse();
     }
 
     public void animateSummary() {
@@ -174,5 +217,13 @@ public class AnagramSummaryView extends RelativeLayout {
             .animate()
             .alpha(1)
             .start();
+    }
+
+    public void setAnimationListener(AnimationListener animationListener) {
+        mAnimationListener = animationListener;
+    }
+
+    public interface AnimationListener {
+        public void onVanishEnd();
     }
 }

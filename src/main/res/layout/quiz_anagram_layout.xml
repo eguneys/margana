@@ -9,11 +9,12 @@
       android:id="@+id/marked_letters"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/spacing_normal"
+      android:layout_marginBottom="@dimen/spacing_normal"
       android:layout_alignParentTop="true"
       android:layout_centerHorizontal="true"
       android:textColor="@color/text_light"
       android:textSize="@dimen/title_text_size"
-      android:paddingBottom="@dimen/spacing_micro"
       />
 
   <TextView
@@ -93,7 +94,7 @@
         android:id="@+id/timer_text"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="bottom"
+        android:gravity="bottom|center_horizontal"
         android:textColor="@color/text_light"
         android:textSize="@dimen/huge_text_size"
         />
@@ -102,7 +103,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginBottom="2dp"
-        android:gravity="bottom"
+        android:gravity="bottom|center_horizontal"
         android:textColor="@color/text_light"
         android:textSize="@dimen/big_text_size"
         />

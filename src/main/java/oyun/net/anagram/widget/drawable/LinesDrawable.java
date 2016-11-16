@@ -20,6 +20,7 @@ import android.view.animation.CycleInterpolator;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -38,24 +39,29 @@ public class LinesDrawable extends Drawable
     public static final int VERTICAL = 0x02;
     public static final int HORIZONTAL = 0x03;
 
-    private final int LinesAnimationDuration = 600;
+    private final int LinesAnimationDuration = 800;
 
     private static final Interpolator LinesInterpolator = new DecelerateInterpolator();
+    private static final Interpolator LinesReverseInterpolator = new AccelerateInterpolator();
 
     private final float mDensity = Resources.getSystem().getDisplayMetrics().density;
 
     private final float DP_LINES_WIDTH = 30;
     private final float PX_LINES_WIDTH = DP_LINES_WIDTH * mDensity;
 
+    private final float PX_LINES_EXTRA = 1 * mDensity;
+
     private AnimationListener mAnimationListener;
 
     private AnimatorSet mLinesAnimatorSet;
+    private AnimatorSet mLinesReverseAnimatorSet;
 
     private float mLinesProgress = 0f;
     private float mAlphaProgress = 1f;
 
     private int mNbLines;
     private float[] mLinePoints;
+    private float[] mLineOffsetPoints;
     private float[] mLinePointsProgress;
 
     private int mOrientation;
@@ -88,7 +94,7 @@ public class LinesDrawable extends Drawable
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setColor(mColor);
 
-        mPaint.setStrokeWidth(PX_LINES_WIDTH);
+        mPaint.setStrokeWidth(PX_LINES_WIDTH + PX_LINES_EXTRA);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
     }
 
@@ -102,6 +108,19 @@ public class LinesDrawable extends Drawable
                 public void onAnimationEnd(Animator animator) {
                     if (mAnimationListener != null) {
                         mAnimationListener.onAnimationEnd();
+                    }
+                }
+            });
+
+        mLinesReverseAnimatorSet = new AnimatorSet();
+        mLinesReverseAnimatorSet.playTogether(ObjectAnimator.ofFloat(this, LINES_PROGRESS, 0f));
+        mLinesReverseAnimatorSet.setDuration(LinesAnimationDuration);
+        mLinesReverseAnimatorSet.setInterpolator(LinesReverseInterpolator);
+        mLinesReverseAnimatorSet.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    if (mAnimationListener != null) {
+                        mAnimationListener.onVanishAnimationEnd();
                     }
                 }
             });
@@ -126,6 +145,7 @@ public class LinesDrawable extends Drawable
         } else {
             mTempCanvas = new Canvas();
             mLinePoints = new float[0];
+            mLineOffsetPoints = new float[0];
         }
     }
 
@@ -147,6 +167,7 @@ public class LinesDrawable extends Drawable
 
         mLinePoints = new float[mNbLines * 4];
         mLinePointsProgress = new float[mNbLines * 4];
+        mLineOffsetPoints = new float[mNbLines];
 
         for (int i = 0; i < mNbLines; i++) {
 
@@ -162,6 +183,8 @@ public class LinesDrawable extends Drawable
             mLinePoints[i * 4 + 1] = odd ? yTop : yBottom;
             mLinePoints[i * 4 + 2] = x1;
             mLinePoints[i * 4 + 3] = odd ? yBottom : yTop;
+
+            mLineOffsetPoints[i] = (float) Math.random() * (i * 20) * (odd ? 1 : -1);
         }
     }
 
@@ -173,6 +196,7 @@ public class LinesDrawable extends Drawable
 
         mLinePoints = new float[mNbLines * 4];
         mLinePointsProgress = new float[mNbLines * 4];
+        mLineOffsetPoints = new float[mNbLines];
 
         for (int i = 0; i < mNbLines; i++) {
 
@@ -189,11 +213,14 @@ public class LinesDrawable extends Drawable
             mLinePoints[i * 4 + 1] = yTop;
             mLinePoints[i * 4 + 2] = odd ? x1 : x0;
             mLinePoints[i * 4 + 3] = yBottom;
+
+            mLineOffsetPoints[i] = (float) Math.random() * (i * 20) * (odd ? 1 : -1);
         }
     }
 
     @Override
     public void draw(Canvas canvas) {
+        mTempCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.MULTIPLY);
         mTempCanvas.drawLines(mLinePointsProgress, mPaint);
 
         // canvas.rotate(30, mBounds.width() / 2f, mBounds.height() / 2f);
@@ -235,6 +262,10 @@ public class LinesDrawable extends Drawable
         mLinesAnimatorSet.start();
     }
 
+    public void animateLinesReverse() {
+        mLinesReverseAnimatorSet.start();
+    }
+
     private void updateLinePoints() {
         if (mOrientation == HORIZONTAL) {
             updateLinePointsHorizontal();
@@ -254,6 +285,8 @@ public class LinesDrawable extends Drawable
             mLinePointsProgress[i * 4 + 1] = y0;
             mLinePointsProgress[i * 4 + 2] = x1;
             mLinePointsProgress[i * 4 + 3] = y0 + (y1 - y0) * mLinesProgress;
+
+            mLinePointsProgress[i * 4 + 3] += mLineOffsetPoints[i];
         }        
     }
 
@@ -268,6 +301,8 @@ public class LinesDrawable extends Drawable
             mLinePointsProgress[i * 4 + 1] = y0;
             mLinePointsProgress[i * 4 + 2] = x0 + (x1 - x0) * mLinesProgress;
             mLinePointsProgress[i * 4 + 3] = y1;
+
+            mLinePointsProgress[i * 4 + 2] += mLineOffsetPoints[i];
         }        
     }
 
@@ -291,5 +326,6 @@ public class LinesDrawable extends Drawable
 
     public interface AnimationListener {
         public void onAnimationEnd();
+        public void onVanishAnimationEnd();
     }
 }
