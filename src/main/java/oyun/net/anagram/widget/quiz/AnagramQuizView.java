@@ -223,7 +223,11 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
 
         // debug
         // getCategory().setSolved(true);
-        // ((QuizActivity)getContext()).proceed(getCategory());
+        getNextAnagram().addTimeSpent(10);
+        getNextAnagram().setSolved(true);
+        setNextAnagram();
+        getNextAnagram().addTimeSpent(1);
+        ((QuizActivity)getContext()).proceed(getCategory());
 
         mAnagramView
             .setAnagramListener(new AnagramView.AnagramListener() {

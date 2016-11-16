@@ -10,6 +10,11 @@ import android.view.LayoutInflater;
 
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.ImageView;
+
+import android.graphics.drawable.Drawable;
+
+import android.support.v4.content.ContextCompat;
 
 import oyun.net.anagram.R;
 import oyun.net.anagram.model.Anagram;
@@ -49,9 +54,16 @@ public class AnagramSummaryAdapter extends BaseAdapter {
 
         TextView anagramTitle = (TextView) convertView.findViewById(R.id.anagram_title);
         TextView anagramSolveTime = (TextView) convertView.findViewById(R.id.anagram_solve_time);
-        anagramTitle.setText(anagram.getQuestion());
+        ImageView anagramScore = (ImageView) convertView.findViewById(R.id.anagram_score);
 
+        anagramTitle.setText(anagram.getQuestion());
         anagramSolveTime.setText(formatSolveTime(anagram.getTimeSpent()));
+
+        if (anagram.isSolved()) {
+            anagramScore.setImageResource(R.drawable.bg_score_check);
+        } else {
+            anagramScore.setImageResource(R.drawable.bg_score_close);
+        }
 
         return convertView;
     }

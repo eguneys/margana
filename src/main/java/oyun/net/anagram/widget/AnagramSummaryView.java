@@ -108,7 +108,7 @@ public class AnagramSummaryView extends RelativeLayout {
     }
 
     public void setCategory(Category category) {
-        List<Anagram> items = ((AnagramQuiz)category.getQuizzes().get(0)).getAnagrams();
+        List<Anagram> items = ((AnagramQuiz)category.getQuizzes().get(0)).getAnagramsWithTimeSpent();
         mAnagramsAdapter = new AnagramSummaryAdapter(getContext(), items);
         mAnagramsList.setAdapter(mAnagramsAdapter);
         selectAnagramAtAdapterPosition(0);

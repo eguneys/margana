@@ -35,6 +35,19 @@ public class AnagramQuiz extends Quiz<List<Anagram>> {
         return getAnswer();
     }
 
+    public List<Anagram> getAnagramsWithTimeSpent() {
+        List<Anagram> result = new ArrayList<Anagram>();
+        List<Anagram> anagrams = getAnagrams();
+
+        for (Anagram anagram : anagrams) {
+            if (anagram.getTimeSpent() > 0) {
+                result.add(anagram);
+            }
+        }
+                
+        return result;
+    }
+
     public void addAnagrams(List<Anagram> anagrams) {
         getAnswer().addAll(anagrams);
     }
