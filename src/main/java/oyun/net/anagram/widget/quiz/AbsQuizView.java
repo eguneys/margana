@@ -20,7 +20,7 @@ public abstract class AbsQuizView<Q extends Quiz> extends FrameLayout {
     private final Interpolator mLinearOutSlowInInterpolator;
     private final LayoutInflater mLayoutInflater;
     private final Category mCategory;
-    private final Q mQuiz;
+    private Q mQuiz;
 
     public AbsQuizView(Context context, Category category, Q quiz) {
         super(context);
@@ -87,5 +87,9 @@ public abstract class AbsQuizView<Q extends Quiz> extends FrameLayout {
 
     public Q getQuiz() {
         return mQuiz;
+    }
+
+    public void setQuiz(Q quiz) {
+        mQuiz = quiz;
     }
 }

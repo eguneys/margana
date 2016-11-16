@@ -10,7 +10,7 @@
   -[ ] 4 letter custom grid
   -[ ] test cases
        * No anagram solved
-       * 
+       * skip on last item
 ## Idea
 
   -[ ] different letter shape (eg. hexagonal)

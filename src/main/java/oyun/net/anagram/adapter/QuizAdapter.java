@@ -44,9 +44,11 @@ public class QuizAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         final Quiz quiz = getItem(position);
         if (convertView instanceof AbsQuizView) {
-            if (((AbsQuizView) convertView).getQuiz().equals(quiz)) {
-                return convertView;
-            }
+            // if (((AbsQuizView) convertView).getQuiz().equals(quiz)) {
+            //     return convertView;
+            // }
+            ((AnagramQuizView)convertView).reset((AnagramQuiz)quiz);
+            return convertView;
         }
         convertView = getViewInternal(quiz);
         return convertView;

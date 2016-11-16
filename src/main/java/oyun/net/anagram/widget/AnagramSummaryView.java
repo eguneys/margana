@@ -13,8 +13,11 @@ import android.view.LayoutInflater;
 import android.view.ViewTreeObserver;
 
 import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -46,6 +49,8 @@ public class AnagramSummaryView extends RelativeLayout {
 
     private long CongratzScaleAnimationDuration = 400;
     private Interpolator CongratzScaleInterpolator = new OvershootInterpolator();
+
+    private Interpolator LinearInterpolator = new LinearInterpolator();
 
     private AnimationListener mAnimationListener;
 
@@ -119,6 +124,9 @@ public class AnagramSummaryView extends RelativeLayout {
         mLinesDrawable.setAnimationListener(new LinesDrawable.AnimationListener() {
                 @Override
                 public void onAnimationEnd() {
+                    if (mAnimationListener != null) {
+                        mAnimationListener.onLineAnimationEnd();
+                    }
                     animateSummaryLayout();
                 }
 
@@ -132,7 +140,7 @@ public class AnagramSummaryView extends RelativeLayout {
     }
 
     private void updateAnagramSummaryTexts() {
-        AnagramQuiz quiz = (AnagramQuiz)mCategory.getFirstQuiz();
+        AnagramQuiz quiz = (AnagramQuiz)mCategory.getRecentQuiz();
         mAnagramScoreSummary.setText(ResourceUtil.getDynamicString(getContext(),
                                                                    R.string.youScored,
                                                                    "" + quiz.getScore()));
@@ -146,14 +154,19 @@ public class AnagramSummaryView extends RelativeLayout {
 
     public void setCategory(Category category) {
         mCategory = category;
-        List<Anagram> items = ((AnagramQuiz)category.getFirstQuiz()).getAnagramsWithTimeSpent();
+
+        AnagramQuiz recentQuiz = (AnagramQuiz)category.getRecentQuiz();
+
+        List<Anagram> items = recentQuiz.getAnagramsWithTimeSpent();
         mAnagramsAdapter = new AnagramSummaryAdapter(getContext(), items);
         mAnagramsList.setAdapter(mAnagramsAdapter);
+
+        // TODO Fix for no anagram case
         selectAnagramAtAdapterPosition(0);
 
         updateAnagramSummaryTexts();
 
-        if (category.isSolved()) {
+        if (recentQuiz.isSolved()) {
             mLinesDrawable.setOrientation(LinesDrawable.HORIZONTAL);
         } else {
             mLinesDrawable.setOrientation(LinesDrawable.VERTICAL);
@@ -161,10 +174,32 @@ public class AnagramSummaryView extends RelativeLayout {
     }
 
     public void animateVanish() {
+        mReplayButton
+            .animate()
+            .scaleX(0)
+            .scaleY(0)
+            .setInterpolator(LinearInterpolator)
+            .start();
+
+        mAnagramScoreSummary
+            .animate()
+            .scaleX(0)
+            .scaleY(0)
+            .setInterpolator(LinearInterpolator)
+            .start();
+
         mCongratzText
             .animate()
             .scaleX(0)
             .scaleY(0)
+            .setInterpolator(LinearInterpolator)
+            .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        mCongratzText.animate().setListener(null);
+                        mLinesDrawable.animateLinesReverse();
+                    }
+                })
             .start();
 
         mAnagramsList
@@ -175,11 +210,15 @@ public class AnagramSummaryView extends RelativeLayout {
 
         mAnagramTitle.setAlpha(0);
         mAnagramMeaning.setAlpha(0);
-
-        mLinesDrawable.animateLinesReverse();
     }
 
     public void animateSummary() {
+        mReplayButton.setScaleX(0);
+        mReplayButton.setScaleY(0);
+
+        mAnagramScoreSummary.setScaleX(0);
+        mAnagramScoreSummary.setScaleY(0);
+
         mCongratzText.setScaleX(0);
         mCongratzText.setScaleY(0);
 
@@ -193,6 +232,23 @@ public class AnagramSummaryView extends RelativeLayout {
     }
 
     public void animateSummaryLayout() {
+
+        mReplayButton
+            .animate()
+            .scaleX(1)
+            .scaleY(1)
+            .setInterpolator(CongratzScaleInterpolator)
+            .setDuration(CongratzScaleAnimationDuration)
+            .start();
+
+        mAnagramScoreSummary
+            .animate()
+            .scaleX(1)
+            .scaleY(1)
+            .setInterpolator(CongratzScaleInterpolator)
+            .setDuration(CongratzScaleAnimationDuration)
+            .setStartDelay(CongratzScaleAnimationDuration)
+            .start();        
 
         mCongratzText
             .animate()
@@ -224,6 +280,7 @@ public class AnagramSummaryView extends RelativeLayout {
     }
 
     public interface AnimationListener {
+        public void onLineAnimationEnd();
         public void onVanishEnd();
     }
 }

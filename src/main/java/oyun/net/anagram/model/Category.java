@@ -123,8 +123,22 @@ public class Category {
         return mNbUnsolved + mNbSolved;
     }
 
-    public Quiz getFirstQuiz() {
-        return getQuizzes().get(0);
+    public Quiz getRecentQuiz() {
+        return mQuizzes.get(mQuizzes.size() - 1);
+    }
+
+    // public Quiz getFirstQuiz() {
+    //     return getQuizzes().get(0);
+    // }
+
+
+    public void addNewQuiz() {
+        AnagramQuiz quiz = new AnagramQuiz((AnagramQuiz)getRecentQuiz());
+        addQuiz(quiz);
+    }
+
+    public void addQuiz(Quiz quiz) {
+        mQuizzes.add(quiz);
     }
 
     public boolean isSolved() {

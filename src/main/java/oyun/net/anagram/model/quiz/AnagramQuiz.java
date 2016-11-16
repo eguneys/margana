@@ -10,6 +10,10 @@ public class AnagramQuiz extends Quiz<List<Anagram>> {
     private int mTime;
     private int mNbWords;
 
+    public AnagramQuiz(AnagramQuiz quiz) {
+        this(quiz.getTime(), quiz.getLength(), false);
+    }
+
     public AnagramQuiz(int time, int nbWords, boolean solved) {
         this(new ArrayList<Anagram>(), time, nbWords, solved);
     }    
@@ -85,7 +89,7 @@ public class AnagramQuiz extends Quiz<List<Anagram>> {
         getAnswer().addAll(anagrams);
     }
 
-    public long getTime() {
+    public int getTime() {
         return mTime;
     }
 

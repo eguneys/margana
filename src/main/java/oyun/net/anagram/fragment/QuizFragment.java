@@ -30,6 +30,8 @@ import oyun.net.anagram.persistence.AnagramDatabaseHelper;
 
 public class QuizFragment extends Fragment
 {
+
+    public static final int QUIZ_LIMIT = 2;
     
     private int mQuizSize;
 
@@ -58,7 +60,9 @@ public class QuizFragment extends Fragment
     {
         String categoryId = getArguments().getString(Category.TAG);
         mCategory = AnagramDatabaseHelper.getCategoryById(getActivity(), categoryId);
-        populateCategoryWithAnagrams();
+
+        populateQuizWithAnagrams((AnagramQuiz)mCategory.getRecentQuiz());
+
         super.onCreate(savedInstanceState);
     }
 
@@ -79,15 +83,16 @@ public class QuizFragment extends Fragment
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mQuizView = (AdapterViewAnimator) view.findViewById(R.id.quiz_view);
+
         decideOnViewToDisplay();
-        setQuizViewAnimations();
-        initProgressToolbar(view);
+        // setQuizViewAnimations();
+        //initProgressToolbar(view);
+
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private void populateCategoryWithAnagrams() {
-        AnagramQuiz quiz = (AnagramQuiz)mCategory.getFirstQuiz();
-        quiz.addAnagrams(AnagramDatabaseHelper.getRandomUnsolvedAnagrams(getActivity(), quiz.getLength(), 10));
+    private void populateQuizWithAnagrams(AnagramQuiz quiz) {
+        quiz.addAnagrams(AnagramDatabaseHelper.getRandomUnsolvedAnagrams(getActivity(), quiz.getLength(), QUIZ_LIMIT));
     }
 
     private void initProgressToolbar(View view) {
@@ -134,10 +139,13 @@ public class QuizFragment extends Fragment
     }
 
     public void showSummary() {
-        mQuizView.setVisibility(View.GONE);
+
     }
 
     public void replay() {
-        mQuizView.setVisibility(View.VISIBLE);
+        mCategory.addNewQuiz();
+        populateQuizWithAnagrams((AnagramQuiz)mCategory.getRecentQuiz());
+        mQuizAdapter.notifyDataSetChanged();
+        mQuizView.showNext();
     }
 }

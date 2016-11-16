@@ -257,9 +257,13 @@ public class QuizActivity extends AppCompatActivity
 
         mAnagramSummary.setAnimationListener(new AnagramSummaryView.AnimationListener() {
                 @Override
+                public void onLineAnimationEnd() {
+                    mContainer.setVisibility(View.GONE);
+                }
+
+                @Override
                 public void onVanishEnd() {
                     mAnagramSummary.setVisibility(View.GONE);
-                    mQuizFragment.replay();
                 }
             });
     }
@@ -278,6 +282,8 @@ public class QuizActivity extends AppCompatActivity
     }
 
     public void replayCategory() {
+        mQuizFragment.replay();
+        mContainer.setVisibility(View.VISIBLE);
         mAnagramSummary.animateVanish();
     }
 }
