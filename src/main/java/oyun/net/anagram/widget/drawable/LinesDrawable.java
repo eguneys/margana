@@ -46,10 +46,13 @@ public class LinesDrawable extends Drawable
 
     private final float mDensity = Resources.getSystem().getDisplayMetrics().density;
 
+    private final float MAX_RANDOM_HEIGHT = 100 * mDensity;
+
     private final float DP_LINES_WIDTH = 30;
     private final float PX_LINES_WIDTH = DP_LINES_WIDTH * mDensity;
 
-    private final float PX_LINES_EXTRA = 1 * mDensity;
+    private final float PX_LINES_WIDTH_EXTRA = 1 * mDensity;
+    private final float PX_LINES_HEIGHT_EXTRA = MAX_RANDOM_HEIGHT;
 
     private AnimationListener mAnimationListener;
 
@@ -94,7 +97,7 @@ public class LinesDrawable extends Drawable
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setColor(mColor);
 
-        mPaint.setStrokeWidth(PX_LINES_WIDTH + PX_LINES_EXTRA);
+        mPaint.setStrokeWidth(PX_LINES_WIDTH + PX_LINES_WIDTH_EXTRA);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
     }
 
@@ -163,6 +166,8 @@ public class LinesDrawable extends Drawable
     private void initLinePointsVertical() {
         float height = mBounds.height();
 
+        float maxLineHeight = height + PX_LINES_HEIGHT_EXTRA;
+
         mNbLines = (int) (mBounds.width() / PX_LINES_WIDTH) + 5;
 
         mLinePoints = new float[mNbLines * 4];
@@ -175,21 +180,22 @@ public class LinesDrawable extends Drawable
 
             float x0 = i * PX_LINES_WIDTH;
             float x1 = i * PX_LINES_WIDTH;
-            float yTop = i * 0;
-            float yMiddle = height / 2f;
-            float yBottom = height;
+            float yTop = i * 0  - PX_LINES_HEIGHT_EXTRA;
+            float yBottom = maxLineHeight;
 
             mLinePoints[i * 4 + 0] = x0;
             mLinePoints[i * 4 + 1] = odd ? yTop : yBottom;
             mLinePoints[i * 4 + 2] = x1;
             mLinePoints[i * 4 + 3] = odd ? yBottom : yTop;
 
-            mLineOffsetPoints[i] = (float) Math.random() * (i * 20) * (odd ? 1 : -1);
+            mLineOffsetPoints[i] = (float) Math.random() * MAX_RANDOM_HEIGHT * (odd ? 1 : -1);
         }
     }
 
     private void initLinePointsHorizontal() {
         float width = mBounds.width();
+
+        float maxLineHeight = width + PX_LINES_HEIGHT_EXTRA;
 
         // tweak for unknown reason
         mNbLines = (int) (mBounds.height() / PX_LINES_WIDTH) + 5;
@@ -202,19 +208,17 @@ public class LinesDrawable extends Drawable
 
             boolean odd = i % 2 == 0;
 
-            float x0 = i * 0;
-            float x1 = width;
+            float x0 = i * 0 - PX_LINES_HEIGHT_EXTRA;
+            float x1 = maxLineHeight;
             float yTop = i * PX_LINES_WIDTH;
-
             float yBottom = i * PX_LINES_WIDTH;
-            // float yMiddle = height / 2f;
 
             mLinePoints[i * 4 + 0] = odd ? x0 : x1;
             mLinePoints[i * 4 + 1] = yTop;
             mLinePoints[i * 4 + 2] = odd ? x1 : x0;
             mLinePoints[i * 4 + 3] = yBottom;
 
-            mLineOffsetPoints[i] = (float) Math.random() * (i * 20) * (odd ? 1 : -1);
+            mLineOffsetPoints[i] = (float) Math.random() * MAX_RANDOM_HEIGHT * (odd ? 1 : -1);
         }
     }
 
@@ -286,7 +290,7 @@ public class LinesDrawable extends Drawable
             mLinePointsProgress[i * 4 + 2] = x1;
             mLinePointsProgress[i * 4 + 3] = y0 + (y1 - y0) * mLinesProgress;
 
-            mLinePointsProgress[i * 4 + 3] += mLineOffsetPoints[i];
+            mLinePointsProgress[i * 4 + 3] -= mLineOffsetPoints[i];
         }        
     }
 
@@ -302,7 +306,7 @@ public class LinesDrawable extends Drawable
             mLinePointsProgress[i * 4 + 2] = x0 + (x1 - x0) * mLinesProgress;
             mLinePointsProgress[i * 4 + 3] = y1;
 
-            mLinePointsProgress[i * 4 + 2] += mLineOffsetPoints[i];
+            mLinePointsProgress[i * 4 + 2] -= mLineOffsetPoints[i];
         }        
     }
 

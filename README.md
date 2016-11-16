@@ -6,6 +6,7 @@
 
 ## Todo
 
+  -[ ] lines seperate delay
   -[ ] 4 letter custom grid
   -[ ] test cases
        * No anagram solved
