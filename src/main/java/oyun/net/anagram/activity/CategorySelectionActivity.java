@@ -26,6 +26,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.LinearLayoutManager;
 
 import oyun.net.anagram.R;
+
+import oyun.net.anagram.model.JsonAttributes;
 import oyun.net.anagram.model.Category;
 import oyun.net.anagram.adapter.CategoryAdapter;
 
@@ -33,6 +35,8 @@ import oyun.net.anagram.fragment.CategorySelectionFragment;
 
 public class CategorySelectionActivity extends AppCompatActivity
 {
+    private static final int REQUEST_CATEGORY = 0x2300;
+
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -78,6 +82,7 @@ public class CategorySelectionActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         startEnterTransition();
+        
     }
 
 
@@ -92,7 +97,12 @@ public class CategorySelectionActivity extends AppCompatActivity
         animateVanishStart(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animator) {
-                    CategorySelectionActivity.super.onBackPressed();
+                    // http://stackoverflow.com/questions/7469082/getting-exception-illegalstateexception-can-not-perform-this-action-after-onsa
+                    try {
+                        CategorySelectionActivity.super.onBackPressed();
+                    } catch (IllegalStateException e) {
+                        finish();
+                    }
                 }
             }, false);
     }
@@ -199,13 +209,26 @@ public class CategorySelectionActivity extends AppCompatActivity
             }, true);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.e("YYY act result", requestCode + " " + resultCode);
+        if (requestCode == REQUEST_CATEGORY && resultCode == R.id.solved) {
+            String categoryId = data.getStringExtra(JsonAttributes.ID);
+
+            ((CategorySelectionFragment)getSupportFragmentManager()
+             .findFragmentById(R.id.category_container))
+                .updateCategories(categoryId);
+        }
+    }
+
     private void startQuizActivity(Category category) {
         final Bundle transitionBundle = new Bundle();
         Intent startIntent = QuizActivity.getStartIntent(this, category);
-        ActivityCompat.startActivity(this,
-                                     startIntent,
-                                     transitionBundle);
+        ActivityCompat.startActivityForResult(this,
+                                              startIntent,
+                                              REQUEST_CATEGORY,
+                                              transitionBundle);
         // disable animation
-        overridePendingTransition(0, 0);        
+        overridePendingTransition(0, 0);
     }
 }

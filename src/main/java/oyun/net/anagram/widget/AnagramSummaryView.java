@@ -169,6 +169,9 @@ public class AnagramSummaryView extends RelativeLayout {
     }
 
     private void selectAnagramAtAdapterPosition(int position) {
+        if (mAnagramsAdapter.getCount() == 0) {
+            return;
+        }
         Anagram anagram = mAnagramsAdapter.getItem(position);
         mAnagramTitle.setText(anagram.getAnswer());
         mAnagramMeaning.setText(anagram.getMeaning());
@@ -185,7 +188,6 @@ public class AnagramSummaryView extends RelativeLayout {
         mAnagramsAdapter = new AnagramSummaryAdapter(getContext(), items);
         mAnagramsList.setAdapter(mAnagramsAdapter);
 
-        // TODO Fix for no anagram case
         selectAnagramAtAdapterPosition(0);
 
         updateAnagramSummaryTexts();

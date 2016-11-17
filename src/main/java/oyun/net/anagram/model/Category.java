@@ -87,8 +87,39 @@ public class Category {
         return mNbUnsolved + mNbSolved;
     }
 
+    public void syncInsertQuiz(AnagramQuiz quiz) {
+        mNbStars += quiz.getStars();
+    }
+
     public int getStars() {
         return mNbStars;
+    }
+
+    public void sync(Category o) {
+        mNbStars = o.getStars();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Category category = (Category) o;
+
+        if (!mId.equals(category.mId)) {
+            return false;
+        }
+
+        if (!mName.equals(category.mName)) {
+            return false;
+        }
+
+        return true;
     }
 
     // private static final List<Anagram> defaultAnagrams =

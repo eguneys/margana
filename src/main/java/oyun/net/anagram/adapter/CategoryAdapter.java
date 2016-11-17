@@ -59,6 +59,22 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         return mCategories.get(position).getId().hashCode();
     }
 
+    public final void notifyItemChanged(String id) {
+        updateCategories(mActivity);
+        int position = getItemPositionById(id);
+        notifyItemChanged(position);
+        Log.e("YYY item changed", "" + mCategories.get(position).getStars());
+    }
+
+    public int getItemPositionById(String id) {
+        for (int i = 0; i < mCategories.size(); i++) {
+            if (mCategories.get(i).getId().equals(id)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder((ItemCategoryBinding)DataBindingUtil

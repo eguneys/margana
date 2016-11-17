@@ -1,4 +1,5 @@
 <resources>
   <item name="absQuizViewContainer" type="id"/>
   <item name="quiz_content" type="id"/>
+  <item name="solved" type="id"/>
 </resources>

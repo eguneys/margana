@@ -60,6 +60,10 @@ public class CategorySelectionFragment extends Fragment
         super.onViewCreated(view, savedInstanceState);
     }
 
+    public void updateCategories(String categoryId) {
+        mAdapter.notifyItemChanged(categoryId);
+    }
+
     private void setupCategories(final RecyclerView categoriesView) {
         final int spacing = getContext().getResources()
             .getDimensionPixelSize(R.dimen.spacing_micro);

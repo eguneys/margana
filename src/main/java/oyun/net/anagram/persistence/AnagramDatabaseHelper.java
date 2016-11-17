@@ -369,7 +369,25 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
 
     // UPDATE OPERATIONS
 
+    public static void syncCategoryLocal(Category category) {
+        if (mCategories != null && mCategories.contains(category)) {
+            final int location = mCategories.indexOf(category);
+            final Category local = mCategories.get(location);
+            local.sync(category);
+            // mCategories.remove(location);
+            // mCategories.add(category);
+        }
+    }
+
     public static void insertQuiz(Context context, AnagramQuiz quiz, String categoryId) {
+        insertQuizLocal(quiz, categoryId);
+        insertQuizDb(context, quiz, categoryId);
+    }
+
+    private static void insertQuizLocal(AnagramQuiz quiz, String categoryId) {
+    }
+
+    private static void insertQuizDb(Context context, AnagramQuiz quiz, String categoryId) {
         SQLiteDatabase writableDatabase = getWritableDatabase(context);
 
         ContentValues values = new ContentValues();

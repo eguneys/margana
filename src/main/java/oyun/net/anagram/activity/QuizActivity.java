@@ -33,6 +33,7 @@ import android.support.v7.app.AppCompatActivity;
 import oyun.net.anagram.R;
 import oyun.net.anagram.fragment.QuizFragment;
 
+import oyun.net.anagram.model.JsonAttributes;
 import oyun.net.anagram.model.Category;
 import oyun.net.anagram.model.quiz.AnagramQuiz;
 import oyun.net.anagram.helper.ApiLevelHelper;
@@ -277,6 +278,12 @@ public class QuizActivity extends AppCompatActivity
         mNavigateMenu.setOnClickListener(mOnClickListener);
     }
 
+    private void setResultSolved() {
+        Intent categoryIntent = new Intent();
+        categoryIntent.putExtra(JsonAttributes.ID, mCategory.getId());
+        setResult(R.id.solved, categoryIntent);
+    }
+
     private void syncQuiz(AnagramQuiz quiz) {
         int stars = quiz.getStars();
 
@@ -285,7 +292,12 @@ public class QuizActivity extends AppCompatActivity
         }
         quiz.addStars(1);
 
+        mCategory.syncInsertQuiz(quiz);
+        AnagramDatabaseHelper.syncCategoryLocal(mCategory);
+
         AnagramDatabaseHelper.insertQuiz(this, quiz, mCategory.getId());
+
+        setResultSolved();
     }
 
     public void proceed(AnagramQuiz quiz) {
