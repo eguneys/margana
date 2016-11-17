@@ -4,13 +4,22 @@
     >
   <TextView
       android:id="@+id/congratz_text"
-      android:layout_width="match_parent"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_alignParentTop="true"
+      android:layout_centerHorizontal="true"
       android:gravity="center"
       android:textColor="@color/text_light"
       android:textSize="@dimen/big_text_size"
       android:text="@string/congratz"/>
+  <ImageView
+      android:id="@+id/star_icon"
+      android:layout_width="@dimen/size_star"
+      android:layout_height="@dimen/size_star"
+      android:layout_toRightOf="@id/congratz_text"
+      android:layout_marginLeft="@dimen/spacing_normal"
+      android:gravity="center"
+      android:background="@drawable/ic_star"/>
   <ImageButton
       android:id="@+id/replay_button"
       android:layout_width="@dimen/square_small"

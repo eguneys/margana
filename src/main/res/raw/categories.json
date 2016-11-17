@@ -1,5 +1,19 @@
 [
   {
+    "name": "test2",
+    "id": "2",
+    "theme": "red",
+    "wordLength": 4,
+    "wordLimit": 10,
+    "quizzes": [
+      {
+        "type": "anagram-quiz",
+        "time": "2",
+        "length": 3
+      }
+    ]
+  },
+  {
     "name": "test",
     "id": "3",
     "theme": "red",

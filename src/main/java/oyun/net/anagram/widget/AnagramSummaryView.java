@@ -14,6 +14,8 @@ import android.view.ViewTreeObserver;
 
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AnticipateInterpolator;
 import android.view.animation.OvershootInterpolator;
 
 import android.animation.Animator;
@@ -22,6 +24,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ListView;
 import android.widget.AdapterView;
@@ -48,7 +51,16 @@ public class AnagramSummaryView extends RelativeLayout {
 
 
     private long CongratzScaleAnimationDuration = 400;
+    private long CongratzTranslateAnimationDuration = 600;
+
+    private long StarScaleAnimationDuration = 400;
+    private long StarTranslateAnimationDuration = 600;
+
     private Interpolator CongratzScaleInterpolator = new OvershootInterpolator();
+    private Interpolator CongratzTranslateInterpolator = new AccelerateInterpolator();
+
+    private Interpolator StarScaleInterpolator = new AnticipateInterpolator();
+    private Interpolator StarTranslateInterpolator = new AccelerateInterpolator();
 
     private Interpolator LinearInterpolator = new LinearInterpolator();
 
@@ -57,6 +69,8 @@ public class AnagramSummaryView extends RelativeLayout {
     private LinesDrawable mLinesDrawable;
 
     private ImageButton mReplayButton;
+
+    private ImageView mStarIcon;
 
     private TextView mAnagramScoreSummary;
     private TextView mCongratzText;
@@ -98,6 +112,8 @@ public class AnagramSummaryView extends RelativeLayout {
                 }
             });
 
+        mStarIcon = (ImageView) findViewById(R.id.star_icon);
+
         mCongratzText = (TextView) findViewById(R.id.congratz_text);
 
         mAnagramTitle = (TextView) findViewById(R.id.anagram_title);
@@ -127,7 +143,7 @@ public class AnagramSummaryView extends RelativeLayout {
                     if (mAnimationListener != null) {
                         mAnimationListener.onLineAnimationEnd();
                     }
-                    animateSummaryLayout();
+                    animateCongratz();
                 }
 
                 @Override
@@ -144,6 +160,11 @@ public class AnagramSummaryView extends RelativeLayout {
         mAnagramScoreSummary.setText(ResourceUtil.getDynamicString(getContext(),
                                                                    R.string.youScored,
                                                                    "" + quiz.getScore()));
+        if (quiz.isSolved()) {
+            mCongratzText.setVisibility(View.VISIBLE);
+        } else {
+            // mCongratzText.setVisibility(View.GONE);
+        }
     }
 
     private void selectAnagramAtAdapterPosition(int position) {
@@ -174,6 +195,8 @@ public class AnagramSummaryView extends RelativeLayout {
     }
 
     public void animateVanish() {
+        
+
         mReplayButton
             .animate()
             .scaleX(0)
@@ -188,7 +211,23 @@ public class AnagramSummaryView extends RelativeLayout {
             .setInterpolator(LinearInterpolator)
             .start();
 
+        mAnagramsList
+            .animate()
+            .alpha(0f)
+            .scaleY(0)
+            .start();
+
+        mAnagramTitle.setAlpha(0);
+        mAnagramMeaning.setAlpha(0);
+
         mCongratzText
+            .animate()
+            .scaleX(0)
+            .scaleY(0)
+            .setInterpolator(LinearInterpolator)
+            .start();
+
+        mStarIcon
             .animate()
             .scaleX(0)
             .scaleY(0)
@@ -201,38 +240,76 @@ public class AnagramSummaryView extends RelativeLayout {
                     }
                 })
             .start();
-
-        mAnagramsList
-            .animate()
-            .alpha(0f)
-            .scaleY(0)
-            .start();
-
-        mAnagramTitle.setAlpha(0);
-        mAnagramMeaning.setAlpha(0);
     }
 
     public void animateSummary() {
+        float parentCenterX = this.getX() + this.getWidth() / 2;
+        float parentCenterY = this.getY() + this.getHeight() / 2;
+
+        float iconMargin = 30;
+
+        mStarIcon.setScaleX(4);
+        mStarIcon.setScaleY(4);
+
+        mStarIcon
+            .setTranslationX(parentCenterX - mStarIcon.getWidth() / 2 - mStarIcon.getX());
+        mStarIcon
+            .setTranslationY(parentCenterY - mStarIcon.getHeight() / 2 - mStarIcon.getY());
+
+        mCongratzText.setScaleX(0);
+        mCongratzText.setScaleY(0);
+
+        // mCongratzText
+        //     .setTranslationY(parentCenterY - mCongratzText.getHeight() / 2
+        //                      + mStarIcon.getHeight()
+        //                      + iconMargin);
+
         mReplayButton.setScaleX(0);
         mReplayButton.setScaleY(0);
 
         mAnagramScoreSummary.setScaleX(0);
         mAnagramScoreSummary.setScaleY(0);
 
-        mCongratzText.setScaleX(0);
-        mCongratzText.setScaleY(0);
-
         mAnagramsList.setPivotY(0);
         mAnagramsList.setAlpha(0);
         mAnagramsList.setScaleY(0);
-        mLinesDrawable.animateLines();
 
         mAnagramTitle.setAlpha(0);
         mAnagramMeaning.setAlpha(0);
+
+        mLinesDrawable.animateLines();
+    }
+
+    public void animateCongratz() {
+        mCongratzText
+            .animate()
+            .scaleX(1)
+            .scaleY(1)
+            .translationX(0)
+            .translationY(0)
+            .setInterpolator(CongratzScaleInterpolator)
+            .setDuration(CongratzScaleAnimationDuration)
+            .start();
+
+        mStarIcon
+            .animate()
+            .translationX(0)
+            .translationY(0)
+            .scaleX(1)
+            .scaleY(1)
+            .setInterpolator(StarTranslateInterpolator)
+            .setDuration(StarTranslateAnimationDuration)
+            .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        mCongratzText.animate().setListener(null);
+                        animateSummaryLayout();
+                    }
+                })
+            .start();
     }
 
     public void animateSummaryLayout() {
-
         mReplayButton
             .animate()
             .scaleX(1)
@@ -249,14 +326,6 @@ public class AnagramSummaryView extends RelativeLayout {
             .setDuration(CongratzScaleAnimationDuration)
             .setStartDelay(CongratzScaleAnimationDuration)
             .start();        
-
-        mCongratzText
-            .animate()
-            .scaleX(1)
-            .scaleY(1)
-            .setInterpolator(CongratzScaleInterpolator)
-            .setDuration(CongratzScaleAnimationDuration)
-            .start();
 
         mAnagramsList
             .animate()
