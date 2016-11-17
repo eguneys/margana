@@ -111,16 +111,20 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         final String id = cursor.getString(0);
         final String name = cursor.getString(1);
         final String themeName = cursor.getString(2);
-        final int wordLength = cursor.getInt(3);
-        final int wordLimit = cursor.getInt(4);
-        final List<Quiz> quizzes = getQuizzes(id, readableDatabase);
+        final int time = cursor.getInt(3);
+        final int wordLength = cursor.getInt(4);
+        final int wordLimit = cursor.getInt(5);
+        // final List<Quiz> quizzes = getQuizzes(id, readableDatabase);
+        // final Quiz quiz = (id, readableDatabase);
         final int nbUnsolved = getUnsolvedAnagramsCountByLength(readableDatabase, wordLength);
         final int nbSolved = getSolvedAnagramsCountByLength(readableDatabase, wordLength);
         final int nbStars = getStarsForCategory(id, readableDatabase);
 
         final Theme theme = Theme.valueOf(themeName);
 
-        return new Category(name, id, theme, quizzes, wordLength, wordLimit, nbSolved, nbUnsolved, nbStars);
+        Log.e("YYY insert cat", " " + wordLength);
+
+        return new Category(name, id, theme, time, wordLength, wordLimit, nbSolved, nbUnsolved, nbStars);
     }
 
     private static int getStarsForCategory(final String categoryId, SQLiteDatabase database) {
@@ -164,7 +168,7 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
     }
 
     private static Quiz createAnagramQuiz(SQLiteDatabase readableDatabase, int time, int wordLength) {
-        return new AnagramQuiz(time, wordLength, false);
+        return new AnagramQuiz(time, wordLength);
     }
 
 
@@ -271,7 +275,7 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
             db.beginTransaction();
 
             try {
-                fillCategoriesAndQuizzes(db);
+                fillCategories(db);
                 fillAnagrams(db);
                 db.setTransactionSuccessful();
             } finally {
@@ -313,7 +317,7 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    private void fillCategoriesAndQuizzes(SQLiteDatabase db) throws JSONException, IOException {
+    private void fillCategories(SQLiteDatabase db) throws JSONException, IOException {
         ContentValues values = new ContentValues(); // reuse
         JSONArray jsonArray = new JSONArray(readCategoriesFromResources());
         JSONObject category;
@@ -321,8 +325,6 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
             category = jsonArray.getJSONObject(i);
             final String categoryId = category.getString(JsonAttributes.ID);
             fillCategory(db, values, category, categoryId);
-            final JSONArray quizzes = category.getJSONArray(JsonAttributes.QUIZZES);
-            fillQuizzesForCategory(db, values, quizzes, categoryId);
         }
     }
 
@@ -349,7 +351,7 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         values.put(CategoryTable.COLUMN_ID, categoryId);
         values.put(CategoryTable.COLUMN_NAME, category.getString(JsonAttributes.NAME));
         values.put(CategoryTable.COLUMN_THEME, category.getString(JsonAttributes.THEME));
-
+        values.put(CategoryTable.COLUMN_TIME, category.getString(JsonAttributes.TIME));
         putOptionalInt(values, CategoryTable.COLUMN_WORD_LIMIT, category.getString(JsonAttributes.WORD_LIMIT));
         putOptionalInt(values, CategoryTable.COLUMN_WORD_LENGTH, category.getString(JsonAttributes.WORD_LENGTH));
 
@@ -362,17 +364,14 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    private void fillQuizzesForCategory(SQLiteDatabase db, ContentValues values, JSONArray quizzes,
-                                        String categoryId) throws JSONException {
-        JSONObject quiz;
-        for (int i = 0; i < quizzes.length(); i++) {
-            quiz = quizzes.getJSONObject(i);
-            values.clear();
-            values.put(QuizTable.FK_CATEGORY, categoryId);
-            values.put(QuizTable.COLUMN_TYPE, quiz.getString(JsonAttributes.TYPE));
-            values.put(QuizTable.COLUMN_TIME, quiz.getString(JsonAttributes.TIME));
-            values.put(QuizTable.COLUMN_LENGTH, quiz.getString(JsonAttributes.NB_LETTER));
-            db.insert(QuizTable.NAME, null, values);
-        }
-    }
+    // UPDATE OPERATIONS
+
+    // public void updateQuiz(Context context, AnagramQuiz quiz) {
+    //     SQLiteDatabase writeableDatabase = getWriteableDatabase(context);
+
+    //     ContentValues values = new ContentValues();
+    //     values.put
+
+    //         writeableDatabase.insert(QuizTable.NAME, null, values);
+    // }
 }

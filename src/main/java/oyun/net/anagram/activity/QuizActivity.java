@@ -34,6 +34,7 @@ import oyun.net.anagram.R;
 import oyun.net.anagram.fragment.QuizFragment;
 
 import oyun.net.anagram.model.Category;
+import oyun.net.anagram.model.quiz.AnagramQuiz;
 import oyun.net.anagram.helper.ApiLevelHelper;
 import oyun.net.anagram.helper.ViewUtils;
 import oyun.net.anagram.persistence.AnagramDatabaseHelper;
@@ -240,6 +241,7 @@ public class QuizActivity extends AppCompatActivity
             finish();
         }
         mCategory = AnagramDatabaseHelper.getCategoryById(this, categoryId);
+
         setTheme(mCategory.getTheme().getStyleId());
         initLayout();
         initToolbar(mCategory);
@@ -254,6 +256,7 @@ public class QuizActivity extends AppCompatActivity
         setContentView(R.layout.activity_quiz);
 
         mAnagramSummary = (AnagramSummaryView) findViewById(R.id.anagram_summary);
+        mAnagramSummary.setCategory(mCategory);
 
         mAnagramSummary.setAnimationListener(new AnagramSummaryView.AnimationListener() {
                 @Override
@@ -274,10 +277,21 @@ public class QuizActivity extends AppCompatActivity
         mNavigateMenu.setOnClickListener(mOnClickListener);
     }
 
-    public void proceed(Category category) {
+    private void syncQuiz(AnagramQuiz quiz) {
+        int stars = quiz.getStars();
+        if (quiz.isSolved()) {
+            quiz.addStars(1);
+        }
+
+        // AnagramDatabaseHelper.insertQuiz(quiz);
+    }
+
+    public void proceed(AnagramQuiz quiz) {
+        syncQuiz(quiz);
+
         // mQuizFragment.showSummary();
-        Log.e("YYY proceed", category.getQuizzes().toString());
-        mAnagramSummary.setCategory(category);
+        Log.e("YYY proceed", "lkajdsf");
+        mAnagramSummary.setQuiz(quiz);
         mAnagramSummary.setVisibility(View.VISIBLE);
         mAnagramSummary.animateSummary();
     }

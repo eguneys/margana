@@ -2,6 +2,8 @@ package oyun.net.anagram.fragment;
 
 import java.util.List;
 
+import android.util.Log;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -38,6 +40,8 @@ public class QuizFragment extends Fragment
     private int mQuizSize;
 
     private Category mCategory;
+    private AnagramQuiz mQuiz;
+
     private FrameLayout mQuizViewContainer;
     private AnagramQuizView mQuizView;
     // private AdapterViewAnimator mQuizView;
@@ -64,8 +68,9 @@ public class QuizFragment extends Fragment
     {
         String categoryId = getArguments().getString(Category.TAG);
         mCategory = AnagramDatabaseHelper.getCategoryById(getActivity(), categoryId);
+        mQuiz = new AnagramQuiz(mCategory.getTime(), mCategory.getWordLength());
 
-        populateQuizWithAnagrams((AnagramQuiz)mCategory.getRecentQuiz());
+        populateQuizWithAnagrams(mQuiz);
 
         super.onCreate(savedInstanceState);
     }
@@ -97,28 +102,27 @@ public class QuizFragment extends Fragment
     }
 
     private void populateQuizWithAnagrams(AnagramQuiz quiz) {
-        quiz.addAnagrams(AnagramDatabaseHelper.getRandomUnsolvedAnagrams(getActivity(), quiz.getLength(), mCategory.getWordLimit()));
+        quiz.addAnagrams(AnagramDatabaseHelper.getRandomUnsolvedAnagrams(getActivity(), quiz.getWordLength(), mCategory.getWordLimit()));
     }
 
     private void initProgressToolbar(View view) {
-        final int firstUnsolvedQuizPosition = mCategory.getFirstUnsolvedQuizPosition();
-        final List<Quiz> quizzes = mCategory.getQuizzes();
-        mQuizSize = quizzes.size();
+        // final int firstUnsolvedQuizPosition = mCategory.getFirstUnsolvedQuizPosition();
+        // final List<Quiz> quizzes = mCategory.getQuizzes();
+        // mQuizSize = quizzes.size();
         // mProgressText = (TextView) view.findViewById(R.id.progress_text);
-        mProgressBar = ((ProgressBar) view.findViewById(R.id.progress));
-        mProgressBar.setMax(mQuizSize);
-        setProgress(firstUnsolvedQuizPosition);
+        // mProgressBar = ((ProgressBar) view.findViewById(R.id.progress));
+        // mProgressBar.setMax(mQuizSize);
+        // setProgress(firstUnsolvedQuizPosition);
     }
 
     private void decideOnViewToDisplay() {
-        final boolean isSolved = mCategory.isSolved();
+        final boolean isSolved = mQuiz.isSolved();
         if (isSolved) {
             showSummary();
         } else {
-            // mQuizView.setAdapter(getQuizAdapter());
             mQuizView = new AnagramQuizView(getContext(),
                                             mCategory,
-                                            (AnagramQuiz)mCategory.getRecentQuiz());
+                                            mQuiz);
             mQuizViewContainer.addView(mQuizView);
         }
     }
@@ -148,15 +152,12 @@ public class QuizFragment extends Fragment
     // }
 
     public void showSummary() {
-
+        
     }
 
     public void replay() {
-        mCategory.addNewQuiz();
-
-        AnagramQuiz recentQuiz = (AnagramQuiz)mCategory.getRecentQuiz();
-
-        populateQuizWithAnagrams(recentQuiz);
-        mQuizView.reset(recentQuiz);
+        mQuiz.reset();
+        populateQuizWithAnagrams(mQuiz);
+        mQuizView.reset(mQuiz);
     }
 }

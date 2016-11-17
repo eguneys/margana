@@ -10,7 +10,7 @@ public interface QuizTable {
     String FK_CATEGORY = "fk_category";
     String COLUMN_TYPE = "type";
     String COLUMN_TIME = "time";
-    String COLUMN_LENGTH = "wLength";
+    String COLUMN_WORD_LENGTH = "wLength";
     String COLUMN_SOLVED = "solved";
     String COLUMN_NB_STAR = "nbStar";
 
@@ -19,7 +19,7 @@ public interface QuizTable {
                                         COLUMN_TYPE,
                                         COLUMN_SOLVED,
                                         COLUMN_TIME,
-                                        COLUMN_LENGTH,
+                                        COLUMN_WORD_LENGTH,
                                         COLUMN_NB_STAR
     };
 
@@ -30,7 +30,7 @@ public interface QuizTable {
         + COLUMN_TYPE + " TEXT NOT NULL, "
         + COLUMN_SOLVED + " TEXT, "
         + COLUMN_TIME + " INTEGER NOT NULL, "
-        + COLUMN_LENGTH + " INTEGER NOT NULL, "
+        + COLUMN_WORD_LENGTH + " INTEGER NOT NULL, "
         + COLUMN_NB_STAR + " INTEGER "
         + ");";
 

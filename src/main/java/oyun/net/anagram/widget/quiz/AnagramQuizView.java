@@ -58,7 +58,7 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
                     Log.e("YYY timeout", this.toString());
                     addTimeSpentBeforeNextAnagram();
                     stopAnagramInteraction();
-                    ((QuizActivity)getContext()).proceed(getCategory());
+                    proceedActivity();
                     
                 }
 
@@ -199,6 +199,10 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
         mAnagramView.setInteraction(false);
     }
 
+    private void proceedActivity() {
+        ((QuizActivity)getContext()).proceed(getQuiz());
+    }
+
 
     // TODO fix thread issue ontimeout vs solve
     private void decideOnNextAnagram() {
@@ -208,7 +212,7 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
 
             addTimeSpentBeforeNextAnagram();
             stopAnagramInteraction();
-            ((QuizActivity)getContext()).proceed(getCategory());
+            proceedActivity();
         }
 
         updateAnagramNb();

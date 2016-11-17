@@ -8,25 +8,25 @@ import oyun.net.anagram.model.Anagram;
 public class AnagramQuiz extends Quiz<List<Anagram>> {
     
     private int mTime;
-    private int mNbWords;
+    private int mWordLength;
 
     private int mNbStars;
 
     public AnagramQuiz(AnagramQuiz quiz) {
-        this(quiz.getTime(), quiz.getLength(), false);
+        this(quiz.getTime(), quiz.getWordLength());
     }
 
-    public AnagramQuiz(int time, int nbWords, boolean solved) {
-        this(new ArrayList<Anagram>(), time, nbWords, solved);
+    public AnagramQuiz(int time, int wordLength) {
+        this(new ArrayList<Anagram>(), time, wordLength, false);
     }    
 
     /*
      * time required to solve the quiz in seconds
      */
-    public AnagramQuiz(List<Anagram> answer, int time, int nbWords, boolean solved) {
+    public AnagramQuiz(List<Anagram> answer, int time, int wordLength, boolean solved) {
         super("", answer, solved);
         mTime = time;
-        mNbWords = nbWords;
+        mWordLength = wordLength;
     }
 
     public Anagram get(int idx) {
@@ -87,6 +87,11 @@ public class AnagramQuiz extends Quiz<List<Anagram>> {
         return getAnagrams().size();
     }
 
+    @Override
+    public boolean isSolved() {
+        return getNbSolved() == getNbTotal();
+    }
+
     public void addAnagrams(List<Anagram> anagrams) {
         getAnswer().addAll(anagrams);
     }
@@ -95,8 +100,8 @@ public class AnagramQuiz extends Quiz<List<Anagram>> {
         return mTime;
     }
 
-    public int getLength() {
-        return mNbWords;
+    public int getWordLength() {
+        return mWordLength;
     }
 
     public void addStars(int stars) {
@@ -105,5 +110,11 @@ public class AnagramQuiz extends Quiz<List<Anagram>> {
 
     public int getStars() {
         return mNbStars;
+    }
+
+    public void reset() {
+        mNbStars = 0;
+        mTime = 0;
+        getAnagrams().clear();
     }
 }

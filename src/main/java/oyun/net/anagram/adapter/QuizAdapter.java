@@ -14,6 +14,7 @@ import oyun.net.anagram.model.quiz.AnagramQuiz;
 import oyun.net.anagram.widget.quiz.AbsQuizView;
 import oyun.net.anagram.widget.quiz.AnagramQuizView;
 
+// deprecated
 public class QuizAdapter extends BaseAdapter {
 
     private final List<Quiz> mQuizzes;
@@ -23,7 +24,7 @@ public class QuizAdapter extends BaseAdapter {
     public QuizAdapter(Context context, Category category) {
         mContext = context;
         mCategory = category;
-        mQuizzes = category.getQuizzes();
+        mQuizzes = null;
     }
 
     @Override

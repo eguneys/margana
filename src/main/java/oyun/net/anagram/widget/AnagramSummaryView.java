@@ -82,6 +82,7 @@ public class AnagramSummaryView extends RelativeLayout {
     private AnagramSummaryAdapter mAnagramsAdapter;
 
     private Category mCategory;
+    private AnagramQuiz mQuiz;
     
     public AnagramSummaryView(Context context) {
         super(context);
@@ -156,11 +157,10 @@ public class AnagramSummaryView extends RelativeLayout {
     }
 
     private void updateAnagramSummaryTexts() {
-        AnagramQuiz quiz = (AnagramQuiz)mCategory.getRecentQuiz();
         mAnagramScoreSummary.setText(ResourceUtil.getDynamicString(getContext(),
                                                                    R.string.youScored,
-                                                                   "" + quiz.getScore()));
-        if (quiz.isSolved()) {
+                                                                   "" + mQuiz.getScore()));
+        if (mQuiz.isSolved()) {
             mCongratzText.setVisibility(View.VISIBLE);
         } else {
             // debug
@@ -176,10 +176,12 @@ public class AnagramSummaryView extends RelativeLayout {
 
     public void setCategory(Category category) {
         mCategory = category;
+    }
 
-        AnagramQuiz recentQuiz = (AnagramQuiz)category.getRecentQuiz();
+    public void setQuiz(AnagramQuiz quiz) {
+        mQuiz = quiz;
 
-        List<Anagram> items = recentQuiz.getAnagramsWithTimeSpent();
+        List<Anagram> items = mQuiz.getAnagramsWithTimeSpent();
         mAnagramsAdapter = new AnagramSummaryAdapter(getContext(), items);
         mAnagramsList.setAdapter(mAnagramsAdapter);
 
@@ -188,7 +190,7 @@ public class AnagramSummaryView extends RelativeLayout {
 
         updateAnagramSummaryTexts();
 
-        if (recentQuiz.isSolved()) {
+        if (mQuiz.isSolved()) {
             mLinesDrawable.setOrientation(LinesDrawable.HORIZONTAL);
         } else {
             mLinesDrawable.setOrientation(LinesDrawable.VERTICAL);
