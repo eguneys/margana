@@ -25,14 +25,13 @@
         android:paddingBottom="@dimen/spacing_double"
         />
 
-    <ImageView
+    <oyun.net.anagram.widget.StarView
         android:id="@+id/category_stars"
         android:layout_width="@dimen/size_star_big"
         android:layout_height="@dimen/size_star_big"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/spacing_double"
-        android:src="@drawable/ic_star"
         />
 
     <!-- <TextView -->

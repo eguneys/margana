@@ -83,17 +83,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                                                        category.getId()));
 
             int stars = category.getStars();
-            stars = 10;
-            if (stars > 0) {
-                binding.categoryStars.setVisibility(View.VISIBLE);
-                // binding.categoryNbStars.setVisibility(View.VISIBLE);
+            binding.categoryStars.setNbStar(stars);
 
-                // binding.categoryNbStars
-                //     .setText(String.format("%1$d", stars));
-            } else {
-                binding.categoryStars.setVisibility(View.VISIBLE);
-                // binding.categoryNbStars.setVisibility(View.VISIBLE);
-            }
+            // if (stars > 0) {
+            //     binding.categoryStars.setVisibility(View.VISIBLE);
+            // } else {
+            //     binding.categoryStars.setVisibility(View.INVISIBLE);
+            // }
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
