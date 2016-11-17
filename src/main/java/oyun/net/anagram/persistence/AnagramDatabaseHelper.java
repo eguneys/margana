@@ -121,8 +121,7 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         final int nbStars = getStarsForCategory(id, readableDatabase);
 
         final Theme theme = Theme.valueOf(themeName);
-
-        Log.e("YYY insert cat", " " + wordLength);
+        Log.e("YYY getCat", id + " " + nbStars);
 
         return new Category(name, id, theme, time, wordLength, wordLimit, nbSolved, nbUnsolved, nbStars);
     }
@@ -255,6 +254,10 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         return getInstance(context).getReadableDatabase();
     }
 
+    private static SQLiteDatabase getWritableDatabase(Context context) {
+        return getInstance(context).getWritableDatabase();
+    }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         //
@@ -366,12 +369,17 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
 
     // UPDATE OPERATIONS
 
-    // public void updateQuiz(Context context, AnagramQuiz quiz) {
-    //     SQLiteDatabase writeableDatabase = getWriteableDatabase(context);
+    public static void insertQuiz(Context context, AnagramQuiz quiz, String categoryId) {
+        SQLiteDatabase writableDatabase = getWritableDatabase(context);
 
-    //     ContentValues values = new ContentValues();
-    //     values.put
+        ContentValues values = new ContentValues();
+        values.put(QuizTable.FK_CATEGORY, categoryId);
+        values.put(QuizTable.COLUMN_TYPE, "anagram-quiz");
+        values.put(QuizTable.COLUMN_TIME, quiz.getTime());
+        values.put(QuizTable.COLUMN_WORD_LENGTH, quiz.getWordLength());
+        values.put(QuizTable.COLUMN_NB_STAR, quiz.getStars());
+        
 
-    //         writeableDatabase.insert(QuizTable.NAME, null, values);
-    // }
+        writableDatabase.insert(QuizTable.NAME, null, values);
+    }
 }

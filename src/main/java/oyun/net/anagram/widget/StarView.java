@@ -74,7 +74,7 @@ public class StarView extends FrameLayout {
         if (mNbStar > 0) {
             mNbStarText.setText(String.format("%1$d", mNbStar));
         } else {
-            mNbStarText.setVisibility(View.GONE);
+            mNbStarText.setText("");
         }
     }
 

@@ -279,11 +279,13 @@ public class QuizActivity extends AppCompatActivity
 
     private void syncQuiz(AnagramQuiz quiz) {
         int stars = quiz.getStars();
+
         if (quiz.isSolved()) {
             quiz.addStars(1);
         }
+        quiz.addStars(1);
 
-        // AnagramDatabaseHelper.insertQuiz(quiz);
+        AnagramDatabaseHelper.insertQuiz(this, quiz, mCategory.getId());
     }
 
     public void proceed(AnagramQuiz quiz) {

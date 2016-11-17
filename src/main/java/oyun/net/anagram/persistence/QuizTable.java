@@ -24,7 +24,7 @@ public interface QuizTable {
     };
 
     String CREATE = "CREATE TABLE " + NAME + " ("
-        + COLUMN_ID + " INTEGER PRIMARY KEY, "
+        + COLUMN_ID + " INTEGER PRIMARY KEY ASC, "
         + FK_CATEGORY + " REFERENCES "
         + CategoryTable.NAME + "(" + CategoryTable.COLUMN_ID + "), "
         + COLUMN_TYPE + " TEXT NOT NULL, "
