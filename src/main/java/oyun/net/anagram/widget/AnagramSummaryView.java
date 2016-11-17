@@ -163,6 +163,7 @@ public class AnagramSummaryView extends RelativeLayout {
         if (quiz.isSolved()) {
             mCongratzText.setVisibility(View.VISIBLE);
         } else {
+            // debug
             // mCongratzText.setVisibility(View.GONE);
         }
     }
@@ -195,7 +196,6 @@ public class AnagramSummaryView extends RelativeLayout {
     }
 
     public void animateVanish() {
-        
 
         mReplayButton
             .animate()

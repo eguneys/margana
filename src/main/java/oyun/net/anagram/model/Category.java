@@ -55,21 +55,22 @@ public class Category {
     private final String mId;
     private final Theme mTheme;
     private final List<Quiz> mQuizzes;
-    private boolean mSolved;
 
-    private int mWordLimit;;
-
+    private int mWordLimit;
     private int mWordLength;
 
+    private boolean mSolved;
     private int mNbUnsolved;
     private int mNbSolved;
+
+    private int mNbStars;
 
     public Category(String name,
                     String id,
                     Theme theme,
                     List<Quiz> quizzes,
                     boolean solved) {
-        this(name, id, theme, quizzes, solved, -1, DEFAULT_WORD_LIMIT, 0, 0);
+        this(name, id, theme, quizzes, solved, -1, DEFAULT_WORD_LIMIT, 0, 0, 0);
     }
 
     public Category(String name,
@@ -79,8 +80,9 @@ public class Category {
                     int nbQuiz,
                     int wordLimit,
                     int nbSolved,
-                    int nbUnsolved) {
-        this(name, id, theme, quizzes, false, nbQuiz, wordLimit, nbSolved, nbUnsolved);
+                    int nbUnsolved,
+                    int nbStars) {
+        this(name, id, theme, quizzes, false, nbQuiz, wordLimit, nbSolved, nbUnsolved, nbStars);
     }
 
     public Category(String name,
@@ -91,7 +93,8 @@ public class Category {
                     int wordLength,
                     int wordLimit,
                     int nbSolved,
-                    int nbUnsolved) {
+                    int nbUnsolved,
+                    int nbStars) {
         mName = name;
         mId = id;
         mTheme = theme;
@@ -101,6 +104,7 @@ public class Category {
         mWordLength = wordLength;
         mNbSolved = nbSolved;
         mNbUnsolved = nbUnsolved;
+        mNbStars = nbStars;
     }
 
     public String getName() {
@@ -158,6 +162,10 @@ public class Category {
 
     public void setSolved(boolean solved) {
         this.mSolved = solved;
+    }
+
+    public int getStars() {
+        return mNbStars;
     }
 
     public int getFirstUnsolvedQuizPosition() {

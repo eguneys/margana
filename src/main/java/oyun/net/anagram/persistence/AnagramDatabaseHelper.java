@@ -116,10 +116,22 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         final List<Quiz> quizzes = getQuizzes(id, readableDatabase);
         final int nbUnsolved = getUnsolvedAnagramsCountByLength(readableDatabase, wordLength);
         final int nbSolved = getSolvedAnagramsCountByLength(readableDatabase, wordLength);
+        final int nbStars = getStarsForCategory(id, readableDatabase);
 
         final Theme theme = Theme.valueOf(themeName);
 
-        return new Category(name, id, theme, quizzes, wordLength, wordLimit, nbSolved, nbUnsolved);
+        return new Category(name, id, theme, quizzes, wordLength, wordLimit, nbSolved, nbUnsolved, nbStars);
+    }
+
+    private static int getStarsForCategory(final String categoryId, SQLiteDatabase database) {
+        final String queryString = "SELECT SUM(" + QuizTable.COLUMN_NB_STAR + ") FROM " + QuizTable.NAME
+            + " WHERE " + QuizTable.FK_CATEGORY + " = ?";
+
+        final Cursor cursor = database.rawQuery(queryString, new String[] { categoryId });
+
+        cursor.moveToFirst();
+        int stars = cursor.getInt(0);
+        return stars;
     }
 
     private static List<Quiz> getQuizzes(final String categoryId, SQLiteDatabase database) {
@@ -245,6 +257,7 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CategoryTable.CREATE);
         db.execSQL(QuizTable.CREATE);
         db.execSQL(AnagramTable.CREATE);
+        db.execSQL(ProfileTable.CREATE);
         preFillDatabase(db);
     }
 

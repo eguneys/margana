@@ -10,6 +10,8 @@ public class AnagramQuiz extends Quiz<List<Anagram>> {
     private int mTime;
     private int mNbWords;
 
+    private int mNbStars;
+
     public AnagramQuiz(AnagramQuiz quiz) {
         this(quiz.getTime(), quiz.getLength(), false);
     }
@@ -95,5 +97,13 @@ public class AnagramQuiz extends Quiz<List<Anagram>> {
 
     public int getLength() {
         return mNbWords;
+    }
+
+    public void addStars(int stars) {
+        mNbStars += stars;
+    }
+
+    public int getStars() {
+        return mNbStars;
     }
 }
