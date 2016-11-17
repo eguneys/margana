@@ -82,9 +82,18 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                                                        R.string.nbLetters,
                                                        category.getId()));
 
-            binding.categoryNbItems
-                .setText(String.format("%1$d/%2$d", category.getNbSolved(), category.getNbTotal()));
+            int stars = category.getStars();
+            stars = 10;
+            if (stars > 0) {
+                binding.categoryStars.setVisibility(View.VISIBLE);
+                // binding.categoryNbStars.setVisibility(View.VISIBLE);
 
+                // binding.categoryNbStars
+                //     .setText(String.format("%1$d", stars));
+            } else {
+                binding.categoryStars.setVisibility(View.VISIBLE);
+                // binding.categoryNbStars.setVisibility(View.VISIBLE);
+            }
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
