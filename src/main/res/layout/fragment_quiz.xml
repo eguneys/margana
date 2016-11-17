@@ -17,10 +17,17 @@
       android:progressTint="?android:colorAccent"
       />
 
-  <AdapterViewFlipper
+  <FrameLayout
       android:id="@+id/quiz_view"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:layout_above="@id/progress"
       />
+
+  <!-- <AdapterViewFlipper -->
+  <!--     android:id="@+id/quiz_view" -->
+  <!--     android:layout_width="match_parent" -->
+  <!--     android:layout_height="match_parent" -->
+  <!--     android:layout_above="@id/progress" -->
+  <!--     /> -->
 </RelativeLayout>

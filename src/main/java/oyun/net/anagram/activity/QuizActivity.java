@@ -276,6 +276,7 @@ public class QuizActivity extends AppCompatActivity
 
     public void proceed(Category category) {
         // mQuizFragment.showSummary();
+        Log.e("YYY proceed", category.getQuizzes().toString());
         mAnagramSummary.setCategory(category);
         mAnagramSummary.setVisibility(View.VISIBLE);
         mAnagramSummary.animateSummary();

@@ -14,6 +14,8 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import android.widget.FrameLayout;
 import android.widget.AdapterViewAnimator;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -23,6 +25,8 @@ import oyun.net.anagram.model.Category;
 import oyun.net.anagram.model.Theme;
 import oyun.net.anagram.model.quiz.Quiz;
 import oyun.net.anagram.model.quiz.AnagramQuiz;
+
+import oyun.net.anagram.widget.quiz.AnagramQuizView;
 
 import oyun.net.anagram.adapter.QuizAdapter;
 import oyun.net.anagram.helper.ApiLevelHelper;
@@ -36,8 +40,10 @@ public class QuizFragment extends Fragment
     private int mQuizSize;
 
     private Category mCategory;
-    private AdapterViewAnimator mQuizView;
-    private QuizAdapter mQuizAdapter;
+    private FrameLayout mQuizViewContainer;
+    private AnagramQuizView mQuizView;
+    // private AdapterViewAnimator mQuizView;
+    // private QuizAdapter mQuizAdapter;
 
     private TextView mProgressText;
     private ProgressBar mProgressBar;
@@ -82,7 +88,8 @@ public class QuizFragment extends Fragment
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        mQuizView = (AdapterViewAnimator) view.findViewById(R.id.quiz_view);
+        // mQuizView = (AdapterViewAnimator) view.findViewById(R.id.quiz_view);
+        mQuizViewContainer = (FrameLayout) view.findViewById(R.id.quiz_view);
 
         decideOnViewToDisplay();
         // setQuizViewAnimations();
@@ -110,7 +117,11 @@ public class QuizFragment extends Fragment
         if (isSolved) {
             showSummary();
         } else {
-            mQuizView.setAdapter(getQuizAdapter());
+            // mQuizView.setAdapter(getQuizAdapter());
+            mQuizView = new AnagramQuizView(getContext(),
+                                            mCategory,
+                                            (AnagramQuiz)mCategory.getRecentQuiz());
+            mQuizViewContainer.addView(mQuizView);
         }
     }
 
@@ -130,13 +141,13 @@ public class QuizFragment extends Fragment
         mProgressBar.setProgress(currentQuizPosition);
     }
 
-    private QuizAdapter getQuizAdapter() {
-        if (null == mQuizAdapter) {
-            mQuizAdapter = new QuizAdapter(getActivity(), mCategory);
-        }
+    // private QuizAdapter getQuizAdapter() {
+    //     if (null == mQuizAdapter) {
+    //         mQuizAdapter = new QuizAdapter(getActivity(), mCategory);
+    //     }
 
-        return mQuizAdapter;
-    }
+    //     return mQuizAdapter;
+    // }
 
     public void showSummary() {
 
@@ -144,8 +155,10 @@ public class QuizFragment extends Fragment
 
     public void replay() {
         mCategory.addNewQuiz();
-        populateQuizWithAnagrams((AnagramQuiz)mCategory.getRecentQuiz());
-        mQuizAdapter.notifyDataSetChanged();
-        mQuizView.showNext();
+
+        AnagramQuiz recentQuiz = (AnagramQuiz)mCategory.getRecentQuiz();
+
+        populateQuizWithAnagrams(recentQuiz);
+        mQuizView.reset(recentQuiz);
     }
 }

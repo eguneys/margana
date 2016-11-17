@@ -1,6 +1,7 @@
 package oyun.net.anagram.adapter;
 
 import java.util.List;
+import android.util.Log;
 
 import android.content.Context;
 import android.view.View;
@@ -43,6 +44,9 @@ public class QuizAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final Quiz quiz = getItem(position);
+        Log.e("YYY createView", convertView == null ? "null": convertView.toString());
+        Log.e("YYY createView abs", convertView instanceof AbsQuizView ? "true":"false");
+        Log.e("YYY createView anag", convertView instanceof AnagramQuizView ? "true": "false");
         if (convertView instanceof AbsQuizView) {
             // if (((AbsQuizView) convertView).getQuiz().equals(quiz)) {
             //     return convertView;

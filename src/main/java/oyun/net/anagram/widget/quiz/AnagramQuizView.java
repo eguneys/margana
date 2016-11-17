@@ -50,11 +50,13 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
 
     private void init() {
         mTime = ((AnagramQuiz)getQuiz()).getTime() * 1000;
-
+        Log.e("YYY init", this.toString());
         mTimerHelper = new TimerHelper();
         mTimerHelper.setListener(new TimerHelper.TimerListener() {
                 @Override
                 public void onTimeout() {
+                    Log.e("YYY timeout", this.toString());
+                    addTimeSpentBeforeNextAnagram();
                     stopAnagramInteraction();
                     ((QuizActivity)getContext()).proceed(getCategory());
                     
@@ -202,9 +204,10 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
     private void decideOnNextAnagram() {
         addTimeSpentBeforeNextAnagram();
         if (!setNextUnsolvedAnagram()) {
-            stopAnagramInteraction();
             markQuizSolved();
 
+            addTimeSpentBeforeNextAnagram();
+            stopAnagramInteraction();
             ((QuizActivity)getContext()).proceed(getCategory());
         }
 

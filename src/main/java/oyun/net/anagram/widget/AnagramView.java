@@ -128,6 +128,11 @@ public class AnagramView extends AbsAnagramView2 {
         // make sure its the last item to animate
         ((LetterView)getLastAnimatedView())
             .setAnimationListener(mLetterAnimationListener);
+
+        for (LetterViewHolder viewHolder : mAllViews) {
+            LetterView item = viewHolder.itemView;
+            item.invalidate();
+        }
     }
 
     public void vanishLetters() {
