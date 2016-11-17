@@ -3,7 +3,8 @@
     "name": "test",
     "id": "3",
     "theme": "red",
-    "length": 4,
+    "wordLength": 4,
+    "wordLimit": 10,
     "quizzes": [
       {
         "type": "anagram-quiz",
@@ -16,7 +17,8 @@
     "name": "4",
     "id": "4",
     "theme": "red",
-    "length": 4,
+    "wordLength": 4,
+    "wordLimit": 10,
     "quizzes": [
       {
         "type": "anagram-quiz",
@@ -29,7 +31,8 @@
     "name": "5",
     "id": "5",
     "theme": "red",
-    "length": 5,
+    "wordLength": 5,
+    "wordLimit": 10,
     "quizzes": [
       {
         "type": "anagram-quiz",
@@ -42,7 +45,8 @@
     "name": "6",
     "id": "6",
     "theme": "red",
-    "length": 6,
+    "wordLength": 6,
+    "wordLimit": 10,
     "quizzes": [
       {
         "type": "anagram-quiz",
@@ -55,7 +59,8 @@
     "name": "7",
     "id": "7",
     "theme": "red",
-    "length": 7,
+    "wordLength": 7,
+    "wordLimit": 10,
     "quizzes": [
       {
         "type": "anagram-quiz",
@@ -68,7 +73,8 @@
     "name": "8",
     "id": "8",
     "theme": "red",
-    "length": 8,
+    "wordLength": 8,
+    "wordLimit": 10,
     "quizzes": [
       {
         "type": "anagram-quiz",
@@ -81,7 +87,8 @@
     "name": "9",
     "id": "9",
     "theme": "red",
-    "length": 9,
+    "wordLength": 9,
+    "wordLimit": 10,
     "quizzes": [
       {
         "type": "anagram-quiz",
@@ -94,7 +101,8 @@
     "name": "mixed",
     "id": "10",
     "theme": "red",
-    "length": -1,
+    "wordLength": -1,
+    "wordLimit": 10,
     "quizzes": [
       {
         "type": "anagram-quiz",

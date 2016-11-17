@@ -35,8 +35,6 @@ import oyun.net.anagram.persistence.AnagramDatabaseHelper;
 public class QuizFragment extends Fragment
 {
 
-    public static final int QUIZ_LIMIT = 2;
-    
     private int mQuizSize;
 
     private Category mCategory;
@@ -99,7 +97,7 @@ public class QuizFragment extends Fragment
     }
 
     private void populateQuizWithAnagrams(AnagramQuiz quiz) {
-        quiz.addAnagrams(AnagramDatabaseHelper.getRandomUnsolvedAnagrams(getActivity(), quiz.getLength(), QUIZ_LIMIT));
+        quiz.addAnagrams(AnagramDatabaseHelper.getRandomUnsolvedAnagrams(getActivity(), quiz.getLength(), mCategory.getWordLimit()));
     }
 
     private void initProgressToolbar(View view) {

@@ -112,13 +112,14 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         final String name = cursor.getString(1);
         final String themeName = cursor.getString(2);
         final int wordLength = cursor.getInt(3);
+        final int wordLimit = cursor.getInt(4);
         final List<Quiz> quizzes = getQuizzes(id, readableDatabase);
         final int nbUnsolved = getUnsolvedAnagramsCountByLength(readableDatabase, wordLength);
         final int nbSolved = getSolvedAnagramsCountByLength(readableDatabase, wordLength);
 
         final Theme theme = Theme.valueOf(themeName);
 
-        return new Category(name, id, theme, quizzes, wordLength, nbSolved, nbUnsolved);
+        return new Category(name, id, theme, quizzes, wordLength, wordLimit, nbSolved, nbUnsolved);
     }
 
     private static List<Quiz> getQuizzes(final String categoryId, SQLiteDatabase database) {
@@ -336,11 +337,16 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         values.put(CategoryTable.COLUMN_NAME, category.getString(JsonAttributes.NAME));
         values.put(CategoryTable.COLUMN_THEME, category.getString(JsonAttributes.THEME));
 
-        String nbWord = category.getString(JsonAttributes.NB_WORD);
-        if (nbWord != null| nbWord != "-1") {
-            values.put(CategoryTable.COLUMN_NB_WORD, nbWord);
-        }
+        putOptionalInt(values, CategoryTable.COLUMN_WORD_LIMIT, category.getString(JsonAttributes.WORD_LIMIT));
+        putOptionalInt(values, CategoryTable.COLUMN_WORD_LENGTH, category.getString(JsonAttributes.WORD_LENGTH));
+
         db.insert(CategoryTable.NAME, null, values);
+    }
+
+    private void putOptionalInt(ContentValues values, String column, String value) {
+        if (value != null| value != "-1") {
+            values.put(column, value);
+        }
     }
 
     private void fillQuizzesForCategory(SQLiteDatabase db, ContentValues values, JSONArray quizzes,
@@ -352,7 +358,7 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
             values.put(QuizTable.FK_CATEGORY, categoryId);
             values.put(QuizTable.COLUMN_TYPE, quiz.getString(JsonAttributes.TYPE));
             values.put(QuizTable.COLUMN_TIME, quiz.getString(JsonAttributes.TIME));
-            values.put(QuizTable.COLUMN_LENGTH, quiz.getString(JsonAttributes.WORD_LENGTH));
+            values.put(QuizTable.COLUMN_LENGTH, quiz.getString(JsonAttributes.NB_LETTER));
             db.insert(QuizTable.NAME, null, values);
         }
     }

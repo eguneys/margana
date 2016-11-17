@@ -11,6 +11,8 @@ public class Category {
     
     public static final String TAG = "Category";
 
+    public static final int DEFAULT_WORD_LIMIT = 10;
+
     private static final List<Anagram> defaultAnagrams =
         new ArrayList<Anagram>(Arrays.asList(Anagram.createTest("test1"),
                                              Anagram.createTest("test12"),
@@ -55,6 +57,8 @@ public class Category {
     private final List<Quiz> mQuizzes;
     private boolean mSolved;
 
+    private int mWordLimit;;
+
     private int mWordLength;
 
     private int mNbUnsolved;
@@ -65,17 +69,18 @@ public class Category {
                     Theme theme,
                     List<Quiz> quizzes,
                     boolean solved) {
-        this(name, id, theme, quizzes, solved, -1, 0, 0);
+        this(name, id, theme, quizzes, solved, -1, DEFAULT_WORD_LIMIT, 0, 0);
     }
 
     public Category(String name,
                     String id,
                     Theme theme,
                     List<Quiz> quizzes,
-                    int wordLength,
+                    int nbQuiz,
+                    int wordLimit,
                     int nbSolved,
                     int nbUnsolved) {
-        this(name, id, theme, quizzes, false, wordLength, nbSolved, nbUnsolved);
+        this(name, id, theme, quizzes, false, nbQuiz, wordLimit, nbSolved, nbUnsolved);
     }
 
     public Category(String name,
@@ -84,6 +89,7 @@ public class Category {
                     List<Quiz> quizzes,
                     boolean solved,
                     int wordLength,
+                    int wordLimit,
                     int nbSolved,
                     int nbUnsolved) {
         mName = name;
@@ -91,6 +97,7 @@ public class Category {
         mTheme = theme;
         mQuizzes = quizzes;
         mSolved = solved;
+        mWordLimit = wordLimit;
         mWordLength = wordLength;
         mNbSolved = nbSolved;
         mNbUnsolved = nbUnsolved;
@@ -110,6 +117,10 @@ public class Category {
 
     public List<Quiz> getQuizzes() {
         return mQuizzes;
+    }
+
+    public int getWordLimit() {
+        return mWordLimit;
     }
 
     public int getNbUnsolved() {
