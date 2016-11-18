@@ -53,6 +53,8 @@ public class CategorySelectionActivity extends AppCompatActivity
 
     private View mNavigateMenu;
 
+    private boolean hasOnCreateCalledBeforeOnResume;
+
     public static void start(Context context) {
         Intent starter = getStartIntent(context);
         context.startActivity(starter);
@@ -76,13 +78,19 @@ public class CategorySelectionActivity extends AppCompatActivity
         }
 
         supportPostponeEnterTransition();
+
+        hasOnCreateCalledBeforeOnResume = true;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (!hasOnCreateCalledBeforeOnResume) {
+            navigateToolbarLogoTransitionEnter();
+        }
+        hasOnCreateCalledBeforeOnResume = false;
         startEnterTransition();
-        
     }
 
 
@@ -210,6 +218,8 @@ public class CategorySelectionActivity extends AppCompatActivity
     }
 
     public void startQuizActivityWithTransition(final Category category) {
+        navigateToolbarLogoTransition();
+
         animateVanishStart(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animator) {
@@ -241,7 +251,6 @@ public class CategorySelectionActivity extends AppCompatActivity
         overridePendingTransition(0, 0);
     }
 
-    
     private void navigateBackMenuTransition() {
         mNavigateMenu
             .animate()
@@ -259,5 +268,22 @@ public class CategorySelectionActivity extends AppCompatActivity
                             .start();
                     }
                 });
+    }
+
+    private void navigateToolbarLogoTransition() {
+        View logo = findViewById(R.id.logo);
+
+        logo.animate()
+            .translationY(-logo.getHeight())
+            .start();
+    }
+
+    private void navigateToolbarLogoTransitionEnter() {
+        View logo = findViewById(R.id.logo);
+
+        logo.setTranslationY(-100);
+        logo.animate()
+            .translationY(0)
+            .start();
     }
 }

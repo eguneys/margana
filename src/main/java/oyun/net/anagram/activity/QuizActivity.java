@@ -34,14 +34,17 @@ import android.support.v7.app.AppCompatActivity;
 import oyun.net.anagram.R;
 import oyun.net.anagram.fragment.QuizFragment;
 
+import oyun.net.anagram.widget.AnagramSummaryView;
+
 import oyun.net.anagram.model.JsonAttributes;
 import oyun.net.anagram.model.Category;
 import oyun.net.anagram.model.quiz.AnagramQuiz;
-import oyun.net.anagram.helper.ApiLevelHelper;
-import oyun.net.anagram.helper.ViewUtils;
-import oyun.net.anagram.persistence.AnagramDatabaseHelper;
 
-import oyun.net.anagram.widget.AnagramSummaryView;
+import oyun.net.anagram.helper.ApiLevelHelper;
+import oyun.net.anagram.helper.ResourceUtil;
+import oyun.net.anagram.helper.ViewUtils;
+
+import oyun.net.anagram.persistence.AnagramDatabaseHelper;
 
 public class QuizActivity extends AppCompatActivity
 {
@@ -63,6 +66,7 @@ public class QuizActivity extends AppCompatActivity
     private FrameLayout mContainer;
     private FloatingActionButton mQuizFab;
     private View mNavigateMenu;
+    private View mLogoContainer;
     private ImageView mIcon;
 
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
@@ -101,6 +105,7 @@ public class QuizActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         initQuizFragment();
+        navigateToolbarLogoTransitionEnter();
         super.onResume();
     }
 
@@ -112,38 +117,23 @@ public class QuizActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        if (mIcon == null || mQuizFab == null) {
-            super.onBackPressed();
-            return;
-        }
+        mLogoContainer
+            .animate()
+            .translationY(mLogoContainer.getHeight())
+            .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        QuizActivity.super.onBackPressed();
+                    }
+                })
+            .start();
+    }
 
-        // ViewCompat.animate(mNavigateMenu)
-        //     .scaleX(0f)
-        //     .scaleY(0f)
-        //     .alpha(0f)
-        //     .setDuration(100)
-        //     .start();
-
-        // ViewCompat.animate(mIcon)
-        //     .scaleX(.7f)
-        //     .scaleY(.7f)
-        //     .alpha(0f)
-        //     .setInterpolator(mInterpolator)
-        //     .start();
-
-        // ViewCompat.animate(mQuizFab)
-        //     .scaleX(0f)
-        //     .scaleY(0f)
-        //     .setInterpolator(mInterpolator)
-        //     .setStartDelay(100)
-        //     .setListener(new ViewPropertyAnimatorListenerAdapter() {
-        //             @Override
-        //             public void onAnimationEnd(View view) {
-        //                 QuizActivity.super.onBackPressed();
-        //             }
-        //         })
-        //     .start();
-        super.onBackPressed();
+    private void animateToolbarLogoExit() {
+        mLogoContainer
+            .animate()
+            .translationY(-mLogoContainer.getHeight())
+            .start();
     }
 
     private void startQuizFragmentWithTransition() {
@@ -295,6 +285,25 @@ public class QuizActivity extends AppCompatActivity
         mNavigateMenu = findViewById(R.id.navigate_menu);
         ((ImageView)mNavigateMenu).setImageResource(R.drawable.ic_arrow_back);
         mNavigateMenu.setOnClickListener(mOnClickListener);
+
+        final TextView logoText = (TextView) findViewById(R.id.logo_text);
+
+        final ImageView logoImage = (ImageView) findViewById(R.id.logo);
+        logoImage.setImageResource(R.drawable.ic_star);
+        
+        logoText.setText(ResourceUtil.getDynamicString(this,
+                                                       R.string.nbLetters,
+                                                       mCategory.getName()));
+
+        mLogoContainer = findViewById(R.id.logo_container);
+    }
+
+    private void navigateToolbarLogoTransitionEnter() {
+        mLogoContainer.setTranslationY(-100);
+        mLogoContainer
+            .animate()
+            .translationY(0)
+            .start();
     }
 
     private void setResultSolved() {
