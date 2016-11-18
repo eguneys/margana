@@ -88,25 +88,19 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         binding.setCategory(category);
         binding.executePendingBindings();
 
-        String catId = category.getId();
+        if (category.getName().length() == 1) {
 
-        if (catId == "10") {
-            binding.categoryTitle.setText(R.string.mixed);
-        } else {
             binding.categoryTitle
                 .setText(ResourceUtil.getDynamicString(mActivity,
                                                        R.string.nbLetters,
-                                                       category.getId()));
-
-            int stars = category.getStars();
-            binding.categoryStars.setNbStar(stars);
-
-            // if (stars > 0) {
-            //     binding.categoryStars.setVisibility(View.VISIBLE);
-            // } else {
-            //     binding.categoryStars.setVisibility(View.INVISIBLE);
-            // }
+                                                       category.getName()));
+        } else {
+            binding.categoryTitle.setText(category.getName());
         }
+
+        int stars = category.getStars();
+        binding.categoryStars.setNbStar(stars);
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -120,6 +114,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     private void setScaleAnimation(View view, int position) {
         if (position <= mLastAnimatedPosition) {
+            view.setScaleY(1);
             return;
         }
         mLastAnimatedPosition = position;

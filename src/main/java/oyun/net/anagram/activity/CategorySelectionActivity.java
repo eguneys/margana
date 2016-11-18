@@ -113,15 +113,18 @@ public class CategorySelectionActivity extends AppCompatActivity
         // http://stackoverflow.com/questions/24989218/get-visible-items-in-recyclerview
         final LinearLayoutManager mCategoriesLayout = (LinearLayoutManager)mCategoriesView.getLayoutManager();
 
-        final int firstIndex = mCategoriesLayout.findFirstVisibleItemPosition();
-        final int lastIndex = mCategoriesLayout.findLastVisibleItemPosition();
+        // final int firstIndex = mCategoriesLayout.findFirstVisibleItemPosition();
+        // final int lastIndex = mCategoriesLayout.findLastVisibleItemPosition();
+        final int firstIndex = 0;
+        final int lastIndex = mCategoriesView.getChildCount() - 1;
         int lPivotY;
         int lStartDelay;
 
         for (int i = firstIndex; i <= lastIndex && i > -1; i++) {
             // RecyclerView.ViewHolder holder = mCategoriesView.findViewHolderForAdapterPosition(i);
             //View view = holder.itemView;
-            View view = mCategoriesLayout.findViewByPosition(i);
+            // View view = mCategoriesLayout.findViewByPosition(i);
+            View view = mCategoriesView.getChildAt(i);
 
             int startDelay = i - firstIndex;
 
@@ -141,14 +144,18 @@ public class CategorySelectionActivity extends AppCompatActivity
         // http://stackoverflow.com/questions/24989218/get-visible-items-in-recyclerview
         final LinearLayoutManager mCategoriesLayout = (LinearLayoutManager)mCategoriesView.getLayoutManager();
 
-        final int firstIndex = mCategoriesLayout.findFirstVisibleItemPosition();
-        final int lastIndex = mCategoriesLayout.findLastVisibleItemPosition();
+        // final int firstIndex = mCategoriesLayout.findFirstVisibleItemPosition();
+        // final int lastIndex = mCategoriesLayout.findLastVisibleItemPosition();
+        final int firstIndex = 0;
+        final int lastIndex = mCategoriesView.getChildCount() - 1;
         int lPivotY;
         int lStartDelay;
 
         for (int i = firstIndex; i <= lastIndex; i++) {
-            RecyclerView.ViewHolder holder = mCategoriesView.findViewHolderForAdapterPosition(i);
-            View v = holder.itemView;
+            // RecyclerView.ViewHolder holder = mCategoriesView.findViewHolderForAdapterPosition(i);
+            // View v = holder.itemView;
+
+            View v = mCategoriesView.getChildAt(i);
 
             if (directionDown) {
                 lPivotY = v.getHeight();
@@ -162,7 +169,7 @@ public class CategorySelectionActivity extends AppCompatActivity
 
             final ViewPropertyAnimator animator = v
                 .animate()
-                .scaleY(0)
+                .scaleY(0f)
                 .setDuration(CategoryAdapter.ANIM_DURATION)
                 .setStartDelay(lStartDelay * CategoryAdapter.ANIM_DELAY);
 
