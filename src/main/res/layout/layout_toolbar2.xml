@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@drawable/bg_toolbar"
+    android:elevation="@dimen/elevation_header"
+    >
+
+  <ImageButton
+      android:id="@+id/navigate_menu"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentLeft="true"
+      android:layout_centerVertical="true"
+      android:padding="@dimen/spacing_double"
+      android:contentDescription="@string/back"
+      android:background="@android:color/transparent"
+      android:src="@drawable/ic_menu"
+      />
+
+  <RelativeLayout
+      android:id="@+id/logo_container"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:gravity="center"
+      >
+  <TextView
+      android:id="@+id/logo_text"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerHorizontal="true"
+      android:layout_centerVertical="true"
+      android:layout_marginLeft="@dimen/spacing_normal"
+      android:textColor="@color/text_light"
+      />
+  <ImageView
+      android:id="@+id/logo"
+      android:layout_width="@dimen/size_star"
+      android:layout_height="@dimen/size_star"
+      android:layout_toLeftOf="@id/logo_text"
+      android:layout_centerVertical="true"
+      android:contentDescription="@string/logo"
+      android:src="@drawable/ic_star"
+      />
+  </RelativeLayout>
+</RelativeLayout>

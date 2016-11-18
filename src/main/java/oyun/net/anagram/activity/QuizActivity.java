@@ -119,20 +119,18 @@ public class QuizActivity extends AppCompatActivity
     public void onBackPressed() {
         mLogoContainer
             .animate()
-            .translationY(mLogoContainer.getHeight())
+            .translationY(-mLogoContainer.getHeight())
             .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animator) {
-                        QuizActivity.super.onBackPressed();
+                        // http://stackoverflow.com/questions/7469082/getting-exception-illegalstateexception-can-not-perform-this-action-after-onsa
+                        try {
+                            QuizActivity.super.onBackPressed();
+                        } catch (IllegalStateException e) {
+                            finish();
+                        }
                     }
                 })
-            .start();
-    }
-
-    private void animateToolbarLogoExit() {
-        mLogoContainer
-            .animate()
-            .translationY(-mLogoContainer.getHeight())
             .start();
     }
 
