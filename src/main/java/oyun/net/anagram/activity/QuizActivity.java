@@ -289,15 +289,12 @@ public class QuizActivity extends AppCompatActivity
 
         if (quiz.isSolved()) {
             quiz.addStars(1);
+
+            mCategory.syncInsertQuiz(quiz);
+            AnagramDatabaseHelper.syncCategoryLocal(mCategory);
+            AnagramDatabaseHelper.insertQuiz(this, quiz, mCategory.getId());
+            setResultSolved();
         }
-        quiz.addStars(1);
-
-        mCategory.syncInsertQuiz(quiz);
-        AnagramDatabaseHelper.syncCategoryLocal(mCategory);
-
-        AnagramDatabaseHelper.insertQuiz(this, quiz, mCategory.getId());
-
-        setResultSolved();
     }
 
     public void proceed(AnagramQuiz quiz) {
