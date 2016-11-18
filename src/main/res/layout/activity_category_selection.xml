@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
-              android:background="@color/anagram_blank"
               android:orientation="vertical"
+              android:background="@color/theme_red_background"
               >
 
   <!-- toolbar -->
@@ -12,6 +12,5 @@
   <FrameLayout android:id="@+id/category_container"
                android:layout_width="match_parent"
                android:layout_height="match_parent"
-               android:background="@color/anagram_blank"
                />
 </LinearLayout>

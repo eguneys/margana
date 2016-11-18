@@ -88,9 +88,9 @@
   <color name="touch_effect">#9ccc</color>
 
   <color name="anagram_background">@color/pink_100</color>
-  <color name="anagram_primary">@color/pink_500</color>
-  <color name="anagram_primary_dark">@color/pink_600</color>
-  <color name="anagram_accent">@color/yellow_A400</color>
+  <color name="anagram_primary">@color/pink_300</color>
+  <color name="anagram_primary_dark">@color/pink_400</color>
+  <color name="anagram_accent">@color/yellow_A300</color>
   <color name="anagram_blank">@color/pink_50</color>
   <color name="anagram_text">@color/pink_A100</color>
 
@@ -105,6 +105,7 @@
 
 
 
+  
   <color name="letter_background">#00a8e8</color>
   <color name="letter_shadow">#007ea7</color>
   <color name="letter_text">@color/text_light</color>
