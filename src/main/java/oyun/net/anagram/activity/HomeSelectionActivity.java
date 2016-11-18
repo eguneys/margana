@@ -113,16 +113,4 @@ public class HomeSelectionActivity extends AppCompatActivity
         // disable animation
         overridePendingTransition(0, 0);
     }
-
-
-    private class FillDatabaseAsyncTask extends AsyncTask<Void, Void, Void>  {
-        @Override
-        protected Void doInBackground(Void... params) {
-            AnagramDatabaseHelper.getCategories(HomeSelectionActivity.this, true);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {}
-    }
 }

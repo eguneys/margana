@@ -94,6 +94,8 @@ public class CategorySelectionActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+        navigateBackMenuTransition();
+
         animateVanishStart(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animator) {
@@ -237,5 +239,25 @@ public class CategorySelectionActivity extends AppCompatActivity
                                               transitionBundle);
         // disable animation
         overridePendingTransition(0, 0);
+    }
+
+    
+    private void navigateBackMenuTransition() {
+        mNavigateMenu
+            .animate()
+            .translationX(-mNavigateMenu.getWidth())
+            .setDuration(150)
+            .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        ((ImageView)mNavigateMenu).setImageResource(R.drawable.ic_menu);
+                        mNavigateMenu
+                            .animate()
+                            .translationX(0)
+                            .setDuration(150)
+                            .setListener(null)
+                            .start();
+                    }
+                });
     }
 }

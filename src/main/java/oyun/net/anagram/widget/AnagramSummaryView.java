@@ -38,14 +38,14 @@ import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import oyun.net.anagram.R;
 
 import oyun.net.anagram.activity.QuizActivity;
+import oyun.net.anagram.widget.drawable.LinesDrawable;;
 
 import oyun.net.anagram.model.Anagram;
 import oyun.net.anagram.model.Category;
 import oyun.net.anagram.model.quiz.AnagramQuiz;
 import oyun.net.anagram.adapter.AnagramSummaryAdapter;
 import oyun.net.anagram.helper.ResourceUtil;
-
-import oyun.net.anagram.widget.drawable.LinesDrawable;;
+import oyun.net.anagram.helper.ButtonTouchListener;
 
 public class AnagramSummaryView extends RelativeLayout {
 
@@ -105,7 +105,7 @@ public class AnagramSummaryView extends RelativeLayout {
         LayoutInflater.from(getContext()).inflate(R.layout.view_anagram_summary, this, true);
 
         mReplayButton = (ImageButton) findViewById(R.id.replay_button);
-
+        mReplayButton.setOnTouchListener(new ButtonTouchListener(mReplayButton));
         mReplayButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -328,7 +328,7 @@ public class AnagramSummaryView extends RelativeLayout {
             .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animator) {
-                        mCongratzText.animate().setListener(null);
+                        mStarIcon.animate().setListener(null);
                         animateSummaryLayout();
                     }
                 })

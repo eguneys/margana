@@ -9,6 +9,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import oyun.net.anagram.R;
@@ -23,6 +24,8 @@ import oyun.net.anagram.widget.AnagramView;
 import oyun.net.anagram.widget.ScoreTextView;
 import oyun.net.anagram.helper.TimerHelper;
 
+import oyun.net.anagram.helper.ButtonTouchListener;
+
 public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
 
     private final int MarkedLettersFadeDelay = 1000;
@@ -32,6 +35,9 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
     
     private int mNextAnagramIndex;
     private AnagramView mAnagramView;
+
+    private ImageButton mReloadButton;
+    private ImageButton mSkipButton;
 
     private TextView mAnagramNb;
     private TextView mMarkedLetters;
@@ -286,8 +292,9 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
                     }
                 });
 
-        rootView.findViewById(R.id.reload_button)
-            .setOnClickListener(new View.OnClickListener() {
+        mReloadButton = (ImageButton) rootView.findViewById(R.id.reload_button);
+        mReloadButton.setOnTouchListener(new ButtonTouchListener(mReloadButton));
+        mReloadButton.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
@@ -295,8 +302,9 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
                     }
                 });
 
-        rootView.findViewById(R.id.skip_button)
-            .setOnClickListener(new View.OnClickListener() {
+        mSkipButton = (ImageButton) rootView.findViewById(R.id.skip_button);
+        mSkipButton.setOnTouchListener(new ButtonTouchListener(mSkipButton));
+        mSkipButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         decideOnNextAnagram();
