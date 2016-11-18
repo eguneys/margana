@@ -13,6 +13,12 @@
     <string name="mixed">MIXED</string>
     <string name="skip">Skip</string>
 
+    <string name="congratz_awesome">AWESOME!</string>
+    <string name="congratz_unlucky">UNLUCKY!</string>
+    <string name="congratz_almost">ALMOST!</string>
+    <string name="congratz_good_job">GOOD JOB!</string>
+    <string name="congratz_nice_try">NICE TRY!</string>
+
     <string name="youScored">You scored %1$s !</string>
     <string name="nbSolveTime">%1s</string>
     <string name="nbLetters">%1$s LETTERS</string>

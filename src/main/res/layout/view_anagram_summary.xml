@@ -10,8 +10,7 @@
       android:layout_centerHorizontal="true"
       android:gravity="center"
       android:textColor="@color/text_light"
-      android:textSize="@dimen/big_text_size"
-      android:text="@string/congratz"/>
+      android:textSize="@dimen/big_text_size"/>
   <ImageView
       android:id="@+id/star_icon"
       android:layout_width="@dimen/size_star"

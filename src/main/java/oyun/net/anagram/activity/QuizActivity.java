@@ -15,6 +15,7 @@ import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.ViewAnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
@@ -270,6 +271,24 @@ public class QuizActivity extends AppCompatActivity
                     mAnagramSummary.setVisibility(View.GONE);
                 }
             });
+
+        mAnagramSummary
+            .getViewTreeObserver()
+            .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    private boolean mChanged = false;
+                    @Override
+                    public void onGlobalLayout() {
+                        Log.e("YYY global", (mChanged ? "true" : "false") + mAnagramSummary.getVisibility());
+                        if (mAnagramSummary.getVisibility() == View.VISIBLE) {
+                            if (!mChanged) {
+                                mChanged = true;
+                                mAnagramSummary.animateSummary();
+                            }
+                        } else {
+                            mChanged = false;
+                        }
+                    }
+                });
     }
 
     private void initToolbar(Category category) {
@@ -304,7 +323,6 @@ public class QuizActivity extends AppCompatActivity
         Log.e("YYY proceed", "lkajdsf");
         mAnagramSummary.setQuiz(quiz);
         mAnagramSummary.setVisibility(View.VISIBLE);
-        mAnagramSummary.animateSummary();
     }
 
     public void replayCategory() {

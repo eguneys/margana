@@ -157,6 +157,8 @@ public class AnagramSummaryView extends RelativeLayout {
     }
 
     private void updateAnagramSummaryTexts() {
+        mCongratzText.setText(getContext().getString(getCongratzString()));
+
         mAnagramScoreSummary.setText(ResourceUtil.getDynamicString(getContext(),
                                                                    R.string.youScored,
                                                                    "" + mQuiz.getScore()));
@@ -165,6 +167,23 @@ public class AnagramSummaryView extends RelativeLayout {
         } else {
             // debug
             // mCongratzText.setVisibility(View.GONE);
+        }
+    }
+
+    private int getCongratzString() {
+        int total = mQuiz.getNbTotal();
+        int solved = mQuiz.getNbSolved();
+
+        if (solved == total) {
+            return R.string.congratz_awesome;
+        } else if (solved == total - 1) {
+            return R.string.congratz_unlucky;
+        } else if (solved == total - 2) {
+            return R.string.congratz_almost;
+        } else if (solved > total / 2) {
+            return R.string.congratz_good_job;
+        } else {
+            return R.string.congratz_nice_try;
         }
     }
 
@@ -255,10 +274,13 @@ public class AnagramSummaryView extends RelativeLayout {
         mStarIcon.setScaleX(4);
         mStarIcon.setScaleY(4);
 
+
+        Log.e("YYY animate", parentCenterX + " " + mStarIcon.getWidth() + " " + mStarIcon.getLeft());
+
         mStarIcon
-            .setTranslationX(parentCenterX - mStarIcon.getWidth() / 2 - mStarIcon.getX());
+            .setTranslationX(parentCenterX - mStarIcon.getWidth() / 2 - mStarIcon.getLeft());
         mStarIcon
-            .setTranslationY(parentCenterY - mStarIcon.getHeight() / 2 - mStarIcon.getY());
+            .setTranslationY(parentCenterY - mStarIcon.getHeight() / 2 - mStarIcon.getTop());
 
         mCongratzText.setScaleX(0);
         mCongratzText.setScaleY(0);
