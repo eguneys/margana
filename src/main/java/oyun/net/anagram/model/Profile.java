@@ -11,7 +11,9 @@ public class Profile {
     private int mNbStar;
     private int mScore;
 
-    public Profile() {
+    public Profile(int stars, int score) {
+        mNbStar = stars;
+        mScore = score;
     }
 
     public void addScore(int score) {

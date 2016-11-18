@@ -27,6 +27,7 @@ import oyun.net.anagram.R;
 import oyun.net.anagram.model.Anagram;
 import oyun.net.anagram.model.Theme;
 import oyun.net.anagram.model.Category;
+import oyun.net.anagram.model.Profile;
 import oyun.net.anagram.model.JsonAttributes;
 import oyun.net.anagram.model.quiz.Quiz;
 import oyun.net.anagram.model.quiz.AnagramQuiz;
@@ -40,6 +41,7 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
 
     private static AnagramDatabaseHelper mInstance;
     private static List<Category> mCategories;
+    private static Profile mProfile;
 
     private final Resources mResources;
 
@@ -61,6 +63,16 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase readableDatabase = getReadableDatabase(context);
     }
 
+    public static Profile getProfile(Context context, boolean fromDb) {
+        // load categories first?
+        getCategories(context, false);
+
+        if (mProfile == null || fromDb) {
+            mProfile = loadProfile(context);
+        }
+        return mProfile;
+    }
+
     public static List<Category> getCategories(Context context, boolean fromDb) {
         if (mCategories == null || fromDb) {
             mCategories = loadCategories(context);
@@ -78,6 +90,23 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         return getCategory(data, readableDatabase);
     }
 
+    private static Profile loadProfile(Context context) {
+        Cursor data = AnagramDatabaseHelper.getProfileCursor(context);
+        final SQLiteDatabase readableDatabase = AnagramDatabaseHelper.getReadableDatabase(context);
+        return getProfile(data, readableDatabase);
+    }
+
+    private static Cursor getProfileCursor(Context context) {
+        SQLiteDatabase readableDatabase = getReadableDatabase(context);
+        Cursor data = readableDatabase
+            .query(ProfileTable.NAME, ProfileTable.PROJECTION, null, null, null, null, null);
+        return data;
+    }
+
+    private static Profile getProfile(Cursor cursor, SQLiteDatabase readableDatabase) {
+        int stars = getTotalStars(readableDatabase);        
+        return new Profile(stars, 0);
+    }
 
     private static List<Category> loadCategories(Context context) {
         Cursor data = AnagramDatabaseHelper.getCategoryCursor(context);
@@ -124,6 +153,14 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         Log.e("YYY getCat", id + " " + nbStars);
 
         return new Category(name, id, theme, time, wordLength, wordLimit, nbSolved, nbUnsolved, nbStars);
+    }
+
+    private static int getTotalStars(SQLiteDatabase database) {
+        int stars = 0;
+        for (Category category : mCategories) {
+            stars += getStarsForCategory(category.getId(), database);
+        }
+        return stars;
     }
 
     private static int getStarsForCategory(final String categoryId, SQLiteDatabase database) {
@@ -374,9 +411,11 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
             final int location = mCategories.indexOf(category);
             final Category local = mCategories.get(location);
             local.sync(category);
-            // mCategories.remove(location);
-            // mCategories.add(category);
         }
+    }
+
+    public static void syncProfileLocalAddStar(int star) {
+        mProfile.addStar(star);
     }
 
     public static void insertQuiz(Context context, AnagramQuiz quiz, String categoryId) {

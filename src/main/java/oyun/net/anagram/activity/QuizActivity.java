@@ -307,10 +307,16 @@ public class QuizActivity extends AppCompatActivity
         int stars = quiz.getStars();
 
         if (quiz.isSolved()) {
-            quiz.addStars(1);
+            int moreStars = 1;
+            quiz.addStars(moreStars);
 
             mCategory.syncInsertQuiz(quiz);
+
+
+            // TODO find better sync
             AnagramDatabaseHelper.syncCategoryLocal(mCategory);
+            AnagramDatabaseHelper.syncProfileLocalAddStar(moreStars);
+
             AnagramDatabaseHelper.insertQuiz(this, quiz, mCategory.getId());
             setResultSolved();
         }

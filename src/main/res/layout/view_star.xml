@@ -16,6 +16,5 @@
       android:textSize="@dimen/title_text_size"
       android:textColor="@color/text_dark"
       android:textStyle="bold"
-      android:alpha="0.5"
       />
 </merge>

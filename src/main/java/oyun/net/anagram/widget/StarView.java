@@ -83,6 +83,14 @@ public class StarView extends FrameLayout {
         updateStarText();
     }
 
+    public void setTextSize(int size) {
+        mNbStarText.setTextSize(getContext().getResources().getDimension(size));
+    }
+
+    public void setTextColor(int color) {
+        mNbStarText.setTextColor(getContext().getResources().getColor(color));
+    }
+
     public void shine() {
     }
 

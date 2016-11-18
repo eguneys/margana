@@ -8,6 +8,7 @@
         android:label="@string/app_name"
         android:icon="@drawable/ic_launcher"
         android:theme="@style/Anagram"
+        android:screenOrientation="portrait"
         >
       <activity android:name=".activity.MainActivity"
                 android:theme="@style/Anagram.MainActivity"

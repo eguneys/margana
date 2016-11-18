@@ -90,7 +90,7 @@
   <color name="anagram_background">@color/pink_100</color>
   <color name="anagram_primary">@color/pink_300</color>
   <color name="anagram_primary_dark">@color/pink_400</color>
-  <color name="anagram_accent">@color/yellow_A300</color>
+  <color name="anagram_accent">@color/yellow_A400</color>
   <color name="anagram_blank">@color/pink_50</color>
   <color name="anagram_text">@color/pink_A100</color>
 

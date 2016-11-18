@@ -8,6 +8,13 @@
               android:orientation="vertical"
               android:padding="@dimen/spacing_nano"
               >
+  <oyun.net.anagram.widget.StarView
+      android:id="@+id/star_view"
+      android:layout_width="@dimen/square_quadz"
+      android:layout_height="@dimen/square_quadz"
+      android:gravity="center"
+      />
+
   <Button
         android:id="@+id/play_button"
         android:layout_width="match_parent"

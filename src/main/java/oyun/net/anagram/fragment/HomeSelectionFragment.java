@@ -31,7 +31,11 @@ import oyun.net.anagram.R;
 import oyun.net.anagram.activity.HomeSelectionActivity;
 import oyun.net.anagram.activity.QuizActivity;
 
+import oyun.net.anagram.widget.StarView;
+
+import oyun.net.anagram.model.Profile;
 import oyun.net.anagram.model.Category;
+import oyun.net.anagram.persistence.AnagramDatabaseHelper;
 
 import oyun.net.anagram.helper.ButtonTouchListener;
 
@@ -43,6 +47,9 @@ public class HomeSelectionFragment extends Fragment
     private final Interpolator PlayTransitionEnterInterpolator = new AnticipateOvershootInterpolator();
 
     private View mPlayButton;
+    private StarView mStarView;
+
+    private Profile mProfile;
     
     public static HomeSelectionFragment newInstance() {
         HomeSelectionFragment fragment = new HomeSelectionFragment();
@@ -57,6 +64,8 @@ public class HomeSelectionFragment extends Fragment
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        initProfile();
+
         setupButtons(view.findViewById(R.id.buttons));
         super.onViewCreated(view, savedInstanceState);
     }
@@ -64,10 +73,21 @@ public class HomeSelectionFragment extends Fragment
     @Override
     public void onResume() {
         animateFragmentEnterTransition();
+        updateStats();
         super.onResume();
     }
 
+    private void initProfile() {
+        mProfile = AnagramDatabaseHelper.getProfile(getActivity(), false);
+    }
+
     private void setupButtons(final View view) {
+        mStarView = (StarView) view.findViewById(R.id.star_view);
+        mStarView.setTextSize(R.dimen.quadz_text_size);
+        mStarView.setTextColor(R.color.text_light);
+
+        updateStats();
+
         mPlayButton = (View) view.findViewById(R.id.play_button);
         mPlayButton.setOnTouchListener(new ButtonTouchListener(mPlayButton));
         mPlayButton.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +98,10 @@ public class HomeSelectionFragment extends Fragment
                                                     mPlayButton);
                 }
             });
+    }
+
+    private void updateStats() {
+        mStarView.setNbStar(mProfile.getStars());
     }
 
     private void animateFragmentEnterTransition() {
