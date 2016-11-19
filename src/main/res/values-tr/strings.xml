@@ -24,4 +24,16 @@
     <string name="nbLetters">%1$s HARF</string>
 
     <string name="transition_toolbar">ToolbarTransition</string>
+
+
+    <string name="settings">AYARLAR</string>
+    <string name="rateUs">BİZE OY VER!</string>
+    <string name="sendUsFeedback">BİZE YORUM YAP!</string>
+    <string name="sound">SES</string>
+    <string name="on">AÇ</string>
+    <string name="off">KAPA</string>
+
+    <string name="email_to">oyunkeyfnet@gmail.com</string>
+    <string name="email_subject">Margana Uygulaması Geri Bildirim</string>
+    <string name="email_chooser">Email yolla</string>
 </resources>

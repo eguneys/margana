@@ -1,17 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:orientation="vertical"
-              android:background="@color/theme_red_background"
-              >
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/theme_red_background">
 
-  <!-- toolbar -->
-  <include layout="@layout/layout_toolbar"/>
+  <LinearLayout
+      android:id="@+id/background_container"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical"
+      >
 
-  <FrameLayout android:id="@+id/home_container"
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               >
+    <!-- toolbar -->
+    <include layout="@layout/layout_toolbar"/>
+
+    <FrameLayout
+        android:id="@+id/home_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+  </LinearLayout>
+
+  <FrameLayout
+      android:id="@+id/dialog_container"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:visibility="gone"
+      >
+
+    <ImageView
+        android:id="@+id/dialog_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/black"
+        android:alpha="0.5"
+      />
+
+    <RelativeLayout
+        android:id="@+id/menu_dialog"
+        android:layout_width="@dimen/size_dialog_width"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingBottom="@dimen/spacing_normal"
+        android:background="@drawable/bg_dialog"
+        >
+
+      <RelativeLayout
+          android:id="@+id/dialog_header"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_alignParentTop="true"
+          android:padding="@dimen/spacing_micro"
+          android:background="@drawable/bg_dialog_header"
+          >
+
+        <ImageView
+            android:id="@+id/dialog_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_close"
+            />
+        <TextView
+            android:id="@+id/header_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/dialog_container"
+            android:layout_centerHorizontal="true"
+            android:textSize="@dimen/title_text_size_small"
+            android:text="@string/settings"
+            />
+      </RelativeLayout>
+
+      <!-- <TextView -->
+      <!--     android:id="@+id/sound_label" -->
+      <!--     android:layout_width="wrap_content" -->
+      <!--     android:layout_height="wrap_content" -->
+      <!--     android:layout_below="@id/dialog_header" -->
+      <!--     android:layout_alignParentLeft="true" -->
+      <!--     android:layout_marginLeft="@dimen/spacing_double" -->
+      <!--     android:layout_marginTop="@dimen/spacing_double" -->
+      <!--     android:textColor="@color/letter_background" -->
+      <!--     android:textSize="@dimen/title_text_size_small" -->
+      <!--     android:text="@string/sound" -->
+      <!--     /> -->
+
+      <!-- <TextView -->
+      <!--     android:id="@+id/sound_option" -->
+      <!--     android:layout_width="wrap_content" -->
+      <!--     android:layout_height="wrap_content" -->
+      <!--     android:layout_alignTop="@id/sound_label" -->
+      <!--     android:layout_alignParentRight="true" -->
+      <!--     android:layout_marginRight="@dimen/spacing_micro" -->
+      <!--     android:textColor="@color/letter_background" -->
+      <!--     android:textSize="@dimen/title_text_size_small" -->
+      <!--     android:text="@string/on" -->
+      <!--     /> -->
+
+      <Button
+          android:id="@+id/feedback_button"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_below="@id/dialog_header"
+          android:layout_marginRight="@dimen/spacing_micro"
+          android:layout_marginLeft="@dimen/spacing_micro"
+          android:layout_marginTop="@dimen/spacing_big"
+          android:background="@drawable/bg_home_blue"
+          android:text="@string/sendUsFeedback"
+          android:textSize="@dimen/title_text_size_small"
+          android:textColor="@color/text_light"/>
+
+      <Button
+          android:id="@+id/rate_button"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_below="@id/feedback_button"
+          android:background="@drawable/bg_home_blue"
+          android:layout_marginTop="@dimen/spacing_normal"
+          android:layout_marginRight="@dimen/spacing_micro"
+          android:layout_marginLeft="@dimen/spacing_micro"
+          android:text="@string/rateUs"
+          android:textSize="@dimen/title_text_size_small"
+          android:textColor="@color/text_light"/>
+
+    </RelativeLayout>
   </FrameLayout>
-</LinearLayout>
+</FrameLayout>
+

@@ -65,8 +65,7 @@ public class HomeSelectionFragment extends Fragment
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         initProfile();
-
-        setupButtons(view.findViewById(R.id.buttons));
+        setupButtons(view.findViewById(R.id.menu_container));
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -129,3 +128,4 @@ public class HomeSelectionFragment extends Fragment
         ((HomeSelectionActivity)activity).startPlayActivityWithTransition();
     }
 }
+

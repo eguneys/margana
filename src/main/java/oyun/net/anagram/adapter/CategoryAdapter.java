@@ -95,7 +95,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                                                        R.string.nbLetters,
                                                        category.getName()));
         } else {
-            binding.categoryTitle.setText(category.getName());
+            if (category.getName().equals("MIXED") ||
+                category.getId().equals("10")) {
+                binding.categoryTitle.setText(R.string.mixed);
+            } else {
+                binding.categoryTitle.setText(category.getName());
+            }
         }
 
         int stars = category.getStars();
