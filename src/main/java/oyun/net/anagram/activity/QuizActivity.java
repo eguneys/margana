@@ -294,9 +294,13 @@ public class QuizActivity extends AppCompatActivity
         final ImageView logoImage = (ImageView) findViewById(R.id.logo);
         logoImage.setImageResource(R.drawable.ic_star);
         
-        logoText.setText(ResourceUtil.getDynamicString(this,
-                                                       R.string.nbLetters,
-                                                       mCategory.getName()));
+        if (mCategory.getName().equals("MIXED")) {
+            logoText.setText(getString(R.string.mixed));
+        } else {
+            logoText.setText(ResourceUtil.getDynamicString(this,
+                                                           R.string.nbLetters,
+                                                           mCategory.getName()));
+        }
 
         mLogoContainer = findViewById(R.id.logo_container);
     }
