@@ -418,15 +418,15 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         mProfile.addStar(star);
     }
 
-    public static void insertQuiz(Context context, AnagramQuiz quiz, String categoryId) {
+    public static String insertQuiz(Context context, AnagramQuiz quiz, String categoryId) {
         insertQuizLocal(quiz, categoryId);
-        insertQuizDb(context, quiz, categoryId);
+        return insertQuizDb(context, quiz, categoryId);
     }
 
     private static void insertQuizLocal(AnagramQuiz quiz, String categoryId) {
     }
 
-    private static void insertQuizDb(Context context, AnagramQuiz quiz, String categoryId) {
+    private static String insertQuizDb(Context context, AnagramQuiz quiz, String categoryId) {
         SQLiteDatabase writableDatabase = getWritableDatabase(context);
 
         ContentValues values = new ContentValues();
@@ -437,6 +437,32 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         values.put(QuizTable.COLUMN_NB_STAR, quiz.getStars());
         
 
-        writableDatabase.insert(QuizTable.NAME, null, values);
+        long id = writableDatabase
+            .insert(QuizTable.NAME, null, values);
+
+        return id + "";
+    }
+
+    public static void insertAnagrams(Context context, List<Anagram> anagrams) {
+        SQLiteDatabase db = getWritableDatabase(context);
+        db.beginTransaction();
+        try {
+            insertAnagrams(db, anagrams);
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    private static void insertAnagrams(SQLiteDatabase database, List<Anagram> anagrams) {
+        ContentValues values = new ContentValues();
+        for (Anagram anagram : anagrams) {
+            values.clear();
+            values.put(AnagramTable.FK_QUIZ, anagram.getQuizId());
+            database.update(AnagramTable.NAME,
+                            values,
+                            AnagramTable.COLUMN_ID + " =?",
+                            new String[]{ anagram.getId() });
+        }
     }
 }

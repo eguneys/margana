@@ -20,6 +20,8 @@ public class Anagram {
 
     private int mTimeSpent;
 
+    private String mQuizId;
+
     public Anagram(String id,
                    String question,
                    String answer,
@@ -78,6 +80,14 @@ public class Anagram {
 
     public boolean isSolved() {
         return mSolved;
+    }
+
+    public void setQuizId(String id) {
+        mQuizId = id;
+    }
+
+    public String getQuizId() {
+        return mQuizId;
     }
 
     public void shuffle() {

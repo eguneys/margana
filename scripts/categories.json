@@ -1,5 +1,21 @@
 [
   {
+    "name": "test2",
+    "id": "2",
+    "theme": "red",
+    "wordLength": 4,
+    "wordLimit": 10,
+    "time": 2
+  },
+  {
+    "name": "test",
+    "id": "3",
+    "theme": "red",
+    "wordLength": 4,
+    "wordLimit": 10,
+    "time": 10
+  },
+  {
     "name": "4",
     "id": "4",
     "theme": "red",
