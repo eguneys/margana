@@ -22,4 +22,15 @@
     <string name="youScored">You scored %1$s !</string>
     <string name="nbSolveTime">%1s</string>
     <string name="nbLetters">%1$s LETTERS</string>
+
+    <string name="settings">SETTINGS</string>
+    <string name="rateUs">RATE US!</string>
+    <string name="sendUsFeedback">SEND US FEEDBACK!</string>
+    <string name="sound">SOUND</string>
+    <string name="on">ON</string>
+    <string name="off">OFF</string>
+
+    <string name="email_to">oyunkeyfnet@gmail.com</string>
+    <string name="email_subject">Margana App Feedback</string>
+    <string name="email_chooser">Send email with</string>
 </resources>

@@ -4,6 +4,7 @@
   <dimen name="spacing_micro">4dp</dimen>
   <dimen name="spacing_normal">8dp</dimen>
   <dimen name="spacing_double">16dp</dimen>
+  <dimen name="spacing_big">24dp</dimen>
   <dimen name="spacing_quad">36dp</dimen>
   <dimen name="spacing_huge">72dp</dimen>
   
@@ -12,6 +13,8 @@
   <dimen name="size_star">30dp</dimen>
   <dimen name="size_star_big">40dp</dimen>
   <dimen name="size_score_mark">24dp</dimen>
+
+  <dimen name="size_dialog_width">240dp</dimen>
 
   <dimen name="elevation_header">4dp</dimen>
 
@@ -22,6 +25,7 @@
   <dimen name="big_text_size">30sp</dimen>
   <dimen name="title_text_size_24">24sp</dimen>
   <dimen name="title_text_size">20sp</dimen>
+  <dimen name="title_text_size_small">16sp</dimen>
   <dimen name="list_item_text_size">16sp</dimen>
   <dimen name="category_item_text_size">14sp</dimen>
 
