@@ -110,6 +110,9 @@ public class QuizFragment extends Fragment
                                        quiz.getWordLength(),
                                        mCategory.getWordLimit());
 
+        // default alphabetical order
+        java.util.Collections.shuffle(anagrams);
+
         if (anagrams.size() < mCategory.getWordLimit()) {
             return false;
         }
