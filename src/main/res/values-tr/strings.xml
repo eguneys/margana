@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Margana</string>
+    <string name="logo">Logo</string>
+    <string name="back">Geri</string>
+    <string name="play">Oyna</string>
+    <string name="PLAY">OYNA</string>
+    <string name="shuffle">Karıştır</string>
+    <string name="profile">Profil</string>
+    <string name="quiz_of_quizzes">%1$s / %2$s</string>
+    <string name="loading">YÜKLENİYOR...</string>
+    <string name="congratz">AFERİN!</string>
+    <string name="mixed">KARIŞIK</string>
+    <string name="skip">Atla</string>
+
+    <string name="congratz_awesome">HARİKA!</string>
+    <string name="congratz_unlucky">ŞANSSIZ!</string>
+    <string name="congratz_almost">NERDEYSE!</string>
+    <string name="congratz_good_job">İYİ İŞ!</string>
+    <string name="congratz_nice_try">İYİ DENEME!</string>
+
+    <string name="youScored">%1$s yaptın !</string>
+    <string name="nbSolveTime">%1s</string>
+    <string name="nbLetters">%1$s HARF</string>
+
+    <string name="transition_toolbar">ToolbarTransition</string>
+</resources>

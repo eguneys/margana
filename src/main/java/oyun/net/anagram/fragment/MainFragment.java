@@ -76,6 +76,7 @@ public class MainFragment extends Fragment
                         });
                 }
             });
+        mDoneFab.setVisibility(View.GONE);
     }
 
     private void removeDoneFab(Runnable endAction) {
