@@ -6,6 +6,7 @@
 
 ## Todo
 
+  -[ ] remove global layout listener on Anagramsummaryview
   -[ ] lines seperate delay
   -[ ] 4 letter custom grid
   -[ ] test cases
@@ -18,9 +19,9 @@
     
 ## Bugs
 
-  -[ ] "Cannot perform this action after onsaveinstance". Press back twice quickly.
-  -[ ] loading on db populate
-  -[ ] summary layout
+  -[x] "Cannot perform this action after onsaveinstance". Press back twice quickly.
+  -[x] loading on db populate
+  -[x] summary layout
   -[x] center grid view
   -[x] anagram word size boundary >3 <10
   -[x] all categories prefetch anagrams

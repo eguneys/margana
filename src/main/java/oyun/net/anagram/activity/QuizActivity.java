@@ -1,5 +1,7 @@
 package oyun.net.anagram.activity;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.content.Context;
@@ -36,9 +38,11 @@ import oyun.net.anagram.fragment.QuizFragment;
 
 import oyun.net.anagram.widget.AnagramSummaryView;
 
-import oyun.net.anagram.model.JsonAttributes;
+import oyun.net.anagram.model.Anagram;
 import oyun.net.anagram.model.Category;
+import oyun.net.anagram.model.JsonAttributes;
 import oyun.net.anagram.model.quiz.AnagramQuiz;
+
 
 import oyun.net.anagram.helper.ApiLevelHelper;
 import oyun.net.anagram.helper.ResourceUtil;
@@ -266,7 +270,8 @@ public class QuizActivity extends AppCompatActivity
                     private boolean mChanged = false;
                     @Override
                     public void onGlobalLayout() {
-                        Log.e("YYY global", (mChanged ? "true" : "false") + mAnagramSummary.getVisibility());
+                        // TODO FIX THIS
+                        // Log.e("YYY global", (mChanged ? "true" : "false") + mAnagramSummary.getVisibility());
                         if (mAnagramSummary.getVisibility() == View.VISIBLE) {
                             if (!mChanged) {
                                 mChanged = true;
@@ -317,14 +322,19 @@ public class QuizActivity extends AppCompatActivity
             int moreStars = 1;
             quiz.addStars(moreStars);
 
+            String quizId = AnagramDatabaseHelper
+                .insertQuiz(this, quiz, mCategory.getId());
+            
+            List<Anagram> solved = quiz.markSolvedAnagrams(quizId);
+            AnagramDatabaseHelper
+                .insertAnagrams(this, solved);
+
             mCategory.syncInsertQuiz(quiz);
 
-
             // TODO find better sync
-            AnagramDatabaseHelper.syncCategoryLocal(mCategory);
             AnagramDatabaseHelper.syncProfileLocalAddStar(moreStars);
+            AnagramDatabaseHelper.syncCategoryLocal(mCategory);
 
-            AnagramDatabaseHelper.insertQuiz(this, quiz, mCategory.getId());
             setResultSolved();
         }
     }

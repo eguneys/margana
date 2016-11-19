@@ -89,6 +89,13 @@ public class Category {
 
     public void syncInsertQuiz(AnagramQuiz quiz) {
         mNbStars += quiz.getStars();
+
+        mNbSolved += quiz.getNbSolved();
+        mNbUnsolved -= quiz.getNbSolved();
+    }
+
+    public boolean isSolved() {
+        return getNbUnsolved() < getWordLimit();
     }
 
     public int getStars() {
@@ -97,6 +104,8 @@ public class Category {
 
     public void sync(Category o) {
         mNbStars = o.getStars();
+        mNbUnsolved = o.getNbUnsolved();
+        mNbSolved = o.getNbSolved();
     }
 
     @Override

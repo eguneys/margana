@@ -96,6 +96,15 @@ public class AnagramQuiz extends Quiz<List<Anagram>> {
         getAnswer().addAll(anagrams);
     }
 
+    public List<Anagram> markSolvedAnagrams(String quizId) {
+        List<Anagram> solved = getSolvedAnagrams();
+
+        for (Anagram anagram : solved) {
+            anagram.setQuizId(quizId);
+        }
+        return solved;
+    }
+
     public int getTime() {
         return mTime;
     }

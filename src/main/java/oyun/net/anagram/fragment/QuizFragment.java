@@ -66,13 +66,16 @@ public class QuizFragment extends Fragment
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
+        super.onCreate(savedInstanceState);
+
         String categoryId = getArguments().getString(Category.TAG);
         mCategory = AnagramDatabaseHelper.getCategoryById(getActivity(), categoryId);
         mQuiz = new AnagramQuiz(mCategory.getTime(), mCategory.getWordLength());
 
-        populateQuizWithAnagrams(mQuiz);
-
-        super.onCreate(savedInstanceState);
+        if (!populateQuizWithAnagrams(mQuiz)) {
+            getActivity().finish();
+            return;
+        }
     }
 
     @Override
@@ -101,8 +104,18 @@ public class QuizFragment extends Fragment
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private void populateQuizWithAnagrams(AnagramQuiz quiz) {
-        quiz.addAnagrams(AnagramDatabaseHelper.getRandomUnsolvedAnagrams(getActivity(), quiz.getWordLength(), mCategory.getWordLimit()));
+    private boolean populateQuizWithAnagrams(AnagramQuiz quiz) {
+        List<oyun.net.anagram.model.Anagram> anagrams = AnagramDatabaseHelper
+            .getRandomUnsolvedAnagrams(getActivity(),
+                                       quiz.getWordLength(),
+                                       mCategory.getWordLimit());
+
+        if (anagrams.size() < mCategory.getWordLimit()) {
+            return false;
+        }
+
+        quiz.addAnagrams(anagrams);
+        return true;
     }
 
     private void initProgressToolbar(View view) {
@@ -157,7 +170,15 @@ public class QuizFragment extends Fragment
 
     public void replay() {
         mQuiz.reset();
-        populateQuizWithAnagrams(mQuiz);
-        mQuizView.reset(mQuiz);
+        if (populateQuizWithAnagrams(mQuiz)) {
+            mQuizView.reset(mQuiz);
+        } else {
+            finishActivity();
+            return;
+        }
+    }
+
+    private void finishActivity() {
+        getActivity().finish();
     }
 }
