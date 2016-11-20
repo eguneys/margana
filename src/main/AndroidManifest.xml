@@ -6,7 +6,7 @@
     <application
         android:name="Application"
         android:label="@string/app_name"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/margana_logo"
         android:theme="@style/Anagram"
         >
       <activity android:name=".activity.MainActivity"
