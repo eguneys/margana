@@ -34,6 +34,8 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
     private int mAnagramScore;
     
     private int mNextAnagramIndex;
+    private View background;
+
     private AnagramView mAnagramView;
 
     private ImageButton mReloadButton;
@@ -64,8 +66,8 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
                     Log.e("YYY timeout", this.toString());
                     addTimeSpentBeforeNextAnagram();
                     stopAnagramInteraction();
+                    // floatLettersDark();
                     proceedActivity();
-                    
                 }
 
                 @Override
@@ -233,6 +235,9 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
         View rootView = getLayoutInflater()
             .inflate(R.layout.quiz_anagram_layout, this, false);
 
+
+        background = rootView.findViewById(R.id.quiz_background);
+
         mTimerText = (TextView)rootView.findViewById(R.id.timer_text);
         mTimerDeciText = (TextView)rootView.findViewById(R.id.timer_deci_text);
 
@@ -336,5 +341,10 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
 
         mTimerHelper.stop();
         mTimerHelper.start();
+    }
+
+    public void floatLettersDark() {
+        background.setBackground(mReloadButton.getDrawable());
+        mAnagramView.floatLettersDark();
     }
 }

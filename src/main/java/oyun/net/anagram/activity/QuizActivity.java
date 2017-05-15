@@ -261,6 +261,7 @@ public class QuizActivity extends AppCompatActivity
                 @Override
                 public void onVanishEnd() {
                     mAnagramSummary.setVisibility(View.GONE);
+                    mQuizFragment.replay();
                 }
             });
 
@@ -353,7 +354,6 @@ public class QuizActivity extends AppCompatActivity
     }
 
     public void replayCategory() {
-        mQuizFragment.replay();
         mContainer.setVisibility(View.VISIBLE);
         mAnagramSummary.animateVanish();
     }

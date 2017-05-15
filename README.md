@@ -4,24 +4,43 @@
 
 
     
-## Features
+## Todo
+
+### Visual
+
+  - [ ] on timeout dont show star result view instead show failure screen with points replay button and see result screen
+    - [ ] on replay game pop letters on intro after lines
+
+  - [ ] 4 letter custom grid
+  - [ ] lines seperate delay
+
+
+### Design
+
+
+  - [ ] add stats
+
+    - [ ] total solved words
+    - [ ] gain points for solved words ?
+    - [ ] gain 1 star for solved quiz
+
+  - [ ] add word categories and make word lengths as sub category
+  
+
+### Code
+
+  - [ ] remove global layout listener on Anagramsummaryview
+  - [ ] test cases
+       * No anagram solved
+       * skip on last item
+
+### Misc
+
+  - [ ] different letter shape (eg. hexagonal)
 
   - [ ] Custom font // http://stackoverflow.com/questions/2711858/is-it-possible-to-set-a-custom-font-for-entire-of-application/16883281#16883281
   - [ ] Custom colors
   - [ ] Custom sounds
-
-## Todo
-
-  - [ ] remove global layout listener on Anagramsummaryview
-  - [ ] lines seperate delay
-  - [ ] 4 letter custom grid
-  - [ ] test cases
-       * No anagram solved
-       * skip on last item
-## Idea
-
-  - [ ] different letter shape (eg. hexagonal)
-
     
 ## Bugs
 

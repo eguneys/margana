@@ -142,7 +142,7 @@ public class AnagramView extends AbsAnagramView2 {
         for (LetterViewHolder viewHolder : mAllViews) {
             LetterView item = viewHolder.itemView;
             item.vanish();
-        }        
+        }
     }
 
     public void popLetters() {
@@ -177,6 +177,13 @@ public class AnagramView extends AbsAnagramView2 {
             item.setMark(false);
         }
         mMarkedLetters.clear();
+    }
+
+    public void floatLettersDark() {
+        // for (LetterViewHolder viewHolder : mAllViews) {
+        //     LetterView item = viewHolder.itemView;
+        //     item.float();
+        // }
     }
 
     // http://stackoverflow.com/questions/24251029/android-get-position-listview-in-ontouchlistener
