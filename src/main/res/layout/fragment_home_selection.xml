@@ -9,10 +9,11 @@
     android:orientation="vertical"
     android:padding="@dimen/spacing_nano"
     >
-  <oyun.net.anagram.widget.StarView
-      android:id="@+id/star_view"
-      android:layout_width="@dimen/square_quadz"
-      android:layout_height="@dimen/square_quadz"
+
+  <oyun.net.anagram.widget.HomeStatsView
+      android:id="@+id/home_stats_view"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
       android:gravity="center"
       />
 

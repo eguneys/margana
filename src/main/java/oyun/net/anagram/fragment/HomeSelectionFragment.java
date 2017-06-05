@@ -31,8 +31,6 @@ import oyun.net.anagram.R;
 import oyun.net.anagram.activity.HomeSelectionActivity;
 import oyun.net.anagram.activity.QuizActivity;
 
-import oyun.net.anagram.widget.StarView;
-
 import oyun.net.anagram.model.Profile;
 import oyun.net.anagram.model.Category;
 import oyun.net.anagram.persistence.AnagramDatabaseHelper;
@@ -47,7 +45,6 @@ public class HomeSelectionFragment extends Fragment
     private final Interpolator PlayTransitionEnterInterpolator = new AnticipateOvershootInterpolator();
 
     private View mPlayButton;
-    private StarView mStarView;
 
     private Profile mProfile;
     
@@ -72,7 +69,7 @@ public class HomeSelectionFragment extends Fragment
     @Override
     public void onResume() {
         animateFragmentEnterTransition();
-        updateStats();
+        // updateStats();
         super.onResume();
     }
 
@@ -81,11 +78,10 @@ public class HomeSelectionFragment extends Fragment
     }
 
     private void setupButtons(final View view) {
-        mStarView = (StarView) view.findViewById(R.id.star_view);
-        mStarView.setTextSize(R.dimen.quadz_text_size);
-        mStarView.setTextColor(R.color.text_light);
-
-        updateStats();
+        // mStarView = (StarView) view.findViewById(R.id.star_view);
+        // mStarView.setTextSize(R.dimen.quadz_text_size);
+        // mStarView.setTextColor(R.color.text_light);
+        // updateStats();
 
         mPlayButton = (View) view.findViewById(R.id.play_button);
         mPlayButton.setOnTouchListener(new ButtonTouchListener(mPlayButton));
@@ -99,9 +95,9 @@ public class HomeSelectionFragment extends Fragment
             });
     }
 
-    private void updateStats() {
-        mStarView.setNbStar(mProfile.getStars());
-    }
+    // private void updateStats() {
+    //     mStarView.setNbStar(mProfile.getStars());
+    // }
 
     private void animateFragmentEnterTransition() {
         mPlayButton.setTranslationY(200);

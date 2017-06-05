@@ -6,6 +6,10 @@
     
 ## Todo
 
+### Market
+
+  - [ ] find a name
+
 ### Visual
 
   - [ ] on timeout dont show star result view instead show failure screen with points replay button and see result screen
@@ -13,11 +17,16 @@
 
   - [ ] 4 letter custom grid
   - [ ] lines seperate delay
+  - [ ] bigger icons
+  - [ ] straight horizontal letters as anagram icon
 
 
 ### Design
 
 
+  - [ ] add level system
+  - [ ] google play leaderboard
+  - [ ] google play achievements
   - [ ] add stats
 
     - [ ] total solved words
