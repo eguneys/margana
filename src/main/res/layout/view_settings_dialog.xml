@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+  <ImageView
+      android:id="@+id/dialog_overlay"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="@android:color/black"
+      android:alpha="0"
+      />
+
+  <RelativeLayout
+      android:id="@+id/menu_dialog"
+      android:layout_width="@dimen/size_dialog_width"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:paddingBottom="@dimen/spacing_normal"
+      android:background="@drawable/bg_dialog"
+      >
+
+    <RelativeLayout
+        android:id="@+id/dialog_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:padding="@dimen/spacing_micro"
+        android:background="@drawable/bg_dialog_header"
+        >
+
+      <ImageView
+          android:id="@+id/dialog_close"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentRight="true"
+          android:padding="@dimen/spacing_micro"
+          android:src="@drawable/ic_close"
+          />
+      <TextView
+          android:id="@+id/header_text"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerHorizontal="true"
+          android:layout_centerVertical="true"
+          android:textSize="@dimen/title_text_size"
+          android:text="@string/settings"
+          android:textStyle="bold"
+          />
+      <TextView
+          android:id="@+id/language_text"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerHorizontal="true"
+          android:layout_centerVertical="true"
+          android:textSize="@dimen/title_text_size"
+          android:text="@string/language"
+          android:textStyle="bold"
+          />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/home_settings_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_below="@id/dialog_header">
+
+    <oyun.net.anagram.widget.OptionItemView
+    android:id="@+id/language_option_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/spacing_normal"
+    android:background="?android:attr/selectableItemBackground"
+    />
+
+    <View
+        android:id="@+id/separator_1"
+
+android:layout_width="match_parent"
+android:layout_height="@dimen/spacing_nano"
+android:layout_below="@id/language_option_item"
+android:background="@color/light_grey"
+/>
+
+<Button
+    android:id="@+id/feedback_button"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/separator_1"
+    android:layout_marginRight="@dimen/spacing_normal"
+    android:layout_marginLeft="@dimen/spacing_normal"
+    android:layout_marginTop="@dimen/spacing_big"
+    android:background="@drawable/bg_home_blue"
+    android:text="@string/sendUsFeedback"
+    android:textSize="@dimen/title_text_size"
+    android:textColor="@color/text_light"/>
+
+<Button
+    android:id="@+id/rate_button"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/feedback_button"
+    android:background="@drawable/bg_home_blue"
+    android:layout_marginTop="@dimen/spacing_normal"
+    android:layout_marginRight="@dimen/spacing_normal"
+    android:layout_marginLeft="@dimen/spacing_normal"
+    android:text="@string/rateUs"
+    android:textSize="@dimen/title_text_size"
+    android:textColor="@color/text_light"/>
+
+    </RelativeLayout>
+  </RelativeLayout>
+</merge>

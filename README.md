@@ -9,6 +9,7 @@
 ### Market
 
   - [ ] find a name
+  - [ ] min sdk
 
 ### Visual
 
