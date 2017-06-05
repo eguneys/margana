@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+  <TextView
+      android:id="@+id/nb_star_text"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="left"
+      android:layout_marginLeft="@dimen/spacing_micro"
+      android:textSize="@dimen/title_text_size_24"
+      android:textColor="@color/anagram_primary"
+      android:textStyle="bold"
+      android:text="@string/language"
+      />
+
+  <ImageView
+      android:id="@+id/star_image"
+      android:layout_width="@dimen/radius_24"
+      android:layout_height="@dimen/radius_24"
+      android:layout_gravity="right|center_vertical"
+      android:layout_marginRight="@dimen/spacing_micro"
+      android:src="@drawable/ic_star"
+      />
+  
+</merge>

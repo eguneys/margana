@@ -14,7 +14,7 @@
   <dimen name="size_star_big">40dp</dimen>
   <dimen name="size_score_mark">24dp</dimen>
 
-  <dimen name="size_dialog_width">240dp</dimen>
+  <dimen name="size_dialog_width">300dp</dimen>
 
   <dimen name="elevation_header">4dp</dimen>
 
@@ -35,6 +35,7 @@
   <dimen name="radius_small">4dp</dimen>
   <dimen name="radius_normal">8dp</dimen>
   <dimen name="radius_big">16dp</dimen>
+  <dimen name="radius_24">24dp</dimen>
 
   <dimen name="square_big">160dp</dimen>
   <dimen name="square_normal">88dp</dimen>

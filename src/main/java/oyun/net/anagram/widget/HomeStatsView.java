@@ -51,8 +51,6 @@ public class HomeStatsView extends LinearLayout {
     }
 
     private void init() {
-        setOrientation(LinearLayout.VERTICAL);
-
         LayoutInflater.from(getContext()).inflate(R.layout.view_home_stats, this, true);
 
         mStarView = (StarView) this.findViewById(R.id.star_view);

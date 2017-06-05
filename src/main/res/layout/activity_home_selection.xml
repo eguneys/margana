@@ -60,6 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:padding="@dimen/spacing_micro"
             android:src="@drawable/ic_close"
             />
         <TextView
@@ -67,47 +68,44 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:textSize="@dimen/title_text_size_small"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/title_text_size"
             android:text="@string/settings"
+            android:textStyle="bold"
             />
       </RelativeLayout>
 
-      <!-- <TextView -->
-      <!--     android:id="@+id/sound_label" -->
-      <!--     android:layout_width="wrap_content" -->
-      <!--     android:layout_height="wrap_content" -->
-      <!--     android:layout_below="@id/dialog_header" -->
-      <!--     android:layout_alignParentLeft="true" -->
-      <!--     android:layout_marginLeft="@dimen/spacing_double" -->
-      <!--     android:layout_marginTop="@dimen/spacing_double" -->
-      <!--     android:textColor="@color/letter_background" -->
-      <!--     android:textSize="@dimen/title_text_size_small" -->
-      <!--     android:text="@string/sound" -->
-      <!--     /> -->
 
-      <!-- <TextView -->
-      <!--     android:id="@+id/sound_option" -->
-      <!--     android:layout_width="wrap_content" -->
-      <!--     android:layout_height="wrap_content" -->
-      <!--     android:layout_alignTop="@id/sound_label" -->
-      <!--     android:layout_alignParentRight="true" -->
-      <!--     android:layout_marginRight="@dimen/spacing_micro" -->
-      <!--     android:textColor="@color/letter_background" -->
-      <!--     android:textSize="@dimen/title_text_size_small" -->
-      <!--     android:text="@string/on" -->
-      <!--     /> -->
+      <oyun.net.anagram.widget.OptionItemView
+      android:id="@+id/language_option_item"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/dialog_header"
+      android:layout_marginTop="@dimen/spacing_normal"
+      android:padding="@dimen/spacing_normal"
+      android:background="?android:attr/selectableItemBackground"
+      />
+
+      <View
+          android:id="@+id/separator_1"
+
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/spacing_nano"
+          android:layout_below="@id/language_option_item"
+          android:background="@color/light_grey"
+          />
 
       <Button
           android:id="@+id/feedback_button"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_below="@id/dialog_header"
-          android:layout_marginRight="@dimen/spacing_micro"
-          android:layout_marginLeft="@dimen/spacing_micro"
+          android:layout_below="@id/separator_1"
+          android:layout_marginRight="@dimen/spacing_normal"
+          android:layout_marginLeft="@dimen/spacing_normal"
           android:layout_marginTop="@dimen/spacing_big"
           android:background="@drawable/bg_home_blue"
           android:text="@string/sendUsFeedback"
-          android:textSize="@dimen/title_text_size_small"
+          android:textSize="@dimen/title_text_size"
           android:textColor="@color/text_light"/>
 
       <Button
@@ -117,10 +115,10 @@
           android:layout_below="@id/feedback_button"
           android:background="@drawable/bg_home_blue"
           android:layout_marginTop="@dimen/spacing_normal"
-          android:layout_marginRight="@dimen/spacing_micro"
-          android:layout_marginLeft="@dimen/spacing_micro"
+          android:layout_marginRight="@dimen/spacing_normal"
+          android:layout_marginLeft="@dimen/spacing_normal"
           android:text="@string/rateUs"
-          android:textSize="@dimen/title_text_size_small"
+          android:textSize="@dimen/title_text_size"
           android:textColor="@color/text_light"/>
 
     </RelativeLayout>
