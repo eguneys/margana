@@ -10,10 +10,12 @@ public class Profile {
 
     private int mNbStar;
     private int mScore;
+    private int mNbSolvedWords;
 
-    public Profile(int stars, int score) {
+    public Profile(int stars, int score, int solved) {
         mNbStar = stars;
         mScore = score;
+        mNbSolvedWords = solved;
     }
 
     public void addScore(int score) {
@@ -22,6 +24,10 @@ public class Profile {
 
     public void addStar(int count) {
         mNbStar += count;
+    }
+
+    public int getSolvedWords() {
+        return mNbSolvedWords;
     }
 
     public int getScore() {

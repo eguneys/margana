@@ -5,14 +5,13 @@
       android:id="@+id/solved_words_text"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="@string/nbSolved"
-      android:textColor="@color/text_dark"
+      android:textColor="@color/anagram_text"
       android:textSize="@dimen/big_text_size"/>
 
   <oyun.net.anagram.widget.StarView
       android:id="@+id/star_view"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/spacing_normal"
+      android:layout_marginTop="@dimen/spacing_double"
       />
 </merge>

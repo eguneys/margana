@@ -31,9 +31,15 @@ import oyun.net.anagram.R;
 
 import oyun.net.anagram.widget.StarView;
 
+import oyun.net.anagram.model.Profile;
+import oyun.net.anagram.persistence.AnagramDatabaseHelper;
+
 public class HomeStatsView extends LinearLayout {
 
-    StarView mStarView;
+    private Profile mProfile;
+
+    private StarView mStarView;
+    private TextView mNbSolvedText;
 
     public HomeStatsView(Context context) {
         super(context);
@@ -53,12 +59,32 @@ public class HomeStatsView extends LinearLayout {
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_home_stats, this, true);
 
-        mStarView = (StarView) this.findViewById(R.id.star_view);
+
+        mNbSolvedText = (TextView) findViewById(R.id.solved_words_text);
+
+        mStarView = (StarView) findViewById(R.id.star_view);
+        mStarView.setTextSize(R.dimen.quadz_text_size);
+        mStarView.setTextColor(R.color.text_light);
+
+        initProfile();
+        updateStats();
+    }
+
+    private void initProfile() {
+        mProfile = AnagramDatabaseHelper.getProfile(getContext(), false);
+    }
+
+    public void updateStats() {
+        int nbSolvedWords = mProfile.getSolvedWords();
+        int nbStars = mProfile.getStars();
+
+        String nbSolvedTextString = getContext().getString(R.string.nbSolved, nbSolvedWords);
+
+        mStarView.setNbStar(nbStars);
+        mNbSolvedText.setText(nbSolvedTextString);
     }
 
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
-        
     }
 }

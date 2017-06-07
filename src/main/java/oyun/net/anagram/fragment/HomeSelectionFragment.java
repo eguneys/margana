@@ -35,6 +35,8 @@ import oyun.net.anagram.model.Profile;
 import oyun.net.anagram.model.Category;
 import oyun.net.anagram.persistence.AnagramDatabaseHelper;
 
+import oyun.net.anagram.widget.HomeStatsView;
+
 import oyun.net.anagram.helper.ButtonTouchListener;
 
 public class HomeSelectionFragment extends Fragment
@@ -44,6 +46,7 @@ public class HomeSelectionFragment extends Fragment
     private final Interpolator PlayTransitionInterpolator = new AnticipateInterpolator();
     private final Interpolator PlayTransitionEnterInterpolator = new AnticipateOvershootInterpolator();
 
+    private HomeStatsView mStatsView;
     private View mPlayButton;
 
     private Profile mProfile;
@@ -69,7 +72,7 @@ public class HomeSelectionFragment extends Fragment
     @Override
     public void onResume() {
         animateFragmentEnterTransition();
-        // updateStats();
+        mStatsView.updateStats();
         super.onResume();
     }
 
@@ -82,6 +85,8 @@ public class HomeSelectionFragment extends Fragment
         // mStarView.setTextSize(R.dimen.quadz_text_size);
         // mStarView.setTextColor(R.color.text_light);
         // updateStats();
+
+        mStatsView = (HomeStatsView) view.findViewById(R.id.home_stats_view);
 
         mPlayButton = (View) view.findViewById(R.id.play_button);
         mPlayButton.setOnTouchListener(new ButtonTouchListener(mPlayButton));

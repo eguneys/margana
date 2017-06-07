@@ -105,7 +105,7 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
 
     private static Profile getProfile(Cursor cursor, SQLiteDatabase readableDatabase) {
         int stars = getTotalStars(readableDatabase);        
-        return new Profile(stars, 0);
+        return new Profile(stars, 0, 0);
     }
 
     private static List<Category> loadCategories(Context context) {

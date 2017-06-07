@@ -23,7 +23,7 @@
     <string name="nbSolveTime">%1s</string>
     <string name="nbLetters">%1$s LETTERS</string>
 
-    <string name="nbSolved">SOLVED: %1$</string>
+    <string name="nbSolved">SOLVED: %1$s</string>
 
     <string name="settings">SETTINGS</string>
     <string name="rateUs">RATE US!</string>

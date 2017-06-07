@@ -15,6 +15,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_alignParentTop="true"
+      android:layout_marginTop="@dimen/spacing_double"
       android:orientation="vertical"
       android:gravity="center"
       />
@@ -30,11 +31,12 @@
       android:elevation="@dimen/elevation_header"
       android:drawableLeft="@drawable/ic_play"
       android:background="@drawable/bg_home"
-      android:textColor="@color/text_light"
       android:paddingLeft="@dimen/spacing_micro"
       android:paddingRight="@dimen/spacing_micro"
       android:text="@string/PLAY"
       android:textSize="@dimen/home_menu_text_size"
+      android:textColor="@color/text_light"
+      android:textStyle="bold"
       android:clipToPadding="false"
       />
 </RelativeLayout>
