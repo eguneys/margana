@@ -163,6 +163,8 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         return stars;
     }
 
+
+
     private static int getStarsForCategory(final String categoryId, SQLiteDatabase database) {
         final String queryString = "SELECT SUM(" + QuizTable.COLUMN_NB_STAR + ") FROM " + QuizTable.NAME
             + " WHERE " + QuizTable.FK_CATEGORY + " = ?";
@@ -172,6 +174,22 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
         int stars = cursor.getInt(0);
         return stars;
+    }
+
+    public static Profile getProfileFromCategories(Context context, boolean fromDb) {
+        // load categories first?
+        // local sync odesn't work 
+        List<Category> categories = getCategories(context, true);
+
+        Profile profile = new Profile(0, 0, 0);
+
+        for (Category category : categories) {
+            profile.addStar(category.getStars());
+            profile.addSolvedWords(category.getNbSolved());
+        }
+
+
+        return profile;
     }
 
     private static List<Quiz> getQuizzes(final String categoryId, SQLiteDatabase database) {
@@ -419,7 +437,6 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public static String insertQuiz(Context context, AnagramQuiz quiz, String categoryId) {
-        insertQuizLocal(quiz, categoryId);
         return insertQuizDb(context, quiz, categoryId);
     }
 

@@ -26,6 +26,10 @@ public class Profile {
         mNbStar += count;
     }
 
+    public void addSolvedWords(int words) {
+        mNbSolvedWords += words;
+    }
+
     public int getSolvedWords() {
         return mNbSolvedWords;
     }

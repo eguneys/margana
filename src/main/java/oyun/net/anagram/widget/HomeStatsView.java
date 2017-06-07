@@ -36,8 +36,6 @@ import oyun.net.anagram.persistence.AnagramDatabaseHelper;
 
 public class HomeStatsView extends LinearLayout {
 
-    private Profile mProfile;
-
     private StarView mStarView;
     private TextView mNbSolvedText;
 
@@ -71,10 +69,13 @@ public class HomeStatsView extends LinearLayout {
     }
 
     private void initProfile() {
-        mProfile = AnagramDatabaseHelper.getProfile(getContext(), false);
+        // mProfile = AnagramDatabaseHelper.getProfileFromCategories(getContext(), false);
     }
 
     public void updateStats() {
+        // no cache
+        Profile mProfile = AnagramDatabaseHelper.getProfileFromCategories(getContext(), false);
+
         int nbSolvedWords = mProfile.getSolvedWords();
         int nbStars = mProfile.getStars();
 

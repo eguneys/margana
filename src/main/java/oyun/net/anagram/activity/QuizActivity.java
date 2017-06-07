@@ -329,7 +329,7 @@ public class QuizActivity extends AppCompatActivity
 
             String quizId = AnagramDatabaseHelper
                 .insertQuiz(this, quiz, mCategory.getId());
-            
+
             List<Anagram> solved = quiz.markSolvedAnagrams(quizId);
             AnagramDatabaseHelper
                 .insertAnagrams(this, solved);
@@ -337,7 +337,7 @@ public class QuizActivity extends AppCompatActivity
             mCategory.syncInsertQuiz(quiz);
 
             // TODO find better sync
-            AnagramDatabaseHelper.syncProfileLocalAddStar(moreStars);
+            // AnagramDatabaseHelper.syncProfileLocalAddStar(moreStars);
             AnagramDatabaseHelper.syncCategoryLocal(mCategory);
 
             setResultSolved();

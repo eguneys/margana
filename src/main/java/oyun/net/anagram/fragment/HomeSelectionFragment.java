@@ -49,7 +49,7 @@ public class HomeSelectionFragment extends Fragment
     private HomeStatsView mStatsView;
     private View mPlayButton;
 
-    private Profile mProfile;
+    // private Profile mProfile;
     
     public static HomeSelectionFragment newInstance() {
         HomeSelectionFragment fragment = new HomeSelectionFragment();
@@ -77,7 +77,7 @@ public class HomeSelectionFragment extends Fragment
     }
 
     private void initProfile() {
-        mProfile = AnagramDatabaseHelper.getProfile(getActivity(), false);
+        // mProfile = AnagramDatabaseHelper.getProfile(getActivity(), false);
     }
 
     private void setupButtons(final View view) {
