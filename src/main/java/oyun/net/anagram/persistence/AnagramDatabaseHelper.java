@@ -45,6 +45,8 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
 
     private final Resources mResources;
 
+    public static final String QUIZ_ID_PARTIALLY_SOLVED = "partial";
+
     private AnagramDatabaseHelper(Context context) {
         super(context, DB_NAME + DB_SUFFIX, null, DB_VERSION);
 
@@ -93,6 +95,7 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
     private static Profile loadProfile(Context context) {
         Cursor data = AnagramDatabaseHelper.getProfileCursor(context);
         final SQLiteDatabase readableDatabase = AnagramDatabaseHelper.getReadableDatabase(context);
+        data.moveToFirst();
         return getProfile(data, readableDatabase);
     }
 
@@ -104,8 +107,12 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
     }
 
     private static Profile getProfile(Cursor cursor, SQLiteDatabase readableDatabase) {
-        int stars = getTotalStars(readableDatabase);        
-        return new Profile(stars, 0, 0);
+        final String id = cursor.getString(0);
+        final int score = cursor.getInt(1);
+        final int star = cursor.getInt(2);
+        final int solved = cursor.getInt(3);
+
+        return new Profile(star, score, solved);
     }
 
     private static List<Category> loadCategories(Context context) {
@@ -181,13 +188,12 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
         // local sync odesn't work 
         List<Category> categories = getCategories(context, true);
 
-        Profile profile = new Profile(0, 0, 0);
+        Profile profile = getProfile(context, true);
 
         for (Category category : categories) {
             profile.addStar(category.getStars());
             profile.addSolvedWords(category.getNbSolved());
         }
-
 
         return profile;
     }
@@ -335,6 +341,7 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
             try {
                 fillCategories(db);
                 fillAnagrams(db);
+                fillProfile(db);
                 db.setTransactionSuccessful();
             } finally {
                 db.endTransaction();
@@ -385,6 +392,18 @@ public class AnagramDatabaseHelper extends SQLiteOpenHelper {
             fillCategory(db, values, category, categoryId);
         }
     }
+
+    private void fillProfile(SQLiteDatabase db) {
+        ContentValues values = new ContentValues();
+        values.clear();
+        values.put(ProfileTable.COLUMN_ID, 0);
+        values.put(ProfileTable.COLUMN_SCORE, 0);
+        values.put(ProfileTable.COLUMN_NB_STAR, 0);
+        values.put(ProfileTable.COLUMN_NB_SOLVED, 0);
+        db.insert(ProfileTable.NAME, null, values);
+    }
+
+
 
     private void fillAnagram(SQLiteDatabase db,
                               ContentValues values,

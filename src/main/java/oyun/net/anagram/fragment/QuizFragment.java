@@ -79,6 +79,16 @@ public class QuizFragment extends Fragment
     }
 
     @Override
+    public void onResume() {
+        Log.e("YYY quiz fragment resume", "xxx"+ mQuizView);
+
+        if (mQuizView != null) {
+            mQuizView.resumeAnagramInteraction();
+        }
+        super.onResume();
+    }
+
+    @Override
     public void onStop() {
         Log.e("YYY quiz fragment stop", "xxx");
 

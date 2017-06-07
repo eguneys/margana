@@ -350,6 +350,12 @@ public class QuizActivity extends AppCompatActivity
             AnagramDatabaseHelper.syncCategoryLocal(mCategory);
 
             setResultSolved();
+        } else {
+            // insert solved anagrams anyway
+            List<Anagram> solved = quiz.markSolvedAnagrams(AnagramDatabaseHelper.QUIZ_ID_PARTIALLY_SOLVED);
+            Log.e("YYY insert partial anagrams", solved.toString());
+            AnagramDatabaseHelper
+                .insertAnagrams(this, solved);
         }
     }
 

@@ -14,6 +14,8 @@ public class TimerHelper implements Runnable {
     private volatile long elapsedTime;
     private volatile long lastLapTime;
 
+    private volatile boolean isPaused;
+
     public TimerHelper() {}
 
 
@@ -29,7 +31,7 @@ public class TimerHelper implements Runnable {
             }
         }
 
-        if (elapsedTime == -1) {
+        if (!isPaused && elapsedTime == -1) {
             handler.postDelayed(this, 100);
         }
     }
@@ -38,6 +40,17 @@ public class TimerHelper implements Runnable {
         this.startTime = now();
         this.elapsedTime = -1;
         this.lastLapTime = now();
+        handler.post(this);
+    }
+
+    public void pause() {
+        isPaused = true;
+        stop();
+    }
+
+    public void resume() {
+        isPaused = false;
+        this.elapsedTime = -1;
         handler.post(this);
     }
 

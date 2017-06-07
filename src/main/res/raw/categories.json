@@ -5,7 +5,7 @@
     "theme": "red",
     "wordLength": 4,
     "wordLimit": 10,
-    "time": 120
+    "time": 80
   },
   {
     "name": "5",
@@ -13,7 +13,7 @@
     "theme": "red",
     "wordLength": 5,
     "wordLimit": 10,
-    "time": 120
+    "time": 100
   },
   {
     "name": "6",
@@ -29,7 +29,7 @@
     "theme": "red",
     "wordLength": 7,
     "wordLimit": 10,
-    "time": 120
+    "time": 130
   },
   {
     "name": "8",
@@ -37,7 +37,7 @@
     "theme": "red",
     "wordLength": 8,
     "wordLimit": 10,
-    "time": 120
+    "time": 140
   },
   {
     "name": "9",
@@ -45,7 +45,7 @@
     "theme": "red",
     "wordLength": 9,
     "wordLimit": 10,
-    "time": 120
+    "time": 150
   },
   {
     "name": "MIXED",

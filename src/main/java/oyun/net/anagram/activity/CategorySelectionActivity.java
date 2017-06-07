@@ -243,11 +243,11 @@ public class CategorySelectionActivity extends AppCompatActivity
     private void startQuizActivity(Category category) {
         final Bundle transitionBundle = new Bundle();
         Intent startIntent = QuizActivity.getStartIntent(this, category);
-        // this.startActivityForResult(
-        //                             startIntent,
-        //                             REQUEST_CATEGORY,
-        //                             transitionBundle);
-        this.startActivity(startIntent);
+        this.startActivityForResult(
+                                    startIntent,
+                                    REQUEST_CATEGORY,
+                                    transitionBundle);
+        // this.startActivity(startIntent);
 
         // disable animation
         overridePendingTransition(0, 0);
