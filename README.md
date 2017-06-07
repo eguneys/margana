@@ -54,6 +54,7 @@
     
 ## Bugs
 
+  - [ ] category selection returns immediately without quiz activity result
   - [x] "Cannot perform this action after onsaveinstance". Press back twice quickly.
   - [x] loading on db populate
   - [x] summary layout

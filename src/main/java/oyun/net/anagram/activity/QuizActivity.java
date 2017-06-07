@@ -1,5 +1,7 @@
 package oyun.net.anagram.activity;
 
+import android.util.Log;
+
 import java.util.List;
 
 import android.app.Activity;
@@ -98,6 +100,8 @@ public class QuizActivity extends AppCompatActivity
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
+        Log.e("YYY act quiz create", "xxx");
+
         String categoryId = getIntent().getStringExtra(Category.TAG);
         mInterpolator = new FastOutSlowInInterpolator();
 
@@ -108,6 +112,7 @@ public class QuizActivity extends AppCompatActivity
 
     @Override
     protected void onResume() {
+        Log.e("YYY act quiz resume", "xxx");
         initQuizFragment();
         navigateToolbarLogoTransitionEnter();
         super.onResume();
@@ -115,12 +120,14 @@ public class QuizActivity extends AppCompatActivity
 
     @Override
     public void onPause() {
+        Log.e("YYY act quiz pause", "xxx");
         super.onPause();
         overridePendingTransition(0, 0);
     }
 
     @Override
     public void onBackPressed() {
+        Log.e("YYY quiz back pressed", "xxx");
         mLogoContainer
             .animate()
             .translationY(-mLogoContainer.getHeight())
@@ -131,6 +138,7 @@ public class QuizActivity extends AppCompatActivity
                         try {
                             QuizActivity.super.onBackPressed();
                         } catch (IllegalStateException e) {
+                            Log.e("YYY illegal state", "xxx");
                             finish();
                         }
                     }
@@ -318,6 +326,7 @@ public class QuizActivity extends AppCompatActivity
         Intent categoryIntent = new Intent();
         categoryIntent.putExtra(JsonAttributes.ID, mCategory.getId());
         setResult(R.id.solved, categoryIntent);
+        Log.e("YYY act quiz set result", " xxx");
     }
 
     private void syncQuiz(AnagramQuiz quiz) {

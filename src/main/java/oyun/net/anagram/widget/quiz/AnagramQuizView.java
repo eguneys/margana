@@ -202,7 +202,7 @@ public class AnagramQuizView extends AbsQuizView<AnagramQuiz> {
         mQuiz.setSolved(true);
     }
 
-    private void stopAnagramInteraction() {
+    public void stopAnagramInteraction() {
         mTimerHelper.stop();
         mAnagramView.setInteraction(false);
     }

@@ -79,6 +79,17 @@ public class QuizFragment extends Fragment
     }
 
     @Override
+    public void onStop() {
+        Log.e("YYY quiz fragment stop", "xxx");
+
+        if (mQuizView != null) {
+            mQuizView.stopAnagramInteraction();
+        }
+
+        super.onStop();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Create a themed Context and custom LayoutInflater

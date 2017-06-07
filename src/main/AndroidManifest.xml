@@ -26,8 +26,9 @@
                 android:theme="@style/Anagram.CategorySelectionActivity"
                 android:screenOrientation="portrait"
                 />
+
+      <!-- android:launchMode="singleTop" -->
       <activity android:name=".activity.QuizActivity"
-                android:launchMode="singleTop"
                 android:theme="@style/Anagram.QuizActivity"
                 android:screenOrientation="portrait"
                 />

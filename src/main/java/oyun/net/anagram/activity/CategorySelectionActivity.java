@@ -230,10 +230,10 @@ public class CategorySelectionActivity extends AppCompatActivity
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.e("YYY act result", requestCode + " " + resultCode);
+        Log.e("YYY cat sel activity result", requestCode + " " + resultCode);
         if (requestCode == REQUEST_CATEGORY && resultCode == R.id.solved) {
             String categoryId = data.getStringExtra(JsonAttributes.ID);
-
+            Log.e("YYY act result", requestCode + " " + resultCode + " " + categoryId);
             ((CategorySelectionFragment)getSupportFragmentManager()
              .findFragmentById(R.id.category_container))
                 .updateCategories(categoryId);
@@ -243,12 +243,15 @@ public class CategorySelectionActivity extends AppCompatActivity
     private void startQuizActivity(Category category) {
         final Bundle transitionBundle = new Bundle();
         Intent startIntent = QuizActivity.getStartIntent(this, category);
-        ActivityCompat.startActivityForResult(this,
-                                              startIntent,
-                                              REQUEST_CATEGORY,
-                                              transitionBundle);
+        // this.startActivityForResult(
+        //                             startIntent,
+        //                             REQUEST_CATEGORY,
+        //                             transitionBundle);
+        this.startActivity(startIntent);
+
         // disable animation
         overridePendingTransition(0, 0);
+        Log.e("YYY cat sel start activity", "lkajdsf");
     }
 
     private void navigateBackMenuTransition() {
